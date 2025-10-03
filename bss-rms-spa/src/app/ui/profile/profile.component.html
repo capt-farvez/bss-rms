@@ -1,0 +1,43 @@
+<ng-template #modalTitle>
+  <span nz-icon nzType="user" nzTheme="outline"></span>
+  <span> User Profile </span>
+</ng-template>
+<nz-modal
+  nzCentered
+  [(nzVisible)]="authService.showProfile"
+  [nzTitle]="modalTitle"
+  (nzOnOk)="handleOk()"
+  (nzOnCancel)="handleOk()"
+  [nzWidth]="'600px'"
+>
+  <ng-container *nzModalContent>
+    <div class="container-fluid p-3 shadow-md rounded-md">
+      <div class="row">
+        <div class="col-12 col-md-4 d-flex align-items-center justify-content-center">
+          <nz-avatar [nzSize]="130" nzIcon="user" [nzSrc]="getUserImage(authService.currentUserProfile().image)" class="drop-shadow-md" style="background-color: #66bb6a"></nz-avatar>
+        </div>
+        <div class="col-12 col-md-8 mt-3 mt-md-0">
+          <div class="text-sm text-slate-600">
+            Full Name
+          </div>
+          <div class="text-xl text-slate-700">{{authService.currentUserProfile().fullName}} </div>
+
+          <div class="mt-3 text-sm text-slate-600">
+            Email
+          </div>
+          <div class="text-xl text-slate-700">{{authService.currentUserProfile().email}} </div>
+
+          <div class="mt-3 text-sm text-slate-600">
+            Phone Number
+          </div>
+          <div class="text-xl text-slate-700">{{authService.currentUserProfile().phoneNumber}} </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <div *nzModalFooter>
+    <button class="drop-shadow-md" nz-button nzType="primary" (click)="handleOk()">
+      Close
+    </button>
+  </div>
+</nz-modal>

@@ -31,6 +31,7 @@ export class AuthService {
 
   // Public readonly signals
   currentUser = this.authState.asReadonly();
+  showProfile = signal(false);
 
   constructor() {
     // Check for stored auth data on initialization
@@ -203,5 +204,17 @@ export class AuthService {
 
   getCurrentUser(): User | null {
     return this.authState().user;
+  }
+
+  currentUserProfile() {
+    const user = this.authState().user;
+    return {
+      id: user?.id || '',
+      fullName: user?.fullName || '',
+      email: user?.email || '',
+      image: user?.image || '',
+      userName: user?.userName || '',
+      phoneNumber: user?.phoneNumber || ''
+    };
   }
 }

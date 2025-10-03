@@ -1,128 +1,49 @@
-// CSS Variables for theming
+// Color Variables
 :root {
-  // Primary colors
-  --bg-primary-400: #66bb6a;
-  --bg-primary-600: #43a047;
-  --bg-primary-700: #388e3c;
+  // Primary colors (Green theme)
+  --bg-primary-50: #E8F5E9;
+  --bg-primary-100: #C8E6C9;
+  --bg-primary-200: #A5D6A7;
+  --bg-primary-300: #81C784;
+  --bg-primary-400: #66BB6A;
+  --bg-primary-500: #4CAF50;
+  --bg-primary-600: #43A047;
+  --bg-primary-700: #388E3C;
+  --bg-primary-800: #2E7D32;
+  --bg-primary-900: #1B5E20;
 
   // Secondary colors
-  --bg-secondary-light: #E8ECE7;
-  --bg-secondary-light-100: #C8E6C9;
-  --bg-ternary-light: #F1FAF5;
+  --bg-secondary-light: #F5F5F5;
+  --bg-secondary-dark: #424242;
+
+  // Ternary colors
+  --bg-ternary-light: #E8F5E9;
+
+  // Warning colors
+  --bg-warning-50: #FFF3E0;
+  --bg-warning-100: #FFE0B2;
+  --bg-warning-200: #FFCC80;
+  --bg-warning-300: #FFB74D;
+  --bg-warning-400: #FFA726;
+  --bg-warning-500: #FF9800;
+  --bg-warning-600: #FB8C00;
 
   // Text colors
-  --text-primary: white;
-  --text-dark-primary: #424242;
-  --text-dark-secondary: #616161;
+  --text-dark-primary: #212121;
+  --text-dark-secondary: #757575;
+  --text-light-primary: #FFFFFF;
+  --text-light-secondary: #B0BEC5;
 
-  // Warning/Error colors
-  --bg-warning-50: #ffebee;
-  --bg-warning-100: #ffcdd2;
-  --bg-warning-200: #ef9a9a;
-  --bg-warning-300: #e57373;
-  --bg-warning-400: #ef5350;
-  --bg-warning-600: #e53935;
-  --bg-warning-700: #ff1744;
-
-  // Status colors
-  --status-pending: #ffa726;
-  --status-completed: #66bb6a;
-  --status-cancelled: #ef5350;
-  --status-processing: #42a5f5;
-
-  // Layout dimensions
-  --sidebar-width: 260px;
-  --header-height: 64px;
-  --footer-height: 48px;
-
-  // Spacing
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-  --spacing-xxl: 48px;
-
-  // Border radius
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-
-  // Shadows
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-
-  // Transitions
-  --transition-fast: 150ms;
-  --transition-base: 250ms;
-  --transition-slow: 350ms;
-
-  // Z-index layers
-  --z-dropdown: 1000;
-  --z-modal: 1050;
-  --z-tooltip: 1070;
-  --z-notification: 1080;
-}
-
-// SCSS Variables for mixins and functions
-$primary-color: #43a047;
-$secondary-color: #E8ECE7;
-$text-dark: #424242;
-$text-light: white;
-
-// Breakpoints
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
-$breakpoint-2xl: 1536px;
-
-// Mixins
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin card-shadow {
-  box-shadow: var(--shadow-md);
-  border-radius: var(--radius-md);
-  background-color: white;
-}
-
-@mixin button-base {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base) ease-in-out;
-  cursor: pointer;
-  border: none;
-  font-weight: 500;
-}
-
-@mixin truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-// Responsive mixins
-@mixin mobile {
-  @media (max-width: #{$breakpoint-md - 1px}) {
-    @content;
-  }
-}
-
-@mixin tablet {
-  @media (min-width: #{$breakpoint-md}) and (max-width: #{$breakpoint-lg - 1px}) {
-    @content;
-  }
-}
-
-@mixin desktop {
-  @media (min-width: #{$breakpoint-lg}) {
-    @content;
-  }
+  // Other colors
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+  --color-gray-100: #F5F5F5;
+  --color-gray-200: #EEEEEE;
+  --color-gray-300: #E0E0E0;
+  --color-gray-400: #BDBDBD;
+  --color-gray-500: #9E9E9E;
+  --color-gray-600: #757575;
+  --color-gray-700: #616161;
+  --color-gray-800: #424242;
+  --color-gray-900: #212121;
 }

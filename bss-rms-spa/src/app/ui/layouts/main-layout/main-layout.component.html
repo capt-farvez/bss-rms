@@ -1,0 +1,95 @@
+<nz-layout class="vh-100">
+  <nz-sider class="d-none d-md-block" (mouseenter)="showSider()" (mouseleave)="hideSider()" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzWidth]="250">
+    <div class="d-flex vh-100 flex-col justify-content-between">
+      <div class="text-nowrap">
+        <div class="logo text-nowrap position-relative">
+          <img [ngClass]="{'position-absolute translate-y-50 translate-x-50': isCollapsed}" class="transition-all delay-500 duration-300 ease-out" src="./chef_green.png" alt="">
+          <p [ngClass]="{'opacity-0': isCollapsed}"  class="text-nowrap transition-opacity duration-75 ease-out ">BSS RESTAURANT</p>
+
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline">
+          @for (menuItem of sideBarItems; track menuItem){
+            <li nz-menu-item [nzSelected]="currentComponent() === menuItem.ItemName" (click)="setComponent(menuItem.ItemName)">
+              <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
+              <span>{{ menuItem.ItemName }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+        <button (click)="onLogout()" class="btn logout-button align-self-center mb-6 w-3/4 drop-shadow-lg overflow-clip text-nowrap">
+          <span nz-icon nzType="poweroff" nzTheme="outline"></span>
+          @if (!isCollapsed){
+            <span class="logout-text ms-1 overflow-clip text-nowrap">
+              Logout
+            </span>
+            }
+        </button>
+    </div>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="d-flex justify-content-between align-items-center w-100 ps-0 pe-3 pe-md-4">
+        <div class="d-flex flex-row">
+          <div class="d-flex align-items-center">
+        <span
+          class="trigger d-none d-md-block text-xl ps-3 pe-3"
+          nz-icon
+          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          (click)="isCollapsed = !isCollapsed"
+        ></span>
+
+          </div>
+          <div class="header-title ps-3 pe-2 ps-md-0 truncate">
+            @switch (currentComponent()){
+              @case ('Employees'){
+                <p>Employee Management</p>
+              }
+              @case ('Tables'){
+                <p>Table Management</p>
+              }
+              @case ('Foods'){
+                <p>Food Item Management</p>
+              }
+              @case ('New Order'){
+                <p>Create New Order</p>
+              }
+              @case ('Orders'){
+                <p>Order Management</p>
+              }
+            }
+          </div>
+        </div>
+        <div class="d-flex w-auto justify-content-end gap-2">
+          <div class="d-none d-md-flex flex-col gap-1 justify-end">
+            <div class="text-sm text-end text-gray-700">{{authService.currentUserProfile().email}}</div>
+            <div class="text-xl font-semibold text-end text-gray-700">{{authService.currentUserProfile().fullName}}</div>
+          </div>
+          <nz-avatar nz-dropdown [nzDropdownMenu]="menu" [nzSize]="60" nzIcon="user" [nzSrc]="getUserImage(authService.currentUserProfile().image)" class="drop-shadow-md" style="background-color: #66bb6a"></nz-avatar>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li (click)="authService.showProfile.set(true)" nz-menu-item class="h-11 text-lg"> <span nz-icon nzType="user" class="ps-1 pe-1" nzTheme="outline" style="color:#66bb6a"></span> Profile</li>
+              <li (click)="onLogout()" nz-menu-item class="h-11 text-lg"> <span nz-icon nzType="logout" class="ps-1 pe-1" nzTheme="outline" style="color:orangered"> </span> Logout</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
+      </div>
+
+    </nz-header>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  <nz-footer class="sticky-bottom d-block d-md-none p-0 m-0 z-0">
+    <div class="d-flex align-items-center justify-content-center mobile-menu">
+      <ul class="d-flex justify-content-center mobile-menu-items w-100 gap-2" nz-menu nzTheme="dark" nzMode="horizontal">
+        @for (menuItem of sideBarItems; track  menuItem){
+          <li nz-menu-item [nzSelected]="currentComponent() === menuItem.ItemName" (click)="setComponent(menuItem.ItemName)">
+            <span class="mobile-menu-icons" nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
+          </li>
+        }
+      </ul>
+    </div>
+  </nz-footer>
+  </nz-layout>
+</nz-layout>
+
+<!-- Profile component will be added later -->

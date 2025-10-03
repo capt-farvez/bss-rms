@@ -1,0 +1,348 @@
+* {
+  font-family: 'Overpass', sans-serif;
+}
+
+.header-title {
+  p {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-dark-primary);
+  }
+}
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #1890ff;
+  }
+}
+
+.logo {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0px 0px 12px 0px;
+
+  img, .logo-img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  p {
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-left: 10px;
+    text-shadow: #2e7d32 2px 0px 0px, #2e7d32 1.75517px .958851px 0px,
+      #2e7d32 1.0806px 1.68294px 0px, #2e7d32 .141474px 1.99499px 0px,
+      #2e7d32 -.832294px 1.81859px 0px, #2e7d32 -1.60229px 1.19694px 0px,
+      #2e7d32 -1.97998px .28224px 0px, #2e7d32 -1.87291px -.701566px 0px,
+      #2e7d32 -1.30729px -1.5136px 0px, #2e7d32 -.421592px -1.95506px 0px,
+      #2e7d32 .567324px -1.91785px 0px, #2e7d32 1.41734px -1.41108px 0px,
+      #2e7d32 1.92034px -.558831px 0px;
+  }
+}
+
+::ng-deep {
+  nz-header {
+    display: flex;
+    align-items: center;
+    background: #fff !important;
+    padding: 0;
+    height: 80px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 10;
+  }
+
+  .ant-layout-header {
+    background: #fff !important;
+    padding: 0 !important;
+  }
+
+  .ant-layout {
+    background: #f0f2f5;
+  }
+
+  nz-content {
+    margin: 16px;
+    background: transparent;
+  }
+
+  nz-footer {
+    text-align: center;
+  }
+
+  .ant-menu-item {
+    font-family: 'inter', sans-serif !important;
+    display: flex;
+    align-items: center;
+    height: 52px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    color: white !important;
+    font-weight: 600;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2) !important;
+      color: white !important;
+    }
+
+    .anticon {
+      color: white !important;
+    }
+
+    span:not(.anticon) {
+      color: white !important;
+    }
+  }
+
+  .ant-menu.ant-menu-dark .ant-menu-item-selected,
+  .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected,
+  .ant-menu-dark .ant-menu-item-selected {
+    background: var(--bg-ternary-light) !important;
+
+    span:not(.anticon) {
+      color: var(--text-dark-primary) !important;
+    }
+
+    .anticon {
+      color: var(--text-dark-primary) !important;
+    }
+  }
+
+  // When sidebar is collapsed
+  .ant-layout-sider-collapsed {
+    .ant-menu-item {
+      padding: 0 !important;
+      justify-content: center;
+      background: transparent !important;
+
+      // Target both span.anticon and direct .anticon
+      span.anticon, .anticon {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        font-size: 20px !important;
+        color: white !important;
+
+        &::before {
+          color: white !important;
+        }
+      }
+
+      .ant-menu-title-content {
+        display: none;
+      }
+
+      &:hover:not(.ant-menu-item-selected) {
+        span.anticon, .anticon {
+          background: rgba(255, 255, 255, 0.2);
+        }
+      }
+    }
+
+    .ant-menu-item-selected {
+      background: transparent !important;
+
+      span.anticon, .anticon {
+        background: var(--bg-ternary-light) !important;
+        color: var(--text-dark-primary) !important;
+
+        &::before {
+          color: var(--text-dark-primary) !important;
+        }
+      }
+    }
+  }
+
+  .ant-layout-sider {
+    background-color: var(--bg-primary-700) !important;
+    padding-left: 0;
+    width: 500px;
+
+    // When expanded (not collapsed)
+    &:not(.ant-layout-sider-collapsed) {
+      .ant-menu-item-selected {
+        background: var(--bg-ternary-light) !important;
+
+        .anticon {
+          color: var(--text-dark-primary) !important;
+        }
+
+        span {
+          color: var(--text-dark-primary) !important;
+        }
+      }
+    }
+  }
+
+  .ant-menu {
+    background-color: var(--bg-primary-700) !important;
+    padding-left: 0px;
+  }
+
+  .ant-menu-dark {
+    background: var(--bg-primary-700) !important;
+  }
+
+  .ant-menu-inline {
+    padding-left: 12px;
+  }
+
+  .anticon-menu-fold {
+    font-size: 20px;
+
+    &:hover {
+      color: var(--bg-primary-700);
+    }
+  }
+
+  .anticon-menu-unfold {
+    font-size: 20px;
+
+    &:hover {
+      color: var(--bg-primary-700);
+    }
+  }
+
+  .ant-layout-content {
+    margin: 0;
+  }
+
+  .ant-menu-title-content {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.logout-button {
+  height: 52px;
+  background: var(--bg-ternary-light);
+  color: var(--text-dark-primary);
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--bg-warning-50);
+  }
+
+  &:active {
+    background: var(--bg-warning-200);
+  }
+}
+
+.logout-text {
+  transition: 1s ease-in;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+}
+
+// Mobile menu styles
+.mobile-menu {
+  background-color: var(--bg-primary-700);
+  height: 80px;
+  width: 100%;
+}
+
+.mobile-menu-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-menu-icons {
+  min-height: 100%;
+  min-width: 100%;
+  scale: 1.2;
+}
+
+@media screen and (max-width: 768px) {
+  ::ng-deep {
+    .ant-menu-item {
+      font-family: 'inter', sans-serif !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 52px;
+      border-radius: 4px;
+      color: white;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.2);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+    }
+  }
+}
+
+// Animation for logo transition
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+.transition-opacity {
+  transition: opacity 0.3s ease;
+}
+
+.delay-500 {
+  transition-delay: 500ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.duration-75 {
+  transition-duration: 75ms;
+}
+
+.ease-out {
+  transition-timing-function: ease-out;
+}
+
+// Drop-down button styles from demo
+.drop-down-button {
+  cursor: pointer;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+  background-image: none;
+  box-shadow: 0 2px #0000000b;
+  transition: all .3s cubic-bezier(.645, .045, .355, 1);
+  user-select: none;
+  touch-action: manipulation;
+  height: 42px;
+  min-width: 70px;
+  padding: 4px 15px;
+  font-size: 18px;
+  background: rgba(0, 0, 0, 0.02);
+  border-color: #d9d9d9;
+  color: rgba(0, 0, 0, .88);
+}
