@@ -1,27 +1,63 @@
-# BssRmsSpa
+# BSS - Restaurant Management System - Single Page Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+## Project Setup Instructions
 
-## Development server
+### Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Before you begin, ensure you have the following installed:
+- **Node.js** (v18.x or higher) - [Download Node.js](https://nodejs.org/)
+- **npm** (v9.x or higher) - Comes with Node.js
+- **Angular CLI** (v18.x) - Install globally via npm
 
-## Code scaffolding
+### Installation Steps
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/capt-farvez/bss-rms.git
+   cd bss-rms/bss-rms-spa
+   ```
 
-## Build
+2. **Install Angular CLI (if not already installed)**
+   ```bash
+   npm install -g @angular/cli@18
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. **Install Project Dependencies**
+   ```bash
+   npm install
+   ```
 
-## Running unit tests
+### Build Instructions
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **Development Build**
+   ```bash
+   npm run build
+   ```
 
-## Running end-to-end tests
+2. **Production Build**
+   ```bash
+   npm run build:prod
+   ```
+   or
+   ```bash
+   ng build --configuration production
+   ```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+3. **Build Output**
+   - The build artifacts will be stored in the `dist/` directory
+   - Production builds include optimizations like minification and tree-shaking
 
-## Further help
+### Development Server
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. **Start the Development Server**
+   ```bash
+   npm start
+   ```
+   or
+   ```bash
+   ng serve
+   ```
+
+2. **Access the Application**
+   - Open your browser and navigate to `http://localhost:4200/`
+   - The application will automatically reload when you make changes to the source files
