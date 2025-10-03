@@ -20,6 +20,7 @@
     "@angular/router": "^18.2.0",
     "@ctrl/tinycolor": "^4.2.0",
     "autoprefixer": "^10.4.21",
+    "bootstrap": "^5.3.8",
     "flowbite": "^3.1.2",
     "json-server": "^1.0.0-beta.3",
     "ng-zorro-antd": "^18.2.1",

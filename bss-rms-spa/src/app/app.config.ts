@@ -43,6 +43,8 @@ import {
   StopOutline,
   EditOutline,
   LogoutOutline,
+  EyeOutline,
+  EyeInvisibleOutline,
 } from '@ant-design/icons-angular/icons';
 
 import { routes } from './app.routes';
@@ -80,6 +82,8 @@ const icons: IconDefinition[] = [
   StopOutline,
   EditOutline,
   LogoutOutline,
+  EyeOutline,
+  EyeInvisibleOutline,
 ];
 
 export const appConfig: ApplicationConfig = {

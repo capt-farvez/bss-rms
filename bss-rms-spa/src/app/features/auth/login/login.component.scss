@@ -1,0 +1,245 @@
+:root {
+  // Login specific colors can be added here if needed
+}
+
+// Carousel styles
+.login-carousel-item {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  pointer-events: none;
+  max-width: 500px;
+
+  h1 {
+    color: var(--text-dark-primary);
+  }
+
+  p {
+    color: var(--text-dark-secondary);
+  }
+
+  img {
+    height: 200px;
+  }
+}
+
+// Login page container
+.login-page {
+  // Main container styles
+}
+
+// Left column with carousel
+.login-info-container {
+  background-color: var(--bg-ternary-light);
+  border-radius: 10px;
+  box-shadow: 0px 12px 15px -2px rgba(12, 12, 12, 0.5);
+
+  img {
+    width: 100%;
+    max-width: 240px;
+  }
+}
+
+// Login form container
+.login-form-container {
+  width: 540px;
+  padding: 30px 45px;
+  border-radius: 10px;
+  box-shadow: 0px 12px 15px -2px rgba(12, 12, 12, 0.5);
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: translate3d(0px, 3px, 3px);
+    box-shadow: 0px 12px 15px -11px rgba(12, 12, 12, 0.5);
+  }
+
+  // Mobile responsive
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 20px 25px;
+  }
+}
+
+// Logo/Image in form header
+.login-form-image {
+  height: 130px;
+  width: 130px;
+  max-width: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+// Restaurant name styling
+.login-form-header p {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: #2e7d32 2px 0px 0px, #2e7d32 1.75517px .958851px 0px,
+    #2e7d32 1.0806px 1.68294px 0px, #2e7d32 .141474px 1.99499px 0px,
+    #2e7d32 -.832294px 1.81859px 0px, #2e7d32 -1.60229px 1.19694px 0px,
+    #2e7d32 -1.97998px .28224px 0px, #2e7d32 -1.87291px -.701566px 0px,
+    #2e7d32 -1.30729px -1.5136px 0px, #2e7d32 -.421592px -1.95506px 0px,
+    #2e7d32 .567324px -1.91785px 0px, #2e7d32 1.41734px -1.41108px 0px,
+    #2e7d32 1.92034px -.558831px 0px;
+}
+
+// Form input label styling
+.login-text-input-label {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-dark-primary);
+}
+
+// Form input field styling
+.login-text-input-field {
+  height: 52px;
+  font-size: 18px;
+  padding: 5px 10px;
+  width: 100%;
+  outline: none;
+  background: #FFFFFF;
+  color: #000000;
+  border: 1px solid #66BB6A;
+  border-radius: 5px;
+  box-shadow: 3px 3px 6px 1px #E2E2E2;
+  transition: all 0.3s ease-in-out;
+
+  &:focus,
+  &:hover {
+    background: #FEFEFE;
+    border: 2px solid #43A047;
+    border-radius: 7px;
+  }
+
+  &::placeholder {
+    color: #999;
+    font-size: 16px;
+  }
+}
+
+// Password input wrapper
+.password-input-wrapper {
+  position: relative;
+
+  .password-toggle-button {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #66BB6A;
+    transition: all 0.2s ease;
+    z-index: 10;
+
+    &:hover {
+      color: #43A047;
+      background-color: rgba(102, 187, 106, 0.1);
+      border-radius: 4px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    span {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+// Background colors for columns
+.right-column {
+  background-color: #E6FEED;
+}
+
+.left-column {
+  background: linear-gradient(270deg,
+    #c8e6c9, #cbe7cc, #cee9cf, #d1ead2,
+    #d4ecd5, #d6edd8, #d9eedb, #dcf0dd,
+    #dff1e0, #e2f2e3, #e5f4e6, #e8f5e9);
+}
+
+// Animation for rotating elements (if needed)
+@keyframes rotateimg {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// NgZorro carousel customization
+::ng-deep {
+  .ant-carousel {
+    height: 100%;
+  }
+
+  .slick-slider,
+  .slick-list,
+  .slick-track {
+    height: 100%;
+  }
+
+  .slick-slide {
+    text-align: center;
+    height: 100%;
+    line-height: normal;
+    background: transparent;
+    overflow: hidden;
+
+    > div {
+      height: 100%;
+    }
+  }
+
+  .slick-dots {
+    bottom: -30px;
+
+    li {
+      button {
+        background: var(--bg-primary-400);
+      }
+
+      &.slick-active button {
+        background: var(--bg-primary-700);
+      }
+    }
+  }
+}
+
+// Form validation styles
+.ng-invalid.ng-touched {
+  .login-text-input-field {
+    border-color: var(--bg-warning-400);
+  }
+}
+
+// Alert/notification styles
+.alert-enter {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
