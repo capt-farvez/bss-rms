@@ -86,7 +86,7 @@ body {
   }
 
   &:hover {
-    background-color: var(--bg-warning-600);
+    background-color: #dc3545; // Bootstrap danger red color
 
     span {
       color: white;
