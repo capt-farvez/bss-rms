@@ -122,50 +122,42 @@
     }
   }
 
-  // When sidebar is collapsed
+  // When sidebar is collapsed - show only icons
   .ant-layout-sider-collapsed {
-    .ant-menu-item {
-      padding: 0 !important;
-      justify-content: center;
-      background: transparent !important;
-
-      // Target both span.anticon and direct .anticon
-      span.anticon, .anticon {
-        display: inline-flex !important;
-        align-items: center;
+    .ant-menu {
+      .ant-menu-item {
+        padding: 0 calc(50% - 20px) !important;
         justify-content: center;
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        font-size: 20px !important;
-        color: white !important;
 
-        &::before {
+        // Make the icon visible with box styling
+        span[nz-icon] {
+          display: inline-block !important;
+          width: 40px !important;
+          height: 40px !important;
+          line-height: 40px !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          border-radius: 8px !important;
+          text-align: center !important;
+          font-size: 20px !important;
           color: white !important;
         }
-      }
 
-      .ant-menu-title-content {
-        display: none;
-      }
-
-      &:hover:not(.ant-menu-item-selected) {
-        span.anticon, .anticon {
-          background: rgba(255, 255, 255, 0.2);
+        // Hide the text labels
+        span:last-child:not([nz-icon]) {
+          display: none !important;
         }
-      }
-    }
 
-    .ant-menu-item-selected {
-      background: transparent !important;
+        &:hover {
+          span[nz-icon] {
+            background: rgba(255, 255, 255, 0.2) !important;
+          }
+        }
 
-      span.anticon, .anticon {
-        background: var(--bg-ternary-light) !important;
-        color: var(--text-dark-primary) !important;
-
-        &::before {
-          color: var(--text-dark-primary) !important;
+        &.ant-menu-item-selected {
+          span[nz-icon] {
+            background: white !important;
+            color: var(--text-dark-primary) !important;
+          }
         }
       }
     }
