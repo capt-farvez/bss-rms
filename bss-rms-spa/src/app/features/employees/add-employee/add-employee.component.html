@@ -70,7 +70,7 @@
               >
                 <div class="card p-10 d-flex align-items-center justify-content-center">
                   <span nz-icon nzType="plus"></span>
-                  <div style="margin-top: 8px">Upload Employee Image</div>
+                  <div class="upload-text">Upload Employee Image</div>
                 </div>
               </nz-upload>
               <nz-modal
@@ -82,7 +82,7 @@
                 nzWidth="760px"
               >
                 <ng-template #modalContent>
-                  <img class="mt-2" [src]="previewImage" style="width: 100%"/>
+                  <img class="mt-2 preview-image" [src]="previewImage" alt="Employee image preview" title="Employee image preview"/>
                 </ng-template>
               </nz-modal>
             </div>
