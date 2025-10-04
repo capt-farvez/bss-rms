@@ -1,6 +1,9 @@
 # BSS - Restaurant Management System
 Restaurant Management System for Bangladesh Software Solution (BSS), built with Angular as the frontend framework.
 
+ - **Live demo: https://bss-rms.vercel.app/**
+ - **API Documentation: https://restaurantapi.bssoln.com/index.html**
+
 ## Features
 - User Authentication and Authorization
 - Employee Management
