@@ -1,1 +1,85 @@
-<p>tables-list works!</p>
+<div class="main-wrapper p-0 p-md-4 pb-md-0">
+  <div class="bg-white drop-shadow-lg md:rounded-lg rounded-none pt-0 pt-md-3">
+    <ng-template #indicatorTemplate>
+      <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+        <span class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></span>
+      </div>
+    </ng-template>
+    <nz-table
+      nzShowSizeChanger
+      nzSize="small"
+      nzPaginationType='default'
+      [nzScroll]="{ y: 'calc(100vh - 300px)', x: '768px'}"
+      [nzWidthConfig]="tableWidthConfig"
+      nzTableLayout="auto"
+      [nzData]="listOfTables()"
+      [nzFrontPagination]="false"
+      [nzLoading]="tableService.isSendingRequest()"
+      [nzLoadingIndicator]="indicatorTemplate"
+      [nzTotal]="tableService.totalTables()"
+      [nzPageSize]="this.pageSize"
+      [nzPageIndex]="this.pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
+      <thead>
+        <tr>
+          <th class="custom-table-title" nzColumnKey="image"></th>
+          <th nzTooltipTitle="Table Number" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="name">Table Number</th>
+          <th nzTooltipTitle="Total Seats" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="seats">Total Seats</th>
+          <th nzTooltipTitle="Booking Status" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="bookingstatus">Booking Status</th>
+          <th nzTooltipTitle="Assigned Employees" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="employees">Assigned Employees</th>
+          <th class="custom-table-title-button" nzColumnKey="action">
+            <button (click)="tableService.showAddModal.set(true)" class="add-table-button">
+              <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+              <span>
+                Add New Table
+              </span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of listOfTables(); track data.id) {
+          <tr class="custom-table-row">
+            <td>
+              <div class="d-flex justify-content-center">
+                <nz-avatar [nzSize]="52" nzIcon="warning" [nzSrc]="getImageUrl(data.image)"></nz-avatar>
+              </div>
+            </td>
+            <td nzTooltipTitle="{{ data.tableNumber }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.tableNumber }}</td>
+            <td>{{ data.numberOfSeats }}</td>
+            <td class="truncate">{{ !data.isOccupied ? "Available": "Not Available" }}</td>
+            <td>
+              <div class="d-flex gap-1 flex-wrap">
+                @for (employee of data.employees; track employee.employeeId) {
+                  <app-avatar-tooltip
+                    [tableName]="String(data.id)"
+                    [employeeName]="employee.name"
+                    [employeeId]="employee.employeeId"
+                    [employeeTableId]="employee.employeeTableId.toString()"
+                    [employeeList]="listOfEmployees()">
+                  </app-avatar-tooltip>
+                }
+                <div (click)="showAssignModal(String(data.id), data.tableNumber, data.image, data.numberOfSeats)" class="add-employee-to-table-button">
+                  <span style="color:#2e7d32" class="add-employee-to-table-button-icon" nz-icon nzType="plus" nzTheme="outline"></span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex justify-content-center gap-2">
+                <button (click)="editTable(data.id)" class="drop-down-button drop-shadow-md" title="Edit Table" aria-label="Edit Table">
+                  <span nz-icon nzType="edit" nzTheme="outline"></span>
+                </button>
+                <button (click)="deleteTable(data.id)" class="drop-down-button drop-shadow-md" title="Delete Table" aria-label="Delete Table">
+                  <span nz-icon nzType="delete" nzTheme="outline"></span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<app-add-table></app-add-table>
+<app-assign-employee-to-table></app-assign-employee-to-table>

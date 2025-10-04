@@ -1,0 +1,12 @@
+.delete-button {
+  border: none;
+}
+
+.delete-container {
+  color: white !important;
+  background: var(--bg-warning-600);
+}
+
+.delete-container .delete-button {
+  color: white !important;
+}

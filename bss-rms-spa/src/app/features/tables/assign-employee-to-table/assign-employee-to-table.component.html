@@ -1,0 +1,60 @@
+<ng-template #modalTitle>
+  <div class="d-flex gap-1">
+    <span nz-icon nzType="user-add" nzTheme="outline"></span>
+    <span>Assign Employee</span>
+  </div>
+</ng-template>
+<nz-modal
+  [(nzVisible)]="tableService.showAssignModal"
+  [nzTitle]="modalTitle"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="tableService.isSendingRequest()"
+  [nzWidth]="modalWidth"
+  nzCentered
+>
+  <ng-container *nzModalContent>
+    <div class="row gx-3 gy-3">
+      <div class="col-12 col-md-6">
+        <div class="d-flex flex-col">
+          <span class="text-lg mb-3">Table Number - {{ tableService.assignTableName() }}</span>
+          <span class="text-lg mb-3">Number of Seats - {{ tableService.assignTableSeats() }}</span>
+          <img class="rounded-lg shadow-md" [src]="tableService.assignTableImage()" alt="">
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <nz-select
+          [nzMaxTagCount]="3"
+          [nzMaxTagPlaceholder]="tagPlaceHolder"
+          nzMode="multiple"
+          nzPlaceHolder="Please select employees"
+          [(ngModel)]="listOfSelectedEmployees"
+          class="w-100"
+          nzAllowClear
+          nzSize="large"
+        >
+          @for (emp of listOfAvailableEmployees; track emp.id) {
+            <nz-option nzCustomContent [nzLabel]="emp.user.firstName" [nzValue]="emp">
+              <div class="row h-11">
+                <div class="col-3 pe-0 d-flex justify-content-start align-items-center">
+                  <nz-avatar [nzSize]="38" nzIcon="warning" [nzSrc]="'https://restaurantapi.bssoln.com/images/user/' + '/' + emp.user.image"></nz-avatar>
+                </div>
+                <div class="col-9 ps-0 d-flex justify-content-start align-items-center">
+                  {{ emp.user.firstName }} {{ emp.user.middleName }} {{ emp.user.lastName }}
+                </div>
+              </div>
+            </nz-option>
+          }
+        </nz-select>
+        <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
+      </div>
+    </div>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button class="drop-shadow-md" nz-button nzDanger nzType="default" (click)="handleCancel()">Cancel Operation</button>
+    <button class="drop-shadow-md" nz-button nzType="primary" (click)="handleOk()"
+            [nzLoading]="tableService.isSendingRequest()">Assign Employee
+    </button>
+  </div>
+</nz-modal>
