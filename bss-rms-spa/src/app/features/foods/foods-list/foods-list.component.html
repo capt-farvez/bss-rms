@@ -1,1 +1,71 @@
-<p>foods-list works!</p>
+<div class="main-wrapper p-0 p-md-4 pb-md-0">
+  <div class="bg-white drop-shadow-lg md:rounded-lg">
+    <nz-table
+      nzShowSizeChanger
+      nzSize="small"
+      [nzScroll]="{ y: 'calc(100vh - 300px)', x: '768px'}"
+      [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
+      [nzData]="listOfFood()"
+      [nzFrontPagination]="false"
+      [nzLoading]="foodService.isSendingRequest()"
+      [nzTotal]="foodService.totalFood()"
+      [nzPageIndex]="pageIndex"
+      [nzPageSize]="pageSize"
+      [nzLoadingIndicator]="indicatorTemplate"
+      (nzQueryParams)="onQueryParamsChange($event)">
+
+      <thead>
+        <tr>
+          <th class="custom-table-title" nzWidth="120px">Image</th>
+          <th class="custom-table-title" nzColumnKey="name">Name</th>
+          <th class="custom-table-title" nzColumnKey="price">Price</th>
+          <th class="custom-table-title">Discount Type</th>
+          <th class="custom-table-title">Discount</th>
+          <th class="custom-table-title">Discounted Price</th>
+          <th class="custom-table-title" nzWidth="180px">
+            <button class="add-food-button" (click)="foodService.showAddModal.set(true)">
+              <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+              <span>Add Food Item</span>
+            </button>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (data of listOfFood(); track data.id) {
+          <tr class="custom-table-row">
+            <td class="d-flex justify-content-center">
+              <nz-avatar [nzSize]="52" nzIcon="warning" [nzSrc]="getImageUrl(data.image)"></nz-avatar>
+            </td>
+            <td [nzTooltipTitle]="data.name" nzTooltipPlacement="topLeft" nz-tooltip>
+              {{ data.name }}
+            </td>
+            <td [nzTooltipTitle]="'৳ ' + data.price" nzTooltipPlacement="topLeft" nz-tooltip>
+              ৳ {{ data.price }}
+            </td>
+            <td [nzTooltipTitle]="data.discountType" nzTooltipPlacement="topLeft" nz-tooltip>
+              {{ data.discountType }}
+            </td>
+            <td [nzTooltipTitle]="getDiscountDisplay(data)" nzTooltipPlacement="topLeft" nz-tooltip>
+              {{ getDiscountDisplay(data) }}
+            </td>
+            <td [nzTooltipTitle]="'৳ ' + data.discountPrice" nzTooltipPlacement="topLeft" nz-tooltip>
+              ৳ {{ data.discountPrice }}
+            </td>
+            <td>
+              <button class="delete-food-button" (click)="deleteFood(data.id)">
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+
+    <ng-template #indicatorTemplate>
+      <span class="custom-loading-indicator" nz-icon nzType="loading" style="font-size: 50px; color: darkseagreen;"></span>
+    </ng-template>
+  </div>
+</div>
+
+<app-add-food></app-add-food>

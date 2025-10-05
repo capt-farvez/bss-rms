@@ -1,0 +1,67 @@
+.form-wrapper {
+  padding: 20px 0;
+}
+
+.file-upload {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+  min-height: 350px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #66bb6a;
+    background: #f0f9f1;
+  }
+}
+
+:host ::ng-deep {
+  .ant-upload.ant-upload-select-picture-card {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background: white;
+    border: 2px dashed #66bb6a;
+
+    &:hover {
+      border-color: #4caf50;
+    }
+
+    .ant-upload {
+      padding: 20px;
+    }
+  }
+
+  .ant-form-item {
+    margin-bottom: 24px;
+  }
+
+  .ant-form-item-label > label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  .ant-modal-footer {
+    border-top: 1px solid #f0f0f0;
+    padding: 16px 24px;
+  }
+
+  // Style the discount label with inline unit
+  nz-form-label pre {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-weight: bold;
+    color: #66bb6a;
+  }
+}
+
+// Responsive styles
+@media (max-width: 992px) {
+  .w-1\/4 {
+    width: 100% !important;
+    padding-right: 0 !important;
+    margin-bottom: 16px;
+  }
+}
