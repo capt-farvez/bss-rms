@@ -64,6 +64,12 @@ export class FoodsListComponent implements OnInit {
     return this.imageBaseUrl + image;
   }
 
+  editFood(id: number): void {
+    // TODO: Implement edit functionality
+    console.log('Edit food with id:', id);
+    // This will be implemented when you create the edit food modal/component
+  }
+
   deleteFood(id: number): void {
     this.foodService.deleteFood(id);
     // Reset to previous page if deleting last item on current page
