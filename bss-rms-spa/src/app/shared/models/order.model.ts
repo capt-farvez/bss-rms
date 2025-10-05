@@ -1,12 +1,29 @@
 import { Table } from './table.model';
 import { User } from './auth.model';
-import { FoodItem, FoodPackage } from './food.model';
 
-export interface Order {
+export interface ResponseOrderList {
+  data: OrderData[];
+  pageNumber: number;
+  current_page: number;
+  per_page: number;
+  pageSize: number;
+  firstPage: string;
+  lastPage: string;
+  last_page: number;
+  totalPages: number;
+  totalRecords: number;
+  total: number;
+  from: number;
+  to: number;
+  next_page_url: string;
+  prev_page_url: string;
+}
+
+export interface OrderData {
   id: string;
   orderNumber: string;
   amount: number;
-  orderStatus: OrderStatus;
+  orderStatus: string;
   orderTime: string;
   table: Table;
   orderedBy: User;
@@ -14,21 +31,36 @@ export interface Order {
   orderItems: OrderItem[];
 }
 
-export enum OrderStatus {
-  PENDING = 'pending',
-  PROCESSING = 'processing',
-  COMPLETED = 'completed',
-  CANCELLED = 'cancelled',
-  DELIVERED = 'delivered'
-}
-
 export interface OrderItem {
   id: string;
   quantity: number;
   unitPrice: number;
   totalPrice: number;
-  food?: FoodItem;
-  foodPackage?: FoodPackage;
+  food: OrderFood;
+  foodPackage: OrderFoodPackage;
+}
+
+export interface OrderFood {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  discountType: string;
+  discount: number;
+  discountPrice: number;
+  image: string;
+}
+
+export interface OrderFoodPackage {
+  id: number;
+  food: OrderFood;
+  package: OrderPackage;
+}
+
+export interface OrderPackage {
+  id: number;
+  name: string;
+  price: number;
 }
 
 export interface CreateOrderRequest {
@@ -45,14 +77,9 @@ export interface CreateOrderItemRequest {
   unitPrice: number;
 }
 
-export interface UpdateOrderStatusRequest {
-  orderId: string;
-  status: OrderStatus;
-}
-
 export interface CartItem {
-  food?: FoodItem;
-  foodPackage?: FoodPackage;
+  food?: OrderFood;
+  foodPackage?: OrderFoodPackage;
   quantity: number;
   unitPrice: number;
   totalPrice: number;
