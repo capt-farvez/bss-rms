@@ -101,6 +101,7 @@
 
     .anticon {
       color: white !important;
+      font-size: 18px;
     }
 
     span:not(.anticon) {
@@ -126,39 +127,48 @@
   .ant-layout-sider-collapsed {
     .ant-menu {
       .ant-menu-item {
-        padding: 0 calc(50% - 20px) !important;
-        justify-content: center;
+        padding: 0 !important;
+        justify-content: center !important;
+        text-align: center !important;
+        display: flex !important;
+        align-items: center !important;
 
-        // Make the icon visible with box styling
-        span[nz-icon] {
-          display: inline-block !important;
-          width: 40px !important;
-          height: 40px !important;
-          line-height: 40px !important;
-          background: rgba(255, 255, 255, 0.1) !important;
-          border-radius: 8px !important;
-          text-align: center !important;
+        // Style the icon when collapsed - NO background
+        span[nz-icon],
+        .anticon {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
           font-size: 20px !important;
           color: white !important;
-        }
-
-        // Hide the text labels
-        span:last-child:not([nz-icon]) {
-          display: none !important;
+          margin: 0 auto !important;
         }
 
         &:hover {
-          span[nz-icon] {
-            background: rgba(255, 255, 255, 0.2) !important;
+          background: rgba(255, 255, 255, 0.2) !important;
+          
+          span[nz-icon],
+          .anticon {
+            color: white !important;
           }
         }
 
         &.ant-menu-item-selected {
-          span[nz-icon] {
-            background: white !important;
+          background: var(--bg-ternary-light) !important;
+          
+          span[nz-icon],
+          .anticon {
             color: var(--text-dark-primary) !important;
           }
         }
+      }
+    }
+
+    // Hide logo text when collapsed
+    .logo {
+      p {
+        display: none !important;
+        opacity: 0 !important;
       }
     }
   }
