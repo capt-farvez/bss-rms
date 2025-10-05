@@ -1,0 +1,82 @@
+
+ant-table-tbody{
+  height: 500px;
+}
+
+
+.add-employee-button{
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  min-width: 60px;
+  border-radius: 8px;
+  border: #66bb6a 1px solid;
+  font-size: 18px;
+  background: var(--bg-ternary-light);
+  &:hover{
+    background: #C8E6C9;
+    font-weight: 500;
+  }
+}
+
+.add-food-button{
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  min-height: 48px;
+  min-width: 60px;
+  border-radius: 8px;
+  border: #66bb6a 1px solid;
+  font-size: 18px;
+  background: var(--bg-ternary-light);
+  &:hover{
+    background: #C8E6C9;
+    font-weight: 500;
+  }
+}
+
+
+.delete-button{
+  border-radius: 0;
+  height: 48px;
+  background: transparent;
+  color: var(--text-dark-primary);
+  font-weight: 400;
+  font-size: 18px;
+  &:hover{
+    color: white;
+    background: var(--bg-warning-600) !important;
+  }
+  &:active{
+    color: whitesmoke;
+    background: var(--bg-warning-600);
+  }
+}
+
+td{
+  font-size: 18px;
+}
+
+
+
+.custom-table-row:hover td{
+  background: var(--bg-ternary-light) !important;
+}
+.custom-table-row:hover{
+  background: var(--bg-ternary-light) !important;
+}
+
+.custom-table-title{
+  font-size: 18px;
+  color: darkgreen;
+}
+
+.custom-table-title-button{
+  padding: 8px 10px;
+}
+
+.main-table{
+  height: 600px;
+  overflow-y: auto
+}
