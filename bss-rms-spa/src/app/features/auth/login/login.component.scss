@@ -211,11 +211,11 @@
 
     li {
       button {
-        background: var(--bg-primary-400);
+        background: #424242 !important; // Black color for inactive dots
       }
 
       &.slick-active button {
-        background: var(--bg-primary-700);
+        background: #212121 !important; // Darker black for active dot
       }
     }
   }
