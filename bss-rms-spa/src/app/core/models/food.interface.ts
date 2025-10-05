@@ -31,3 +31,15 @@ export interface CreateFood {
   image: string;
   base64: string;
 }
+
+
+export interface UpdateFood {
+  name: string;
+  description: string;
+  price: string;
+  discountType: number;
+  discount: string;
+  discountPrice: string;
+  image: string;
+  base64: string;
+}

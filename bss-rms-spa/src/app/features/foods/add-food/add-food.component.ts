@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
@@ -18,7 +18,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { FoodService } from '../../../core/services/food.service';
-import { CreateFood } from '../../../core/models/food.interface';
+import { CreateFood, UpdateFood } from '../../../core/models/food.interface';
 
 @Component({
   selector: 'app-add-food',
@@ -44,6 +44,39 @@ export class AddFoodComponent implements OnInit, OnDestroy {
   responsive = inject(BreakpointObserver);
   modalWidth = "80vw";
   discType = signal("");
+  imageBaseUrl = 'https://restaurantapi.bssoln.com/images/food/';
+
+  constructor() {
+    // Effect to populate form when editing
+    effect(() => {
+      const selectedFood = this.backendService.selectedFood();
+      if (selectedFood && this.backendService.isEditMode()) {
+        this.populateForm(selectedFood);
+      }
+    }, { allowSignalWrites: true });
+  }
+
+  populateForm(food: any) {
+    this.validateForm.patchValue({
+      foodName: food.name,
+      description: food.description,
+      price: String(food.price),
+      discountType: food.discountType,
+      discountAmount: String(food.discount),
+      discountedPrice: String(food.discountPrice),
+    });
+
+    // Set image if exists
+    if (food.image) {
+      this.image = food.image;
+      this.fileList = [{
+        uid: '-1',
+        name: food.image,
+        status: 'done',
+        url: this.imageBaseUrl + food.image
+      }];
+    }
+  }
 
   handleOk(): void {
     if (this.validateForm.status === "INVALID") {
@@ -53,7 +86,7 @@ export class AddFoodComponent implements OnInit, OnDestroy {
       }
     }
     if (this.validateForm.status === "VALID") {
-      let POST_VALUES: CreateFood = {
+      const foodData = {
         name: this.validateForm.controls.foodName.value,
         description: this.validateForm.controls.description.value,
         price: this.validateForm.controls.price.value,
@@ -62,14 +95,26 @@ export class AddFoodComponent implements OnInit, OnDestroy {
         discountPrice: this.validateForm.controls.discountedPrice.value,
         image: this.image,
         base64: this.imageB64,
-      }
+      };
 
-      this.backendService.addNewFood(POST_VALUES);
-      setTimeout(() => {
-        this.backendService.triggerRefresh.set(false);
-        this.handleCancel();
-        this.backendService.triggerRefresh.set(true);
-      }, 1000);
+      if (this.backendService.isEditMode()) {
+        // Update existing food
+        const foodId = this.backendService.selectedFood()?.id;
+        if (foodId) {
+          this.backendService.updateFood(foodId, foodData as UpdateFood);
+          setTimeout(() => {
+            this.handleCancel();
+          }, 1000);
+        }
+      } else {
+        // Create new food
+        this.backendService.addNewFood(foodData as CreateFood);
+        setTimeout(() => {
+          this.backendService.triggerRefresh.set(false);
+          this.handleCancel();
+          this.backendService.triggerRefresh.set(true);
+        }, 1000);
+      }
     }
   }
 
@@ -79,6 +124,8 @@ export class AddFoodComponent implements OnInit, OnDestroy {
     this.imageB64 = '';
     this.validateForm.reset();
     this.backendService.showAddModal.set(false);
+    this.backendService.selectedFood.set(null);
+    this.backendService.isEditMode.set(false);
   }
 
   //FORM SECTION
@@ -105,8 +152,6 @@ export class AddFoodComponent implements OnInit, OnDestroy {
       this.validateForm.controls.discountedPrice.setValue(String(p - (o/100)*p));
     }
   }
-
-  constructor() { }
 
   ngOnInit() {
     this.validateForm.controls.price.statusChanges.subscribe(

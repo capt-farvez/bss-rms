@@ -1,6 +1,6 @@
 <ng-template #modalTitle xmlns="http://www.w3.org/1999/html">
-  <span nz-icon nzType="plus" nzTheme="outline"></span>
-  <span> Add New Food Item</span>
+  <span nz-icon [nzType]="backendService.isEditMode() ? 'edit' : 'plus'" nzTheme="outline"></span>
+  <span> {{ backendService.isEditMode() ? 'Edit Food Item' : 'Add New Food Item' }}</span>
 </ng-template>
 <nz-modal
   nzCentered
@@ -114,7 +114,8 @@
     <button class="drop-shadow-md" nz-button nzDanger nzType="default" (click)="handleCancel()">Cancel Operation
     </button>
     <button class="drop-shadow-md" nz-button nzType="primary" (click)="handleOk()"
-            [nzLoading]="backendService.isSendingRequest()">Add New Food Item
+            [nzLoading]="backendService.isSendingRequest()">
+      {{ backendService.isEditMode() ? 'Update Food Item' : 'Add New Food Item' }}
     </button>
   </div>
 </nz-modal>

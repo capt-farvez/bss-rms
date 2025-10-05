@@ -65,9 +65,7 @@ export class FoodsListComponent implements OnInit {
   }
 
   editFood(id: number): void {
-    // TODO: Implement edit functionality
-    console.log('Edit food with id:', id);
-    // This will be implemented when you create the edit food modal/component
+    this.foodService.getFoodById(id);
   }
 
   deleteFood(id: number): void {

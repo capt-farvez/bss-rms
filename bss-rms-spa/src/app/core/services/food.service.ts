@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams, HttpEventType } from '@angular/common/http';
-import { FoodItem, ResponseFoodList, CreateFood } from '../models/food.interface';
+import { FoodItem, ResponseFoodList, CreateFood, UpdateFood } from '../models/food.interface';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 function getSanitizedListOfFood(data: ResponseFoodList | null): FoodItem[] {
@@ -21,6 +21,8 @@ export class FoodService {
   listOfFood = signal<FoodItem[]>([]);
   totalFood = signal(10);
   showAddModal = signal(false);
+  selectedFood = signal<FoodItem | null>(null);
+  isEditMode = signal(false);
 
   getListOfFood(sortBy: string, page: string, per_page: string, search: string = '') {
     const params = new HttpParams()
@@ -101,6 +103,62 @@ export class FoodService {
       error: (error) => {
         this.isSendingRequest.set(false);
         this.message.create('error', 'Error Processing The Request. Please Try Again...');
+      }
+    });
+  }
+
+  getFoodById(id: number) {
+    this.http.get<FoodItem>(`${this.baseUrl}/api/Food/get/${id}`, {
+      observe: 'events'
+    }).subscribe({
+      next: (data) => {
+        switch (data.type) {
+          case HttpEventType.Sent:
+            this.isSendingRequest.set(true);
+            break;
+          case HttpEventType.Response:
+            if (data.status === 200) {
+              this.selectedFood.set(data.body);
+              this.isEditMode.set(true);
+              this.showAddModal.set(true);
+              this.isSendingRequest.set(false);
+            }
+            break;
+        }
+      },
+      error: (error) => {
+        this.message.create('error', 'Error fetching food details');
+        this.isSendingRequest.set(false);
+      }
+    });
+  }
+
+  updateFood(id: number, updateData: UpdateFood) {
+    this.http.put(`${this.baseUrl}/api/Food/update/${id}`, updateData, {
+      observe: 'events'
+    }).subscribe({
+      next: (data) => {
+        switch (data.type) {
+          case HttpEventType.Sent:
+            this.isSendingRequest.set(true);
+            break;
+          case HttpEventType.Response:
+            if (data.status === 200) {
+              this.message.create('success', 'Food Item Updated Successfully!');
+              this.isSendingRequest.set(false);
+              this.triggerRefresh.set(true);
+              this.selectedFood.set(null);
+              this.isEditMode.set(false);
+            }
+            break;
+        }
+      },
+      error: (error) => {
+        this.message.create('error', 'Error updating food item');
+        this.isSendingRequest.set(false);
+      },
+      complete: () => {
+        this.isSendingRequest.set(false);
       }
     });
   }
