@@ -42,6 +42,10 @@ td {
   font-size: 18px;
 }
 
+::ng-deep [nz-icon][nzType="star"][nzTheme="twotone"] svg path:first-child {
+  fill: white !important;
+}
+
 .custom-table-row:hover td {
   background: var(--bg-ternary-light) !important;
 }
