@@ -1,0 +1,38 @@
+nz-header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.trigger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  
+  &:hover {
+    color: var(--bg-primary-600);
+  }
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  
+  p {
+    margin: 0;
+    line-height: 1;
+  }
+}
+
+// Mobile responsive
+@media screen and (max-width: 768px) {
+  nz-header {
+    height: 64px;
+  }
+  
+  .trigger {
+    height: 64px;
+  }
+}

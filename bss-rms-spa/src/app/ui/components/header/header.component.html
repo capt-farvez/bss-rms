@@ -1,11 +1,11 @@
 <nz-header>
   <div class="d-flex justify-content-between align-items-center w-100 ps-0 pe-3 pe-md-4">
     <!-- Left Section -->
-    <div class="d-flex flex-row">
-      <!-- Sidebar Toggle Button (Desktop) -->
-      <div class="d-flex align-items-center">
+    <div class="d-flex flex-row align-items-center">
+      <!-- Sidebar Toggle Button (All screens) -->
+      <div class="d-flex align-items-center justify-content-center">
         <span
-          class="trigger d-none d-md-block text-xl ps-3 pe-3"
+          class="trigger text-xl ps-3 pe-3"
           nz-icon
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           (click)="onToggleSidebar()">
@@ -13,7 +13,7 @@
       </div>
 
       <!-- Page Title -->
-      <div class="header-title ps-3 pe-2 ps-md-0 truncate">
+      <div class="header-title ps-2 pe-2 ps-md-3 truncate">
         <p>{{ getPageTitle() }}</p>
       </div>
     </div>

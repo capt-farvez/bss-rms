@@ -85,7 +85,7 @@
       <ul class="d-flex justify-content-center mobile-menu-items w-100 gap-2" nz-menu nzTheme="dark" nzMode="horizontal">
         @for (menuItem of sideBarItems; track  menuItem){
           <li nz-menu-item [nzSelected]="currentComponent() === menuItem.ItemName" (click)="setComponent(menuItem.ItemName)">
-            <span class="mobile-menu-icons" nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
+            <span class="mobile-menu-icons" nz-icon [nzType]="menuItem.IconName"></span>
           </li>
         }
       </ul>
