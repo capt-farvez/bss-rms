@@ -78,8 +78,23 @@ export interface CreateOrderItemRequest {
 }
 
 export interface CartItem {
-  food?: OrderFood;
-  foodPackage?: OrderFoodPackage;
+  tableId: string;
+  quantity: number;
+  amount: number;
+  food: OrderFood;
+}
+
+export interface PostOrder {
+  tableId: number;
+  orderNumber: string;
+  amount: number;
+  phoneNumber: string | null;
+  items: PostOrderItem[];
+}
+
+export interface PostOrderItem {
+  foodId: number;
+  foodPackageId: number | null;
   quantity: number;
   unitPrice: number;
   totalPrice: number;
