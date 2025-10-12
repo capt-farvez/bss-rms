@@ -193,6 +193,24 @@ body {
       color: white;
     }
   }
+
+  // Edit button specific hover - red background
+  &:has([nzType="edit"]):hover {
+    background-color: #ff4d4f !important;
+    
+    span {
+      color: white;
+    }
+  }
+
+  // Delete button specific hover - red background
+  &:has([nzType="delete"]):hover {
+    background-color: #ff4d4f !important;
+    
+    span {
+      color: white;
+    }
+  }
 }
 
 .edit-button {
@@ -211,7 +229,7 @@ body {
   }
 
   &:hover {
-    background-color: darkorange;
+    background-color: #ff4d4f;
 
     span {
       color: white;
