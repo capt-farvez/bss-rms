@@ -17,36 +17,32 @@
         <div class="row">
           <div class="col-12 col-lg-6 p-0 pe-lg-2">
             <!-- Table Name -->
-            <nz-form-item class="row gap-4">
-              <div class="col">
-                <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Table Number</nz-form-label>
-                <nz-form-control class="mt-0" nzHasFeedback [nzErrorTip]="tableNameErrorTmpl">
-                  <input nz-input formControlName="tableName" placeholder="Table Number"/>
-                  <ng-template #tableNameErrorTmpl let-control>
-                    @if (control.errors?.['required']) {
-                      This field is required!
-                    } @else if (control.errors?.['notAplhaNum']) {
-                      Only Letters and Numbers Allowed!
-                    }
-                  </ng-template>
-                </nz-form-control>
-              </div>
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Table Number</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="tableNameErrorTmpl">
+                <input nz-input formControlName="tableName" placeholder="Table Number"/>
+                <ng-template #tableNameErrorTmpl let-control>
+                  @if (control.errors?.['required']) {
+                    This field is required!
+                  } @else if (control.errors?.['notAplhaNum']) {
+                    Only Letters and Numbers Allowed!
+                  }
+                </ng-template>
+              </nz-form-control>
             </nz-form-item>
             <!-- Table Seat Count -->
-            <nz-form-item class="row gap-4">
-              <div class="col">
-                <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Number of Seats</nz-form-label>
-                <nz-form-control class="mt-0" nzHasFeedback [nzErrorTip]="numberOfSeatsError">
-                  <input nz-input formControlName="numberofseats" placeholder="Number of Seats in the table"/>
-                  <ng-template #numberOfSeatsError let-control>
-                    @if (control.errors?.['required']) {
-                      This field is required!
-                    } @else if (control.errors?.['isNotNum']) {
-                      This is not a valid number of seats!
-                    }
-                  </ng-template>
-                </nz-form-control>
-              </div>
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Number of Seats</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="numberOfSeatsError">
+                <input nz-input formControlName="numberofseats" placeholder="Number of Seats in the table"/>
+                <ng-template #numberOfSeatsError let-control>
+                  @if (control.errors?.['required']) {
+                    This field is required!
+                  } @else if (control.errors?.['isNotNum']) {
+                    This is not a valid number of seats!
+                  }
+                </ng-template>
+              </nz-form-control>
             </nz-form-item>
           </div>
           <div class="col-12 col-lg-6 p-0 ps-lg-2" style="min-height:300px">

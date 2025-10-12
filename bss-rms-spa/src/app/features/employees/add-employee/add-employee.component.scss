@@ -5,3 +5,12 @@
 .preview-image {
   width: 100%;
 }
+
+.file-upload {
+  min-height: 300px;
+}
+
+// Ensure consistent spacing for form items
+nz-form-item {
+  margin-bottom: 16px;
+}

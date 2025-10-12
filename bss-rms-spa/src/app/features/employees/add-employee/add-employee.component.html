@@ -17,21 +17,19 @@
         <div class="row">
           <div class="col-12 col-lg-6 p-0 pe-lg-2">
             <!--      //First Name-->
-            <nz-form-item class="row gap-4">
-              <div class="col">
-                <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">First Name</nz-form-label>
-                <nz-form-control class="mt-0" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
-                  <input nz-input formControlName="firstName" placeholder="First Name" [disabled]="employeeService.isEditMode()"/>
-                  <ng-template #firstNameErrorTmpl let-control>
-                    @if (control.errors?.['required']) {
-                      This field is required!
-                    }
-                    @if (control.errors?.['notAplhaNum']) {
-                      Field can only contain letters (A-Z)
-                    }
-                  </ng-template>
-                </nz-form-control>
-              </div>
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">First Name</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="firstName" placeholder="First Name" [disabled]="employeeService.isEditMode()"/>
+                <ng-template #firstNameErrorTmpl let-control>
+                  @if (control.errors?.['required']) {
+                    This field is required!
+                  }
+                  @if (control.errors?.['notAplhaNum']) {
+                    Field can only contain letters (A-Z)
+                  }
+                </ng-template>
+              </nz-form-control>
             </nz-form-item>
             <!--      //Middle Name-->
             <nz-form-item>

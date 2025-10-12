@@ -17,18 +17,16 @@
         <div class="row">
           <div class="col-12 col-lg-6 p-0 pe-lg-2">
             <!--    //Food Name-->
-            <nz-form-item class="row gap-4">
-              <div class="col">
-                <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Food Name </nz-form-label>
-                <nz-form-control class="mt-0" nzHasFeedback [nzErrorTip]="foodNameErrorTmpl">
-                  <input nz-input formControlName="foodName" placeholder="Food Name"/>
-                  <ng-template #foodNameErrorTmpl let-control>
-                    @if (control.errors?.['required']) {
-                      This field is required!
-                    }
-                  </ng-template>
-                </nz-form-control>
-              </div>
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Food Name </nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="foodNameErrorTmpl">
+                <input nz-input formControlName="foodName" placeholder="Food Name"/>
+                <ng-template #foodNameErrorTmpl let-control>
+                  @if (control.errors?.['required']) {
+                    This field is required!
+                  }
+                </ng-template>
+              </nz-form-control>
             </nz-form-item>
             <!--   //Food Description-->
             <nz-form-item>
@@ -53,7 +51,7 @@
               >
                 <div class="card p-10 d-flex align-items-center justify-content-center">
                   <span nz-icon nzType="plus"></span>
-                  <div style="margin-top: 8px">Upload Food Image</div>
+                  <div class="upload-text">Upload Food Image</div>
                 </div>
               </nz-upload>
               <nz-modal
