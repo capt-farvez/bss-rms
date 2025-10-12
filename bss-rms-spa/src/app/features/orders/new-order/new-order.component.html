@@ -203,8 +203,16 @@
   </div>
 </div>
 
-<div class="cart-button-wrapper">
-  <button class="d-flex align-items-center justify-content-center cart-button position-relative drop-shadow-md" data-bs-toggle="offcanvas" data-bs-target="#cartOffCanvas">
+<div class="cart-button-wrapper" 
+     [style.left.px]="cartButtonPosition.x || null" 
+     [style.top.px]="cartButtonPosition.y || null"
+     [style.cursor]="isDragging && hasMoved ? 'grabbing' : 'grab'">
+  <button class="d-flex align-items-center justify-content-center cart-button position-relative drop-shadow-md" 
+          data-bs-toggle="offcanvas" 
+          data-bs-target="#cartOffCanvas"
+          (mousedown)="onCartButtonMouseDown($event)"
+          (window:mousemove)="onCartButtonMouseMove($event)"
+          (window:mouseup)="onCartButtonMouseUp($event)">
     <div class="w-100 h-100 d-flex align-items-center justify-content-center" nz-icon nzType="shopping-cart" nzTheme="outline"></div>
     <div class="absolute inline-flex items-center justify-content-center w-7 h-7 text-xs text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{{newOrderService.cartFood().length}}</div>
   </button>

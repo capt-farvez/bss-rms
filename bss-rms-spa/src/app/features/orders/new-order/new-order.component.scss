@@ -82,9 +82,13 @@ img.ant-image-preview-img {
 }
 
 .cart-button-wrapper {
-  position: absolute;
+  position: fixed;
   top: 50%;
   right: 2%;
+  z-index: 1000;
+  transition: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .cart-button {
@@ -183,5 +187,78 @@ img.ant-image-preview-img {
     position: absolute;
     top: 50%;
     right: 5%;
+  }
+}
+
+// Override NzZorro primary button color to green
+:host ::ng-deep {
+  button[nz-button][nzType="primary"] {
+    background-color: var(--bg-primary-600);
+    border-color: var(--bg-primary-600);
+    
+    &:hover,
+    &:focus {
+      background-color: var(--bg-primary-700);
+      border-color: var(--bg-primary-700);
+    }
+    
+    &:active {
+      background-color: var(--bg-primary-800);
+      border-color: var(--bg-primary-800);
+    }
+  }
+
+  // Override NzZorro input focus border to green
+  .ant-input-group-wrapper {
+    border-radius: 6px;
+    overflow: hidden;
+
+    .ant-input:focus,
+    .ant-input-focused {
+      border-color: var(--bg-primary-600);
+      box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+
+    .ant-input:hover {
+      border-color: var(--bg-primary-400);
+    }
+
+    .ant-input {
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .ant-input-affix-wrapper:focus,
+  .ant-input-affix-wrapper-focused {
+    border-color: var(--bg-primary-600);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+
+  .ant-input-affix-wrapper:hover {
+    border-color: var(--bg-primary-400);
+  }
+
+  .ant-input-group-addon {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    
+    button {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  .ant-input-search-button {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }
