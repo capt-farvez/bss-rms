@@ -7,15 +7,14 @@
 }
 
 .file-upload {
-  border: 2px dashed #d9d9d9;
-  border-radius: 8px;
-  background: #fafafa;
-  min-height: 350px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    border-color: #66bb6a;
-    background: #f0f9f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  ::ng-deep .ant-upload-picture-card-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 }
 

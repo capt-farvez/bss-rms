@@ -7,7 +7,15 @@
 }
 
 .file-upload {
-  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  ::ng-deep .ant-upload-picture-card-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 // Ensure consistent spacing for form items
