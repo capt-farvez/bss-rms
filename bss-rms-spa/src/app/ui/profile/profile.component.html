@@ -30,7 +30,9 @@
           <div class="mt-3 text-sm text-slate-600">
             Phone Number
           </div>
-          <div class="text-xl text-slate-700">{{authService.currentUserProfile().phoneNumber}} </div>
+          <div class="text-xl text-slate-700">
+            {{ authService.currentUserProfile().phoneNumber || 'Not available' }}
+          </div>
         </div>
       </div>
     </div>

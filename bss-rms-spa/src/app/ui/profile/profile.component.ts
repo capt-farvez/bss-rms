@@ -4,7 +4,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +21,12 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class ProfileComponent {
   authService = inject(AuthService);
+
+  constructor() {
+    // Debug: Log current user profile data
+    console.log('Current User Profile:', this.authService.currentUserProfile());
+    console.log('Current User (full):', this.authService.getCurrentUser());
+  }
 
   handleOk() {
     this.authService.showProfile.set(false);

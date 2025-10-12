@@ -16,6 +16,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { AuthService } from '../../../core/services/auth.service';
+import { ProfileComponent } from '../../profile/profile.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -27,7 +28,8 @@ import { AuthService } from '../../../core/services/auth.service';
     NzMenuModule,
     NzIconModule,
     NzAvatarModule,
-    NzDropDownModule
+    NzDropDownModule,
+    ProfileComponent
   ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
