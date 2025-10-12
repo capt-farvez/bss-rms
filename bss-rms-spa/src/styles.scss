@@ -4,6 +4,107 @@
 // Import NgZorro styles
 @import '../node_modules/ng-zorro-antd/ng-zorro-antd.min.css';
 
+// CRITICAL: Set CSS custom properties for NzZorro theme BEFORE any other styles
+:root {
+  --ant-primary-color: #66bb6a;
+  --ant-primary-color-hover: #5cb660;
+  --ant-primary-color-active: #4caf50;
+  --ant-primary-color-outline: rgba(102, 187, 106, 0.2);
+  --ant-primary-1: #f0f9f1;
+  --ant-primary-2: #d4efd6;
+  --ant-primary-3: #a5d6a7;
+  --ant-primary-4: #81c784;
+  --ant-primary-5: #66bb6a;
+  --ant-primary-6: #66bb6a;
+  --ant-primary-7: #4caf50;
+}
+
+// CRITICAL: Override NzZorro primary button color with maximum specificity
+.ant-btn-primary,
+.ant-btn.ant-btn-primary {
+  font-size: 15px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 44px !important;
+  padding: 12px !important;
+  background: #f1faf5 !important;
+  background-color: #f1faf5 !important;
+  border: #66bb6a 1px solid !important;
+  border-color: #66bb6a !important;
+  border-radius: 8px !important;
+  color: #000 !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn.ant-btn-primary:hover,
+.ant-btn.ant-btn-primary:focus {
+  background: #d2e6d2 !important;
+  background-color: #d2e6d2 !important;
+  border-color: #66bb6a !important;
+  color: #000 !important;
+}
+
+.ant-btn-primary:active,
+.ant-btn.ant-btn-primary:active {
+  background: #c8e0c8 !important;
+  background-color: #c8e0c8 !important;
+  border-color: #66bb6a !important;
+  color: #000 !important;
+}
+
+.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover,
+.ant-btn.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+  background: #d2e6d2 !important;
+  background-color: #d2e6d2 !important;
+  border-color: #66bb6a !important;
+  color: #000 !important;
+}
+
+.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):active,
+.ant-btn.ant-btn-primary:not(:disabled):not(.ant-btn-disabled):active {
+  background: #c8e0c8 !important;
+  background-color: #c8e0c8 !important;
+  border-color: #66bb6a !important;
+  color: #000 !important;
+}
+
+// Danger button (Cancel button) styling
+.ant-btn-dangerous.ant-btn-default,
+.ant-btn.ant-btn-dangerous.ant-btn-default {
+  font-size: 15px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 44px !important;
+  padding: 12px !important;
+  background: #fff !important;
+  background-color: #fff !important;
+  border-color: #d9d9d9 !important;
+  border-radius: 8px !important;
+  color: rgba(0, 0, 0, 0.88) !important;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.016) !important;
+}
+
+.ant-btn-dangerous.ant-btn-default:hover,
+.ant-btn-dangerous.ant-btn-default:focus,
+.ant-btn.ant-btn-dangerous.ant-btn-default:hover,
+.ant-btn.ant-btn-dangerous.ant-btn-default:focus {
+  background: #ff4d4f !important;
+  background-color: #ff4d4f !important;
+  border-color: #ff4d4f !important;
+  color: #fff !important;
+}
+
+.ant-btn-dangerous.ant-btn-default:active,
+.ant-btn.ant-btn-dangerous.ant-btn-default:active {
+  background: #d9363e !important;
+  background-color: #d9363e !important;
+  border-color: #d9363e !important;
+  color: #fff !important;
+}
+
 // Font faces
 @font-face {
   font-family: 'Overpass';
@@ -174,4 +275,85 @@ body {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+// Override NzZorro primary button color globally for modals
+.ant-modal-footer {
+  .ant-btn-primary {
+    background-color: #66bb6a !important;
+    border-color: #66bb6a !important;
+    color: white !important;
+
+    &:hover {
+      background-color: #5cb660 !important;
+      border-color: #5cb660 !important;
+      color: white !important;
+    }
+
+    &:active, &:focus {
+      background-color: #4caf50 !important;
+      border-color: #4caf50 !important;
+      color: white !important;
+    }
+
+    &:not(:disabled):not(.ant-btn-disabled) {
+      &:hover {
+        background-color: #5cb660 !important;
+        border-color: #5cb660 !important;
+      }
+      &:active {
+        background-color: #4caf50 !important;
+        border-color: #4caf50 !important;
+      }
+    }
+  }
+}
+
+// Global override for all primary buttons (NzZorro theme override)
+.ant-btn-primary,
+button.ant-btn-primary,
+.ant-btn.ant-btn-primary {
+  background-color: #66bb6a !important;
+  border-color: #66bb6a !important;
+  color: white !important;
+  
+  &:hover,
+  &:focus {
+    background-color: #5cb660 !important;
+    border-color: #5cb660 !important;
+    color: white !important;
+  }
+  
+  &:active {
+    background-color: #4caf50 !important;
+    border-color: #4caf50 !important;
+    color: white !important;
+  }
+
+  &:not(:disabled):not(.ant-btn-disabled) {
+    background-color: #66bb6a !important;
+    border-color: #66bb6a !important;
+
+    &:hover,
+    &:focus {
+      background-color: #5cb660 !important;
+      border-color: #5cb660 !important;
+    }
+    
+    &:active {
+      background-color: #4caf50 !important;
+      border-color: #4caf50 !important;
+    }
+  }
+}
+
+// Specific override for modal buttons
+.ant-modal .ant-modal-footer .ant-btn-primary {
+  background-color: #66bb6a !important;
+  border-color: #66bb6a !important;
+  
+  &:hover {
+    background-color: #5cb660 !important;
+    border-color: #5cb660 !important;
+  }
 }

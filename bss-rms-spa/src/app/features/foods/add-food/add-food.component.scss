@@ -48,6 +48,22 @@
   .ant-modal-footer {
     border-top: 1px solid #f0f0f0;
     padding: 16px 24px;
+    text-align: center;
+
+    .ant-btn-primary {
+      background-color: var(--bg-primary-600) !important;
+      border-color: var(--bg-primary-600) !important;
+
+      &:hover {
+        background-color: var(--bg-primary-700) !important;
+        border-color: var(--bg-primary-700) !important;
+      }
+
+      &:active, &:focus {
+        background-color: var(--bg-primary-800) !important;
+        border-color: var(--bg-primary-800) !important;
+      }
+    }
   }
 
   // Style the discount label with inline unit
