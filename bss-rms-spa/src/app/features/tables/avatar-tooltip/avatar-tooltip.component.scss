@@ -4,7 +4,11 @@
 
 .delete-container {
   color: white !important;
-  background: var(--bg-warning-600);
+  background: #dc2626;
+
+  &:hover {
+    background: #b91c1c;
+  }
 }
 
 .delete-container .delete-button {
