@@ -34,14 +34,10 @@
           nzSize="large"
         >
           @for (emp of listOfAvailableEmployees; track emp.id) {
-            <nz-option nzCustomContent [nzLabel]="emp.user.firstName" [nzValue]="emp">
-              <div class="row h-11">
-                <div class="col-3 pe-0 d-flex justify-content-start align-items-center">
-                  <nz-avatar [nzSize]="38" nzIcon="warning" [nzSrc]="'https://restaurantapi.bssoln.com/images/user/' + '/' + emp.user.image"></nz-avatar>
-                </div>
-                <div class="col-9 ps-0 d-flex justify-content-start align-items-center">
-                  {{ emp.user.firstName }} {{ emp.user.middleName }} {{ emp.user.lastName }}
-                </div>
+            <nz-option nzCustomContent [nzLabel]="getEmployeeFullName(emp)" [nzValue]="emp">
+              <div class="d-flex align-items-center gap-2">
+                <nz-avatar [nzSize]="38" nzIcon="user" [nzSrc]="getEmployeeImageUrl(emp.user.image)"></nz-avatar>
+                <span>{{ emp.user.firstName }} {{ emp.user.middleName }} {{ emp.user.lastName }}</span>
               </div>
             </nz-option>
           }

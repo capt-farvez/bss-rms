@@ -56,7 +56,7 @@ export class AssignEmployeeToTableComponent {
     }).subscribe(
       value => {
         if (value) {
-          this.tableService.loadListOfAvailableEmployees(this.tableService.assignTableNumber());
+          this.tableService.loadListOfAvailableEmployees(this.tableService.assignTableId());
         }
       }
     );
@@ -69,11 +69,11 @@ export class AssignEmployeeToTableComponent {
       }
     );
 
-    toObservable(this.tableService.assignTableNumber, {
+    toObservable(this.tableService.assignTableId, {
       injector: this.injector
     }).subscribe(
       value => {
-        // Handle table number changes if needed
+        // Handle table ID changes if needed
       }
     );
   }
@@ -100,7 +100,7 @@ export class AssignEmployeeToTableComponent {
 
   handleOk() {
     if (this.listOfSelectedEmployees.length > 0) {
-      this.tableService.assignEmployeeToTable(this.listOfSelectedEmployees, this.tableService.assignTableNumber());
+      this.tableService.assignEmployeeToTable(this.listOfSelectedEmployees, this.tableService.assignTableId());
       setTimeout(() => {
         this.tableService.triggerRefresh.set(false);
         this.handleCancel();
@@ -112,5 +112,19 @@ export class AssignEmployeeToTableComponent {
   employeeSelected(id: string) {
     this.selectedEmployee = id;
     console.log(this.selectedEmployee);
+  }
+
+  getEmployeeImageUrl(imageName: string | null | undefined): string {
+    if (!imageName || imageName === 'null') {
+      return ''; // Return empty string to use the nzIcon fallback
+    }
+    return `https://restaurantapi.bssoln.com/images/user/${imageName}`;
+  }
+
+  getEmployeeFullName(emp: Employee): string {
+    const firstName = emp.user.firstName || '';
+    const middleName = emp.user.middleName || '';
+    const lastName = emp.user.lastName || '';
+    return `${firstName} ${middleName} ${lastName}`.trim();
   }
 }
