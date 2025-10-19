@@ -8,6 +8,7 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { OrderService } from '../../../core/services/order.service';
 import { OrderData } from '../../../shared/models/order.model';
+import { EditOrderComponent } from '../edit-order/edit-order.component';
 
 @Component({
   selector: 'app-orders-list',
@@ -19,7 +20,8 @@ import { OrderData } from '../../../shared/models/order.model';
     NzDropDownModule,
     NzImageModule,
     NzPaginationModule,
-    NzEmptyModule
+    NzEmptyModule,
+    EditOrderComponent
   ],
   templateUrl: './orders-list.component.html',
   styleUrl: './orders-list.component.scss'
@@ -80,6 +82,13 @@ export class OrdersListComponent {
 
   deleteOrder(orderData: OrderData) {
     this.orderService.deleteOrder(orderData.id);
+  }
+
+  editOrder(orderData: OrderData) {
+    // Instead of fetching from API, use the data we already have
+    console.log('Editing order from list:', orderData);
+    this.orderService.selectedOrder.set(orderData);
+    this.orderService.showEditModal.set(true);
   }
 
   onPageIndexChange(index: number) {

@@ -76,6 +76,20 @@
   &:hover {
     background-color: var(--bg-secondary-light-50);
   }
+
+  &.status-button {
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: orange;
+      border-color: orange;
+      color: white;
+
+      span {
+        color: white;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {

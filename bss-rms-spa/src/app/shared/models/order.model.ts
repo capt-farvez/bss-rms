@@ -99,3 +99,19 @@ export interface PostOrderItem {
   unitPrice: number;
   totalPrice: number;
 }
+
+export interface UpdateOrder {
+  tableId: number;
+  orderNumber: string;
+  amount: number;
+  phoneNumber: string;
+  items: UpdateOrderItem[];
+}
+
+export interface UpdateOrderItem {
+  foodId: number;
+  foodPackageId: number;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+}

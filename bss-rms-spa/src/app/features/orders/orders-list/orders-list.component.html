@@ -51,10 +51,13 @@
                         </ul>
                       </nz-dropdown-menu>
 
-                      <button class="edit-button drop-shadow-md" nzTrigger="hover" [nzClickHide]="false" nz-dropdown [nzDropdownMenu]="clickMenu">
+                      <button class="drop-down-button status-button drop-shadow-md" nzTrigger="hover" [nzClickHide]="false" nz-dropdown [nzDropdownMenu]="clickMenu" title="Change Status" aria-label="Change Order Status">
+                        <span nz-icon nzType="swap" nzTheme="outline"></span>
+                      </button>
+                      <button (click)="editOrder(orderData)" class="drop-down-button drop-shadow-md" title="Edit Order" aria-label="Edit Order">
                         <span nz-icon nzType="edit" nzTheme="outline"></span>
                       </button>
-                      <button (click)="deleteOrder(orderData)" class="drop-down-button drop-shadow-md">
+                      <button (click)="deleteOrder(orderData)" class="drop-down-button drop-shadow-md" title="Delete Order" aria-label="Delete Order">
                         <span nz-icon nzType="delete" nzTheme="outline"></span>
                       </button>
                     </div>
@@ -163,3 +166,5 @@
     </div>
   </div>
 </div>
+
+<app-edit-order></app-edit-order>

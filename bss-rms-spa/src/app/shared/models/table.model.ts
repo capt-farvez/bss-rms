@@ -1,5 +1,6 @@
 export interface Table {
   id: number;
+  tableId?: number; // Alternative field name used in some API responses
   tableNumber: string;
   numberOfSeats: number;
   isOccupied: boolean;
