@@ -47,6 +47,33 @@
     </div>
 
     <div class="mb-3">
+      <label class="d-block mb-2 font-semibold">Add Food Item</label>
+      <div class="d-flex gap-2 mb-3">
+        <nz-select
+          class="flex-grow-1"
+          nzShowSearch
+          nzPlaceHolder="Select a food item to add"
+          [ngModel]="selectedFoodId()"
+          (ngModelChange)="selectedFoodId.set($event)"
+        >
+          @for (food of foodService.listOfFood(); track food.id) {
+            <nz-option [nzValue]="food.id" [nzLabel]="food.name"></nz-option>
+          }
+        </nz-select>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="addFoodToOrder()"
+          [disabled]="!selectedFoodId()"
+          class="add-food-btn"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+          Add
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-3">
       <label class="d-block mb-2 font-semibold">Order Items</label>
       <div class="border rounded p-3" style="max-height: 400px; overflow-y: auto;">
         @if (editItems().length === 0) {
