@@ -57,7 +57,20 @@
           (ngModelChange)="selectedFoodId.set($event)"
         >
           @for (food of foodService.listOfFood(); track food.id) {
-            <nz-option [nzValue]="food.id" [nzLabel]="food.name"></nz-option>
+            <nz-option [nzValue]="food.id" [nzLabel]="food.name" [nzCustomContent]="true">
+              <div class="d-flex align-items-center gap-2">
+                <img
+                  [src]="getFoodImage(food.image)"
+                  [alt]="food.name"
+                  [title]="food.name"
+                  class="food-option-image"
+                />
+                <div class="flex-grow-1">
+                  <div class="font-semibold">{{ food.name }}</div>
+                  <div class="text-sm text-gray-600">{{ food.discountPrice > 0 ? food.discountPrice : food.price }} ৳</div>
+                </div>
+              </div>
+            </nz-option>
           }
         </nz-select>
         <button
