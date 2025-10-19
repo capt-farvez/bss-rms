@@ -12,7 +12,8 @@
 }
 
 .sub-total-container {
-  height: 200px;
+  height: auto;
+  min-height: 200px;
   background: var(--bg-ternary-light);
 }
 
@@ -48,6 +49,10 @@
   &:hover {
     background-color: var(--bg-secondary-light-50);
   }
+}
+
+.phone-input {
+  border-radius: 8px;
 }
 
 @media screen and (max-width : 1024px) {

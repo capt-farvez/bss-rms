@@ -38,7 +38,18 @@
             <div class="sub-total text-2xl">Sub-Total</div>
             <div class="sub-total text-2xl">{{subtotal()}} ৳</div>
           </div>
-          <div class="w-100 p-4">
+          <div class="w-100 p-4 pb-2">
+            <label class="d-block mb-2 font-semibold text-gray-700">Phone Number (Optional)</label>
+            <input
+              nz-input
+              [ngModel]="phoneNumber()"
+              (ngModelChange)="phoneNumber.set($event)"
+              placeholder="Enter customer phone number"
+              type="tel"
+              class="w-100 phone-input"
+            />
+          </div>
+          <div class="w-100 p-4 pt-2">
             <button data-bs-dismiss="offcanvas" (click)="confirmOrder()" class="submit-button text-center text-2xl">Confirm Order</button>
           </div>
         </div>
