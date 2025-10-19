@@ -57,11 +57,20 @@ export class AddFoodComponent implements OnInit, OnDestroy {
   }
 
   populateForm(food: any) {
+    // Convert numeric discount type to string value
+    // Backend: 0 = None, 1 = Percentage, 2 = Flat
+    let discountTypeString = 'None';
+    if (food.discountType === 1) {
+      discountTypeString = 'Percentage';
+    } else if (food.discountType === 2) {
+      discountTypeString = 'Flat';
+    }
+
     this.validateForm.patchValue({
       foodName: food.name,
       description: food.description,
       price: String(food.price),
-      discountType: food.discountType,
+      discountType: discountTypeString,
       discountAmount: String(food.discount),
       discountedPrice: String(food.discountPrice),
     });
@@ -90,7 +99,7 @@ export class AddFoodComponent implements OnInit, OnDestroy {
         name: this.validateForm.controls.foodName.value,
         description: this.validateForm.controls.description.value,
         price: this.validateForm.controls.price.value,
-        discountType: this.validateForm.controls.discountType.value === "None" ? 0 : this.validateForm.controls.discountType.value === "Flat" ? 1 : 2,
+        discountType: this.validateForm.controls.discountType.value === "None" ? 0 : this.validateForm.controls.discountType.value === "Flat" ? 2 : 1,
         discount: this.validateForm.controls.discountAmount.value,
         discountPrice: this.validateForm.controls.discountedPrice.value,
         image: this.image,
