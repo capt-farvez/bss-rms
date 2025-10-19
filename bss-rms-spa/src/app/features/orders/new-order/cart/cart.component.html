@@ -23,7 +23,7 @@
                     </div>
                   </div>
                   <div class="d-flex flex-column justify-content-between align-items-end">
-                    <button (click)="removeFromCart(item.food.id)" class="drop-down-button drop-shadow-md mt-1">
+                    <button (click)="removeFromCart(item.food.id)" class="drop-down-button drop-shadow-md mt-1" aria-label="Remove item from cart" title="Remove from cart">
                       <span nz-icon nzType="delete" nzTheme="outline"></span>
                     </button>
                     <div class="text-md md:text-lg"> Price: {{item.amount*item.quantity}} ৳</div>

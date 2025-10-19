@@ -23,6 +23,7 @@
           [value]="orderService.selectedOrder()?.orderNumber"
           disabled
           class="bg-gray-100"
+          aria-label="Order Number"
         />
       </div>
       <div class="col-12 col-md-6">
@@ -32,6 +33,7 @@
           [value]="orderService.selectedOrder()?.table?.tableNumber"
           disabled
           class="bg-gray-100"
+          aria-label="Table Number"
         />
       </div>
     </div>
@@ -43,6 +45,7 @@
         [ngModel]="phoneNumber()"
         (ngModelChange)="phoneNumber.set($event)"
         placeholder="Enter phone number"
+        aria-label="Phone Number"
       />
     </div>
 
@@ -64,6 +67,7 @@
                   [alt]="food.name"
                   [title]="food.name"
                   class="food-option-image"
+                  alt="Food image"
                 />
                 <div class="flex-grow-1">
                   <div class="font-semibold">{{ food.name }}</div>
@@ -105,6 +109,7 @@
                 [nzSrc]="getFoodImage(item.foodImage)"
                 [nzFallback]="fallbackImage"
                 alt="{{item.foodName}}"
+                title="{{item.foodName}}"
               />
             </div>
             <div class="flex-grow-1">
