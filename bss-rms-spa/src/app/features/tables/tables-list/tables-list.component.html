@@ -7,20 +7,23 @@
     </ng-template>
     <nz-table
       nzShowSizeChanger
-      nzSize="small"
       nzPaginationType='default'
       [nzScroll]="{ y: 'calc(100vh - 300px)', x: '768px'}"
       [nzWidthConfig]="tableWidthConfig"
       nzTableLayout="auto"
       [nzData]="listOfTables()"
-      [nzFrontPagination]="false"
+      [nzFrontPagination]="true"
       [nzLoading]="tableService.isSendingRequest()"
       [nzLoadingIndicator]="indicatorTemplate"
       [nzTotal]="tableService.totalTables()"
       [nzPageSize]="this.pageSize"
       [nzPageIndex]="this.pageIndex"
       (nzQueryParams)="onQueryParamsChange($event)"
+      [nzShowTotal]="totalTemplate"
     >
+      <ng-template #totalTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
       <thead>
         <tr>
           <th class="custom-table-title" nzColumnKey="image"></th>

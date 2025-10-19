@@ -3,20 +3,23 @@
     <ng-template #indicatorTemplate><span class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></span></ng-template>
     <nz-table
       nzShowSizeChanger
-      nzSize="small"
       nzPaginationType='default'
       [nzScroll]="{ y: 'calc(100vh - 300px)', x: '768px'}"
       [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
       nzTableLayout="auto"
       [nzData]="listOfEmployees()"
-      [nzFrontPagination]="false"
+      [nzFrontPagination]="true"
       [nzLoading]="employeeService.isSendingRequest()"
       [nzLoadingIndicator]="indicatorTemplate"
       [nzTotal]="employeeService.totalEmployees()"
       [nzPageSize]="this.pageSize"
       [nzPageIndex]="this.pageIndex"
       (nzQueryParams)="onQueryParamsChange($event)"
+      [nzShowTotal]="totalTemplate"
     >
+      <ng-template #totalTemplate let-range="range" let-total>
+        {{ range[0] }}-{{ range[1] }} of {{ total }} items
+      </ng-template>
       <thead>
       <tr>
         <th nzTooltipTitle="" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="image"></th>

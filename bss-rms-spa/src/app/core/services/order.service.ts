@@ -37,7 +37,9 @@ export class OrderService {
           case HttpEventType.Response:
             if (data.status === 200) {
               this.listOfOrder.set(data.body!.data);
-              this.totalOrder.set(data.body!.totalRecords);
+              // Try totalRecords first, then total, then fallback to data length
+              const total = data.body!.totalRecords || data.body!.total || data.body!.data.length;
+              this.totalOrder.set(total);
               this.isSendingRequest.set(false);
             }
             break;

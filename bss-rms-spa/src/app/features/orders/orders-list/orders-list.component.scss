@@ -98,3 +98,77 @@
     min-height: 400px;
   }
 }
+
+// Override pagination colors to green
+::ng-deep {
+  // Center the pagination
+  .ant-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ant-pagination-item {
+    border-radius: 8px !important;
+  }
+
+  .ant-pagination-prev .ant-pagination-item-link,
+  .ant-pagination-next .ant-pagination-item-link {
+    border-radius: 8px !important;
+  }
+
+  .ant-pagination-item-active {
+    background-color: #66bb6a !important;
+    border-color: #66bb6a !important;
+    border-radius: 8px !important;
+
+    a {
+      color: white !important;
+    }
+  }
+
+  .ant-pagination-item:hover {
+    border-color: #66bb6a !important;
+
+    a {
+      color: #66bb6a !important;
+    }
+  }
+
+  .ant-pagination-prev:hover .ant-pagination-item-link,
+  .ant-pagination-next:hover .ant-pagination-item-link {
+    color: #66bb6a !important;
+    border-color: #66bb6a !important;
+  }
+
+  .ant-pagination-item-active:hover {
+    background-color: #4caf50 !important;
+    border-color: #4caf50 !important;
+
+    a {
+      color: black !important;
+    }
+  }
+
+  // Page size selector (10 / page dropdown)
+  .ant-select-selector {
+    border-color: #66bb6a !important;
+    border-radius: 8px !important;
+  }
+
+  .ant-select-focused .ant-select-selector,
+  .ant-select-selector:hover {
+    border-color: #66bb6a !important;
+    border-radius: 8px !important;
+  }
+
+  .ant-select-item-option-selected {
+    background-color: #e8f5e9 !important;
+    color: #2e7d32 !important;
+    font-weight: 600;
+  }
+
+  .ant-select-item-option-active {
+    background-color: #c8e6c9 !important;
+  }
+}
