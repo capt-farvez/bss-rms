@@ -126,6 +126,10 @@ td{
   .ant-pagination-item-active:hover {
     background-color: #4caf50 !important;
     border-color: #4caf50 !important;
+
+    a {
+      color: black !important;
+    }
   }
 
   // Page size selector (10 / page dropdown)
