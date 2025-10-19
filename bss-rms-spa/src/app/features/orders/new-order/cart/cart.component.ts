@@ -76,15 +76,32 @@ export class CartComponent {
         totalPrice: item.quantity * item.amount,
       });
     });
-    
+
+    // Generate order number: YYMMDD-TableNumber-XXXX (XXXX = random 4 digits)
+    const selectedTable = this.newOrderService.listOfTable().find(
+      table => table.id.toString() === this.newOrderService.selectedTableId()
+    );
+    const tableNumber = selectedTable?.tableNumber || 'TABLE';
+
+    const now = new Date();
+    const yearShort = now.getFullYear().toString().slice(-2);
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const dateStr = `${yearShort}${month}${day}`;
+
+    // Generate random 4-digit number (1000-9999)
+    const randomDigits = Math.floor(1000 + Math.random() * 9000);
+
+    const orderNumber = `${dateStr}-${tableNumber}-${randomDigits}`;
+
     let POST_DATA: PostOrder = {
       "tableId": Number(this.newOrderService.selectedTableId()),
-      "orderNumber": new Date().toLocaleString(),
+      "orderNumber": orderNumber,
       "amount": Number(this.subtotal()),
       "phoneNumber": this.phoneNumber() || null,
       "items": items,
     };
-    
+
     this.newOrderService.createOrder(POST_DATA);
   }
 }

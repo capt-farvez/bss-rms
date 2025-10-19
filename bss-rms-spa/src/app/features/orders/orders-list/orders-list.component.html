@@ -37,7 +37,7 @@
                   <div class="row order-card-header d-flex p-4 pb-2">
                     <div class="col-8 p-0">
                       <div class="text-xl truncate">{{orderData.orderNumber}}</div>
-                      <div class="text-lg text-gray-700 text-opacity-70">{{orderData.orderTime}}</div>
+                      <div class="text-lg text-gray-700 text-opacity-70">{{formatOrderTime(orderData.orderTime)}}</div>
                     </div>
                     <div class="col-4 d-flex gap-2 justify-content-end">
                       <nz-dropdown-menu #clickMenu="nzDropdownMenu">

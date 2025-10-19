@@ -51,6 +51,26 @@ export class OrdersListComponent {
     return this.orderService.getFoodImage(image);
   }
 
+  formatOrderTime(orderTime: string): string {
+    const date = new Date(orderTime);
+
+    // Convert to Bangladesh Standard Time (BST, UTC+6)
+    const bdDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }));
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const month = months[bdDate.getMonth()];
+    const day = bdDate.getDate();
+    const year = bdDate.getFullYear();
+
+    let hours = bdDate.getHours();
+    const minutes = bdDate.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+
+    return `${month} ${day}, ${year} ${hours}:${minutes} ${ampm}`;
+  }
+
   changeOrderStatus(orderData: OrderData, statusText: string) {
     const statusMap = new Map<string, string>([
       ['All', ''],
