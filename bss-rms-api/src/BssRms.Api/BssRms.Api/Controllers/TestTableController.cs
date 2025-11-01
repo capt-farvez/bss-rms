@@ -1,4 +1,4 @@
-using BssRms.Application.DTOs;
+using BssRms.Application.DTOs.TestTable;
 using BssRms.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

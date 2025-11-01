@@ -1,4 +1,4 @@
-namespace BssRms.Application.DTOs;
+namespace BssRms.Application.DTOs.TestTable;
 
 public class TestTableDto
 {
