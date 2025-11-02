@@ -11,4 +11,7 @@ public interface IUserRepository
     Task<User?> GetByUserNameAsync(string userName);
     Task<User> CreateAsync(User user);
     Task<User> UpdateAsync(User user);
+    Task<User?> GetByRefreshTokenAsync(string hashedRefreshToken);
+    Task<IEnumerable<User>> GetAllAsync();
+    Task<(IEnumerable<User> Users, int TotalCount)> GetPagedAsync(int page, int perPage, string? search, string? sort);
 }

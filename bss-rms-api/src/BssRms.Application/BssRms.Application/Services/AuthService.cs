@@ -125,13 +125,9 @@ public class AuthService : IAuthService
                 }
             };
         }
-        catch (InvalidOperationException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred during user registration", ex);
+            throw ex is InvalidOperationException ? ex : new Exception("An error occurred during user registration", ex);
         }
     }
 
@@ -200,13 +196,9 @@ public class AuthService : IAuthService
                 }
             };
         }
-        catch (UnauthorizedAccessException)
-        {
-            throw;
-        }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred during sign in", ex);
+            throw ex is UnauthorizedAccessException ? ex : new Exception("An error occurred during sign in", ex);
         }
     }
 
@@ -233,13 +225,132 @@ public class AuthService : IAuthService
                 PhoneNumber = user.PhoneNumber
             };
         }
-        catch (InvalidOperationException)
+        catch (Exception ex)
         {
-            throw;
+            throw ex is InvalidOperationException ? ex : new Exception("An error occurred while retrieving user profile", ex);
+        }
+    }
+
+    public async Task<RefreshTokenResponseDto> RefreshTokenAsync(RefreshTokenDto refreshTokenDto)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(refreshTokenDto.RefreshToken))
+                throw new UnauthorizedAccessException("Refresh token is required");
+
+            var hashedRefreshToken = HashRefreshToken(refreshTokenDto.RefreshToken);
+            var user = await _userRepository.GetByRefreshTokenAsync(hashedRefreshToken);
+
+            if (user == null)
+            {
+                throw new UnauthorizedAccessException("Invalid or expired refresh token");
+            }
+
+            // Generate new tokens
+            var accessToken = GenerateAccessToken(user);
+            var newRefreshToken = GenerateRefreshToken();
+            var hashedNewRefreshToken = HashRefreshToken(newRefreshToken);
+            var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+
+            // Update refresh token
+            user.RefreshToken = hashedNewRefreshToken;
+            user.RefreshTokenExpiryTime = refreshTokenExpiryTime;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _userRepository.UpdateAsync(user);
+
+            return new RefreshTokenResponseDto
+            {
+                AccessToken = accessToken,
+                RefreshToken = newRefreshToken,
+                RefreshTokenExpiryTime = refreshTokenExpiryTime
+            };
         }
         catch (Exception ex)
         {
-            throw new Exception("An error occurred while retrieving user profile", ex);
+            throw ex is UnauthorizedAccessException ? ex : new Exception("An error occurred while refreshing token", ex);
+        }
+    }
+
+    public async Task<IEnumerable<UserListDto>> GetAllUsersAsync()
+    {
+        try
+        {
+            var users = await _userRepository.GetAllAsync();
+            return users.Select(user =>
+            {
+                var fullName = string.Join(" ", new[] { user.FirstName, user.MiddleName, user.LastName }
+                    .Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                return new UserListDto
+                {
+                    Id = user.Uid,
+                    UserName = user.UserName,
+                    Email = string.IsNullOrEmpty(user.Email) ? null : user.Email,
+                    FullName = fullName,
+                    PhoneNumber = user.PhoneNumber,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Image = string.IsNullOrEmpty(user.Image) ? null : user.Image
+                };
+            });
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while retrieving all users", ex);
+        }
+    }
+
+    public async Task<DataTableResponseDto<UserListDto>> GetUsersDatatableAsync(int page, int perPage, string? search, string? sort)
+    {
+        try
+        {
+            var (users, totalCount) = await _userRepository.GetPagedAsync(page, perPage, search, sort);
+            var totalPages = (int)Math.Ceiling((double)totalCount / perPage);
+
+            var userListDtos = users.Select(user =>
+            {
+                var fullName = string.Join(" ", new[] { user.FirstName, user.MiddleName, user.LastName }
+                    .Where(s => !string.IsNullOrWhiteSpace(s)));
+
+                return new UserListDto
+                {
+                    Id = user.Uid,
+                    UserName = user.UserName,
+                    Email = string.IsNullOrEmpty(user.Email) ? null : user.Email,
+                    FullName = fullName,
+                    PhoneNumber = user.PhoneNumber,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Image = string.IsNullOrEmpty(user.Image) ? null : user.Image
+                };
+            });
+
+            return new DataTableResponseDto<UserListDto>
+            {
+                Data = userListDtos,
+                CurrentPage = page,
+                PerPage = perPage,
+                Total = totalCount,
+                LastPage = totalPages
+            };
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while retrieving users datatable", ex);
+        }
+    }
+
+    public async Task<bool> PhoneNumberExistsAsync(string phoneNumber)
+    {
+        try
+        {
+            var user = await _userRepository.GetByPhoneNumberAsync(phoneNumber);
+            return user != null;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred while checking phone number existence", ex);
         }
     }
 
