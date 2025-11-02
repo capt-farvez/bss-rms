@@ -9,6 +9,7 @@ import { NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent } from 'ng-zor
 import { toObservable } from '@angular/core/rxjs-interop';
 import { TableService } from '../../../core/services/table.service';
 import { Employee } from '../../../core/models/employee.interface';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-avatar-tooltip',
@@ -29,6 +30,7 @@ import { Employee } from '../../../core/models/employee.interface';
 })
 export class AvatarTooltipComponent {
   modal = inject(NzModalService);
+  private baseUrl = inject(API_BASE_URL);
   employeeId: InputSignal<string> = input.required<string>();
   employeeName: InputSignal<string> = input.required<string>();
   employeeList: InputSignal<Employee[]> = input.required<Employee[]>();
@@ -54,7 +56,7 @@ export class AvatarTooltipComponent {
   ngOnInit(): void {
     this.employeeList().forEach((employee: Employee) => {
       if (employee.id === this.employeeId()) {
-        this.employeeImageUrl = `https://restaurantapi.bssoln.com/images/user/` + `/` + employee.user.image;
+        this.employeeImageUrl = `${this.baseUrl}/images/user/${employee.user.image}`;
       }
     });
   }

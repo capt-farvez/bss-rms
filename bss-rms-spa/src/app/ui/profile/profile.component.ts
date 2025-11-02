@@ -1,3 +1,4 @@
+import { API_BASE_URL } from '../../app.config';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -21,6 +22,7 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class ProfileComponent {
   authService = inject(AuthService);
+  private baseUrl = inject(API_BASE_URL);
 
   constructor() {
     // Debug: Log current user profile data
@@ -34,6 +36,6 @@ export class ProfileComponent {
 
   getUserImage(image: string) {
     if (!image) return '';
-    return 'https://restaurantapi.bssoln.com/images/user/' + '/' + image;
+    return `${this.baseUrl}/images/user/${image}`;
   }
 }

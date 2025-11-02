@@ -26,6 +26,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CreateEmployee } from '../../../core/models/employee.interface';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { API_BASE_URL } from '../../../app.config';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -66,6 +67,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   httpClient = inject(HttpClient);
   employeeService = inject(EmployeeService);
   responsive = inject(BreakpointObserver);
+  private baseUrl = inject(API_BASE_URL);
 
   modalWidth = "80vw"
 
@@ -228,7 +230,7 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     if (!control.value) {
       return of(null);
     }
-    return this.httpClient.get<boolean>(`https://restaurantapi.bssoln.com/api/Auth/phoneNumberExist/${control.value}`)
+    return this.httpClient.get<boolean>(`${this.baseUrl}/api/Auth/phoneNumberExist/${control.value}`)
       .pipe(
         map(isTaken => (isTaken ? { phoneNumberTaken: true } : null)),
         catchError(() => of(null))

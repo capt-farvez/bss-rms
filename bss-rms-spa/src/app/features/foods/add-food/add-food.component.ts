@@ -19,6 +19,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { FoodService } from '../../../core/services/food.service';
 import { CreateFood, UpdateFood } from '../../../core/models/food.interface';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-add-food',
@@ -44,7 +45,7 @@ export class AddFoodComponent implements OnInit, OnDestroy {
   responsive = inject(BreakpointObserver);
   modalWidth = "80vw";
   discType = signal("");
-  imageBaseUrl = 'https://restaurantapi.bssoln.com/images/food/';
+  imageBaseUrl = inject(API_BASE_URL) + '/images/food/';
 
   constructor() {
     // Effect to populate form when editing

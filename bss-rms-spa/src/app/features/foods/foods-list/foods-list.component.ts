@@ -7,6 +7,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FoodService } from '../../../core/services/food.service';
 import { AddFoodComponent } from '../add-food/add-food.component';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-foods-list',
@@ -28,7 +29,7 @@ export class FoodsListComponent implements OnInit {
 
   pageSize = 10;
   pageIndex = 1;
-  imageBaseUrl = 'https://restaurantapi.bssoln.com/images/food/';
+  imageBaseUrl = inject(API_BASE_URL) + '/images/food/';
 
   // Expose signals for template
   listOfFood = this.foodService.listOfFood;

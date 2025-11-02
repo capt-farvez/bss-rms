@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { tap, catchError, switchMap, filter, take } from 'rxjs/operators';
 import { User, LoginRequest, LoginResponse, AuthState } from '../../shared/models';
+import { API_BASE_URL } from '../../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,10 @@ import { User, LoginRequest, LoginResponse, AuthState } from '../../shared/model
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private baseUrl = inject(API_BASE_URL);
 
-  // API Base URL
-  private readonly API_URL = 'https://restaurantapi.bssoln.com/api';
+  // API Base URL - now using centralized config
+  private readonly API_URL = `${this.baseUrl}/api`;
 
   // Token refresh management
   private isRefreshing = false;

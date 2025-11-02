@@ -17,6 +17,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProfileComponent } from '../../profile/profile.component';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-main-layout',
@@ -36,6 +37,7 @@ import { ProfileComponent } from '../../profile/profile.component';
 })
 export class MainLayoutComponent implements OnInit {
   protected authService = inject(AuthService);
+  private baseUrl = inject(API_BASE_URL);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private responsive = inject(BreakpointObserver);
@@ -145,6 +147,6 @@ export class MainLayoutComponent implements OnInit {
 
   getUserImage(image: string) {
     if (!image) return '';
-    return 'https://restaurantapi.bssoln.com/images/user/' + '/' + image;
+    return `${this.baseUrl}/images/user/${image}`;
   }
 }

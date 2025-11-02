@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpParams, HttpEventType } from '@angular/common/http';
 import { FoodItem, ResponseFoodList, CreateFood, UpdateFood } from '../models/food.interface';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { API_BASE_URL } from '../../app.config';
 
 function getSanitizedListOfFood(data: ResponseFoodList | null): FoodItem[] {
   return data?.data || [];
@@ -13,7 +14,8 @@ function getSanitizedListOfFood(data: ResponseFoodList | null): FoodItem[] {
 export class FoodService {
   private http = inject(HttpClient);
   private message = inject(NzMessageService);
-  private baseUrl = 'https://restaurantapi.bssoln.com';
+  private baseUrl = inject(API_BASE_URL);
+  
 
   // State management with signals
   isSendingRequest = signal(false);

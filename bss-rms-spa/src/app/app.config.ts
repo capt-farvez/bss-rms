@@ -1,9 +1,17 @@
-import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom, InjectionToken, isDevMode } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withRouterConfig } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
+// Import API configuration from JSON files
+import appSettingsProd from '../configs/appsettings.json';
+import appSettingsDev from '../configs/appsettings.development.json';
+
+// API Configuration
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
+const apiBaseUrl = isDevMode() ? appSettingsDev.baseUrl : appSettingsProd.baseUrl;
 
 // NgZorro imports
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
@@ -96,6 +104,7 @@ export const appConfig: ApplicationConfig = {
     })),
     provideHttpClient(withInterceptorsFromDi()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: API_BASE_URL, useValue: apiBaseUrl },
     provideNzI18n(en_US),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),

@@ -10,6 +10,7 @@ import { AddTableComponent } from '../add-table/add-table.component';
 import { AssignEmployeeToTableComponent } from '../assign-employee-to-table/assign-employee-to-table.component';
 import { AvatarTooltipComponent } from '../avatar-tooltip/avatar-tooltip.component';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-tables-list',
@@ -33,7 +34,7 @@ export class TablesListComponent implements OnInit {
   modal = inject(NzModalService);
   listOfTables = this.tableService.listOfTables;
   listOfEmployees = this.tableService.listOfEmployees;
-  imageBaseUrl = 'https://restaurantapi.bssoln.com/images/table/';
+  imageBaseUrl = inject(API_BASE_URL) + '/images/table/';
   responsive = inject(BreakpointObserver);
   tableWidthConfig = ['120px', '140px', '110px', '160px', 'auto', '180px'];
 

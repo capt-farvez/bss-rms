@@ -2,12 +2,14 @@ import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient, HttpEventType, HttpParams } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { OrderData, ResponseOrderList, UpdateOrder } from '../../shared/models/order.model';
+import { API_BASE_URL } from '../../app.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private baseUrl = 'https://restaurantapi.bssoln.com';
+  private baseUrl = inject(API_BASE_URL);
+  
   private http = inject(HttpClient);
   private message = inject(NzMessageService);
 

@@ -7,6 +7,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NzTooltipDirective } from 'ng-zorro-antd/tooltip';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
+import { API_BASE_URL } from '../../../app.config';
 
 export type ThemeType = "fill" | "outline" | "twotone"
 
@@ -27,7 +28,7 @@ export type ThemeType = "fill" | "outline" | "twotone"
 export class EmployeesListComponent implements OnInit {
   protected employeeService = inject(EmployeeService);
   listOfEmployees = this.employeeService.listOfEmployees;
-  imageBaseUrl = 'https://restaurantapi.bssoln.com/images/user/';
+  imageBaseUrl = inject(API_BASE_URL) + '/images/user/';
   private injector = inject(Injector);
 
   ngOnInit() {

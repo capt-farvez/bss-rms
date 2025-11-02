@@ -2,6 +2,7 @@ import { effect, inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpEventType, HttpParams } from '@angular/common/http';
 import { CreateEmployee, Employee, ResponseListOfEmployees } from '../models/employee.interface';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { API_BASE_URL } from '../../app.config';
 
 function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
   let ListOfEmployees: Employee[] = [];
@@ -10,7 +11,8 @@ function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeService {
-  private baseUrl = 'https://restaurantapi.bssoln.com';
+  private baseUrl = inject(API_BASE_URL);
+  
   private httpClient = inject(HttpClient);
   private messageService = inject(NzMessageService);
 

@@ -10,6 +10,7 @@ import {
 } from '../models/table.interface';
 import { Employee } from '../models/employee.interface';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { API_BASE_URL } from '../../app.config';
 
 function getSanitizedListOfTable(data: ResponseTableList | null) {
   return data!.data;
@@ -31,7 +32,8 @@ function getAvailableEmployee(data: ResponseAvailableEmployees[] | null, listOfE
 
 @Injectable({ providedIn: 'root' })
 export class TableService {
-  private baseUrl = 'https://restaurantapi.bssoln.com';
+  private baseUrl = inject(API_BASE_URL);
+  
   private httpClient = inject(HttpClient);
   private messageService = inject(NzMessageService);
 

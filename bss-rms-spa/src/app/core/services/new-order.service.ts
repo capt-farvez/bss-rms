@@ -4,12 +4,14 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { FoodItem, ResponseFoodList } from '../models/food.interface';
 import { Table, ResponseTableList } from '../models/table.interface';
 import { CartItem, PostOrder } from '../../shared/models/order.model';
+import { API_BASE_URL } from '../../app.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewOrderService {
-  private baseUrl = 'https://restaurantapi.bssoln.com';
+  private baseUrl = inject(API_BASE_URL);
+  
   private http = inject(HttpClient);
   private message = inject(NzMessageService);
 

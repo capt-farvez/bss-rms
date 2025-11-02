@@ -11,6 +11,7 @@ import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { TableService } from '../../../core/services/table.service';
 import { Employee } from '../../../core/models/employee.interface';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-assign-employee-to-table',
@@ -40,6 +41,7 @@ import { Employee } from '../../../core/models/employee.interface';
 })
 export class AssignEmployeeToTableComponent {
   tableService = inject(TableService);
+  private baseUrl = inject(API_BASE_URL);
   modalWidth = "600px";
   inputValue?: string;
   listOfAvailableEmployees: Employee[] = this.tableService.listOfAvailableEmployees();
@@ -118,7 +120,7 @@ export class AssignEmployeeToTableComponent {
     if (!imageName || imageName === 'null') {
       return ''; // Return empty string to use the nzIcon fallback
     }
-    return `https://restaurantapi.bssoln.com/images/user/${imageName}`;
+    return `${this.baseUrl}/images/user/${imageName}`;
   }
 
   getEmployeeFullName(emp: Employee): string {
