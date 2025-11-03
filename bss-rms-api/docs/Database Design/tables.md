@@ -29,6 +29,7 @@
 - userId (FK) ---> User Table
 - designation () ---> string
 - joinDate() ---> date
+- AmountSold () ---> decimal
 - createdAt () ---> DateTime
 - updatedAt () ---> DateTime
 

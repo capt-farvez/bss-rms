@@ -28,6 +28,11 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
         builder.Property(e => e.JoinDate)
             .IsRequired();
 
+        builder.Property(e => e.AmountSold)
+            .HasColumnType("decimal(18,2)")
+            .HasDefaultValue(0)
+            .IsRequired();
+
         builder.Property(e => e.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("GETUTCDATE()");

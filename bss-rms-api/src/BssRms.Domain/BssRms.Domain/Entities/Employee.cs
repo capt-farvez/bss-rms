@@ -6,6 +6,7 @@ public class Employee
     public Guid UserId { get; set; }
     public string Designation { get; set; } = string.Empty;
     public DateTime JoinDate { get; set; }
+    public decimal AmountSold { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
