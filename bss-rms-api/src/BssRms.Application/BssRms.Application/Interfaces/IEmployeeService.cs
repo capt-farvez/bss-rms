@@ -10,5 +10,5 @@ public interface IEmployeeService
     Task<EmployeeDatatableDto> GetDatatableAsync(int page, int perPage, string? search, string? sort);
     Task<EmployeeDto> UpdateAsync(Guid id, UpdateEmployeeDto dto);
     Task<bool> DeleteAsync(Guid id);
-    Task<List<EmployeeDto>> GetNonAssignedEmployeesAsync(int tableId);
+    Task<List<NonAssignedEmployeeDto>> GetNonAssignedEmployeesAsync(int tableId);
 }

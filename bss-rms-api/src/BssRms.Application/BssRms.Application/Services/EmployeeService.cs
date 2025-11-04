@@ -146,12 +146,16 @@ public class EmployeeService : IEmployeeService
         }
     }
 
-    public async Task<List<EmployeeDto>> GetNonAssignedEmployeesAsync(int tableId)
+    public async Task<List<NonAssignedEmployeeDto>> GetNonAssignedEmployeesAsync(int tableId)
     {
         try
         {
             var employees = await _employeeRepository.GetNonAssignedEmployeesAsync(tableId);
-            return employees.Select(MapToDto).ToList();
+            return employees.Select(e => new NonAssignedEmployeeDto
+            {
+                EmployeeId = e.EmployeeId,
+                Name = e.User != null ? $"{e.User.FirstName} {e.User.LastName}".Trim() : string.Empty
+            }).ToList();
         }
         catch (Exception ex)
         {
