@@ -23,6 +23,25 @@ nz-form-item {
   margin-bottom: 16px;
 }
 
+// Reserve space for error messages to prevent layout shift
+::ng-deep {
+  .ant-form-item-explain,
+  .ant-form-item-extra {
+    min-height: 24px;
+    transition: all 0.3s ease;
+  }
+
+  .ant-form-item-explain-error {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  // Ensure form control always has consistent spacing
+  .ant-form-item-control {
+    min-height: 56px;
+  }
+}
+
 :host ::ng-deep {
   .ant-modal-footer {
     border-top: 1px solid #f0f0f0;
