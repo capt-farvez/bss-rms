@@ -1,4 +1,5 @@
 import { Component, effect, inject, Injector, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { EmployeeService } from '../../../core/services/employee.service';
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
@@ -20,7 +21,8 @@ export type ThemeType = "fill" | "outline" | "twotone"
     NzAvatarComponent,
     NzIconDirective,
     AddEmployeeComponent,
-    NzTooltipDirective
+    NzTooltipDirective,
+    DatePipe
   ],
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.scss'

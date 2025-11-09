@@ -54,7 +54,7 @@
             </td>
             <td nzTooltipTitle="{{ data.user.email }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.user.email }}</td>
             <td nzTooltipTitle="{{ data.designation }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.designation }}</td>
-            <td nzTooltipTitle="{{ data.joinDate }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.joinDate }}</td>
+            <td nzTooltipTitle="{{ data.joinDate | date: 'MMM dd, yyyy' }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.joinDate | date: 'MMM dd, yyyy' }}</td>
             <td nzTooltipTitle="{{ data.user.phoneNumber }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.user.phoneNumber }}</td>
             <td>
               <div class="d-flex justify-content-center gap-2">
