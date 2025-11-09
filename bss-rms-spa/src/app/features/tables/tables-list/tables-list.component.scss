@@ -19,25 +19,6 @@ ant-table-tbody {
   }
 }
 
-.delete-button {
-  border-radius: 0;
-  height: 48px;
-  background: transparent;
-  color: var(--text-dark-primary);
-  font-weight: 400;
-  font-size: 18px;
-
-  &:hover {
-    color: white;
-    background: var(--bg-warning-600) !important;
-  }
-
-  &:active {
-    color: whitesmoke;
-    background: var(--bg-warning-600);
-  }
-}
-
 td {
   font-size: 18px;
 }

@@ -44,17 +44,11 @@
   background-color: white;
 }
 
+// Orders specific button overrides (inherit global animations from styles.scss)
 .edit-button {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
   border: 1px solid var(--bg-secondary-light-100);
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
 
   &:hover {
     background-color: var(--bg-secondary-light-50);
@@ -64,14 +58,7 @@
 .drop-down-button {
   width: 40px;
   height: 40px;
-  border-radius: 8px;
   border: 1px solid var(--bg-secondary-light-100);
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
 
   &:hover {
     background-color: var(--bg-secondary-light-50);

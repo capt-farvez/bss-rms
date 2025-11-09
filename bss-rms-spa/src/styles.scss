@@ -194,27 +194,34 @@ body {
   height: 40px;
   width: 40px;
   border: none;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
 
   span {
     color: var(--text-dark-primary);
     font-size: 20px;
     font-weight: 800;
     letter-spacing: 2px;
+    transition: color 0.5s ease-in-out;
   }
 
   &:hover {
     background-color: var(--bg-warning-600);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
     span {
       color: white;
     }
   }
 
+  &:active {
+    transform: scale(0.95);
+  }
+
   // Edit button specific hover - red background
   &:has([nzType="edit"]):hover {
     background-color: #ff4d4f !important;
-    
+
     span {
       color: white;
     }
@@ -223,7 +230,7 @@ body {
   // Delete button specific hover - red background
   &:has([nzType="delete"]):hover {
     background-color: #ff4d4f !important;
-    
+
     span {
       color: white;
     }
@@ -236,21 +243,48 @@ body {
   height: 40px;
   width: 40px;
   border: none;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.5s ease-in-out;
 
   span {
     color: var(--text-dark-primary);
     font-size: 20px;
     font-weight: 800;
     letter-spacing: 2px;
+    transition: color 0.5s ease-in-out;
   }
 
   &:hover {
     background-color: #ff4d4f;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
     span {
       color: white;
     }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.delete-button {
+  border-radius: 0;
+  height: 48px;
+  background: transparent;
+  color: var(--text-dark-primary);
+  font-weight: 400;
+  font-size: 18px;
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    color: white;
+    background: var(--bg-warning-600) !important;
+  }
+
+  &:active {
+    color: whitesmoke;
+    background: var(--bg-warning-600);
   }
 }
 
