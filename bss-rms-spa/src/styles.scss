@@ -171,6 +171,23 @@ body {
   }
 }
 
+.login-button {
+  background-color: var(--bg-primary-600);
+  color: white;
+  height: 52px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    color: white;
+    background-color: var(--bg-primary-700);
+  }
+
+  &:active,
+  &:focus {
+    color: white;
+  }
+}
+
 .drop-down-button {
   background-color: white;
   border-radius: 8px;
