@@ -386,9 +386,23 @@ button.ant-btn-primary,
 .ant-modal .ant-modal-footer .ant-btn-primary {
   background-color: #66bb6a !important;
   border-color: #66bb6a !important;
-  
+
   &:hover {
     background-color: #5cb660 !important;
     border-color: #5cb660 !important;
   }
+}
+
+// Global modal border radius styling
+.ant-modal-content {
+  border-radius: 16px !important;
+  overflow: hidden;
+}
+
+.ant-modal-header {
+  border-radius: 16px 16px 0 0 !important;
+}
+
+.ant-modal-footer {
+  border-radius: 0 0 16px 16px !important;
 }
