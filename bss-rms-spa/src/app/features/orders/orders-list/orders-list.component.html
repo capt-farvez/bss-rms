@@ -51,13 +51,13 @@
                         </ul>
                       </nz-dropdown-menu>
 
-                      <button class="drop-down-button status-button drop-shadow-md" nzTrigger="hover" [nzClickHide]="false" nz-dropdown [nzDropdownMenu]="clickMenu" title="Change Status" aria-label="Change Order Status">
+                      <button class="drop-down-button status-button drop-shadow-md" nzTrigger="hover" [nzClickHide]="false" nz-dropdown [nzDropdownMenu]="clickMenu" nz-tooltip nzTooltipTitle="Change Status" nzTooltipPlacement="top" title="Change Status" aria-label="Change Order Status">
                         <span nz-icon nzType="swap" nzTheme="outline"></span>
                       </button>
-                      <button (click)="editOrder(orderData)" class="drop-down-button drop-shadow-md" title="Edit Order" aria-label="Edit Order">
+                      <button (click)="editOrder(orderData)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Edit Order" nzTooltipPlacement="top" title="Edit Order" aria-label="Edit Order">
                         <span nz-icon nzType="edit" nzTheme="outline"></span>
                       </button>
-                      <button (click)="deleteOrder(orderData)" class="drop-down-button drop-shadow-md" title="Delete Order" aria-label="Delete Order">
+                      <button (click)="deleteOrder(orderData)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Delete Order" nzTooltipPlacement="top" title="Delete Order" aria-label="Delete Order">
                         <span nz-icon nzType="delete" nzTheme="outline"></span>
                       </button>
                     </div>

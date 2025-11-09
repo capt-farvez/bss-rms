@@ -29,7 +29,7 @@
         <th nzTooltipTitle="Join Date" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="joindate">Join Date</th>
         <th nzTooltipTitle="Phone" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="phone">Phone</th>
         <th class="custom-table-title-button" nzColumnKey="action">
-          <button class="add-employee-button" (click)="employeeService.showAddModal.set(true)">
+          <button class="add-employee-button" nz-tooltip nzTooltipTitle="Add New Employee" nzTooltipPlacement="top" (click)="employeeService.showAddModal.set(true)">
             <span nz-icon nzType="user-add" nzTheme="outline"></span>
             <span>
               Add Employee
@@ -58,10 +58,10 @@
             <td nzTooltipTitle="{{ data.user.phoneNumber }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.user.phoneNumber }}</td>
             <td>
               <div class="d-flex justify-content-center gap-2">
-                <button (click)="editEmployee(data.id)" class="drop-down-button drop-shadow-md" title="Edit Employee" aria-label="Edit Employee">
+                <button (click)="editEmployee(data.id)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Edit Employee" nzTooltipPlacement="top" title="Edit Employee" aria-label="Edit Employee">
                   <span nz-icon nzType="edit" nzTheme="outline"></span>
                 </button>
-                <button (click)="deleteUser(data.id)" class="drop-down-button drop-shadow-md" title="Delete Employee" aria-label="Delete Employee">
+                <button (click)="deleteUser(data.id)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Delete Employee" nzTooltipPlacement="top" title="Delete Employee" aria-label="Delete Employee">
                   <span nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
               </div>

@@ -6,6 +6,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { OrderService } from '../../../core/services/order.service';
 import { OrderData } from '../../../shared/models/order.model';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
@@ -21,6 +22,7 @@ import { EditOrderComponent } from '../edit-order/edit-order.component';
     NzImageModule,
     NzPaginationModule,
     NzEmptyModule,
+    NzToolTipModule,
     EditOrderComponent
   ],
   templateUrl: './orders-list.component.html',

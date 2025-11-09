@@ -32,7 +32,7 @@
           <th nzTooltipTitle="Booking Status" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="bookingstatus">Booking Status</th>
           <th nzTooltipTitle="Assigned Employees" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="employees">Assigned Employees</th>
           <th class="custom-table-title-button" nzColumnKey="action">
-            <button (click)="tableService.showAddModal.set(true)" class="add-table-button">
+            <button (click)="tableService.showAddModal.set(true)" class="add-table-button" nz-tooltip nzTooltipTitle="Add New Table" nzTooltipPlacement="top">
               <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
               <span>
                 Add New Table
@@ -70,10 +70,10 @@
             </td>
             <td>
               <div class="d-flex justify-content-center gap-2">
-                <button (click)="editTable(data.id)" class="drop-down-button drop-shadow-md" title="Edit Table" aria-label="Edit Table">
+                <button (click)="editTable(data.id)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Edit Table" nzTooltipPlacement="top" title="Edit Table" aria-label="Edit Table">
                   <span nz-icon nzType="edit" nzTheme="outline"></span>
                 </button>
-                <button (click)="deleteTable(data.id)" class="drop-down-button drop-shadow-md" title="Delete Table" aria-label="Delete Table">
+                <button (click)="deleteTable(data.id)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Delete Table" nzTooltipPlacement="top" title="Delete Table" aria-label="Delete Table">
                   <span nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
               </div>

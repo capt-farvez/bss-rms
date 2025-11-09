@@ -29,7 +29,7 @@
         <th nzTooltipTitle="Discount" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="joindate">Discount</th>
         <th nzTooltipTitle="Discounted Price" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="phone">Discounted Price</th>
         <th class="custom-table-title-button" nzColumnKey="action">
-          <button class="add-food-button" (click)="foodService.showAddModal.set(true)">
+          <button class="add-food-button" nz-tooltip nzTooltipTitle="Add New Food Item" nzTooltipPlacement="top" (click)="foodService.showAddModal.set(true)">
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
             <span>
               Add Food Item
@@ -53,10 +53,10 @@
             <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discountPrice }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discountPrice }}</td>
             <td>
               <div class="d-flex justify-content-center gap-2">
-                <button (click)="editFood(data.id)" class="drop-down-button drop-shadow-md" title="Edit Food" aria-label="Edit Food">
+                <button (click)="editFood(data.id)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Edit Food" nzTooltipPlacement="top" title="Edit Food" aria-label="Edit Food">
                   <span nz-icon nzType="edit" nzTheme="outline"></span>
                 </button>
-                <button (click)="deleteFood(data.id)" class="drop-down-button drop-shadow-md" title="Delete Food" aria-label="Delete Food">
+                <button (click)="deleteFood(data.id)" class="drop-down-button drop-shadow-md" nz-tooltip nzTooltipTitle="Delete Food" nzTooltipPlacement="top" title="Delete Food" aria-label="Delete Food">
                   <span nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
               </div>
