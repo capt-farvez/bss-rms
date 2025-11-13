@@ -106,11 +106,25 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task<bool> DeleteAsync(Guid id)
     {
-        var employee = await _context.Employees.FindAsync(id);
+        // SQL: DELETE FROM [Employee] WHERE EmployeeId = @id
+        //      DELETE FROM [User] WHERE Uid = @userId
+
+        var employee = await _context.Employees
+            .Include(e => e.User)
+            .FirstOrDefaultAsync(e => e.EmployeeId == id);
+
         if (employee == null)
             return false;
 
+        // Delete the employee first (to avoid foreign key constraint issues)
         _context.Employees.Remove(employee);
+
+        // Then delete the associated user if it exists
+        if (employee.User != null)
+        {
+            _context.Users.Remove(employee.User);
+        }
+
         await _context.SaveChangesAsync();
 
         return true;

@@ -20,6 +20,13 @@ public class EmployeeService : IEmployeeService
     {
         try
         {
+            // Store just the filename, remove any path prefix
+            var imageName = dto.Image;
+            if (!string.IsNullOrEmpty(imageName))
+            {
+                imageName = imageName.Replace("/images/user/", "").Replace("\\images\\user\\", "");
+            }
+
             var user = new User
             {
                 Email = dto.Email,
@@ -33,8 +40,8 @@ public class EmployeeService : IEmployeeService
                 Dob = dto.Dob,
                 Nid = dto.Nid,
                 GenderId = dto.GenderId,
-                Image = dto.Image,
-                ImageBase64 = dto.Base64
+                Image = imageName ?? string.Empty,
+                ImageBase64 = dto.Base64 ?? string.Empty
             };
 
             var createdUser = await _userRepository.CreateAsync(user);
