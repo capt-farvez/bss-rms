@@ -5,6 +5,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { FoodService } from '../../../core/services/food.service';
 import { AddFoodComponent } from '../add-food/add-food.component';
 import { API_BASE_URL } from '../../../app.config';
@@ -12,6 +13,7 @@ import { API_BASE_URL } from '../../../app.config';
 @Component({
   selector: 'app-foods-list',
   standalone: true,
+  providers: [NzModalService],
   imports: [
     CommonModule,
     NzTableModule,
@@ -26,6 +28,7 @@ import { API_BASE_URL } from '../../../app.config';
 })
 export class FoodsListComponent implements OnInit {
   foodService: FoodService = inject(FoodService);
+  private modal = inject(NzModalService);
 
   pageSize = 10;
   pageIndex = 1;
@@ -70,12 +73,22 @@ export class FoodsListComponent implements OnInit {
   }
 
   deleteFood(id: number): void {
-    this.foodService.deleteFood(id);
-    // Reset to previous page if deleting last item on current page
-    if (this.foodService.listOfFood().length <= 1 && this.pageIndex > 1) {
-      this.pageIndex--;
-      this.loadDataFromServer(this.pageIndex, this.pageSize);
-    }
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this food item?',
+      nzContent: 'This action cannot be undone.',
+      nzOkText: 'Yes, Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        this.foodService.deleteFood(id);
+        // Reset to previous page if deleting last item on current page
+        if (this.foodService.listOfFood().length <= 1 && this.pageIndex > 1) {
+          this.pageIndex--;
+          this.loadDataFromServer(this.pageIndex, this.pageSize);
+        }
+      }
+    });
   }
 
   getDiscountDisplay(data: any): string {

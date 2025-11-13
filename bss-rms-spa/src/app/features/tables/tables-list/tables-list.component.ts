@@ -82,10 +82,20 @@ export class TablesListComponent implements OnInit {
   }
 
   deleteTable(id: number) {
-    this.tableService.deleteTable(id);
-    if (this.tableService.listOfTables().length <= 1) {
-      this.pageIndex = Math.max(1, this.pageIndex - 1);
-    }
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this table?',
+      nzContent: 'This action cannot be undone.',
+      nzOkText: 'Yes, Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        this.tableService.deleteTable(id);
+        if (this.tableService.listOfTables().length <= 1) {
+          this.pageIndex = Math.max(1, this.pageIndex - 1);
+        }
+      }
+    });
   }
 
   getImageUrl(imageUrl: string) {

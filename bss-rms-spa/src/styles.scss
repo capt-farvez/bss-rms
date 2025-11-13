@@ -440,3 +440,77 @@ button.ant-btn-primary,
 .ant-modal-footer {
   border-radius: 0 0 16px 16px !important;
 }
+
+// Confirmation modal button styling
+.ant-modal-confirm .ant-modal-confirm-btns {
+  display: flex !important;
+  gap: 12px !important;
+  justify-content: center !important;
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn {
+  flex: 1 !important;
+  min-width: 140px !important;
+  height: 48px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  font-size: 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+// Cancel button - light gray background (left side)
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-default,
+.ant-modal-confirm .ant-modal-confirm-btns button:first-child {
+  background-color: #e8e8e8 !important;
+  border: 2px solid #e8e8e8 !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+
+  a {
+    color: #000000 !important;
+  }
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-default:hover,
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-default:focus,
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-default:active,
+.ant-modal-confirm .ant-modal-confirm-btns button:first-child:hover,
+.ant-modal-confirm .ant-modal-confirm-btns button:first-child:focus,
+.ant-modal-confirm .ant-modal-confirm-btns button:first-child:active {
+  background-color: var(--bg-primary-600) !important;
+  border: 2px solid var(--bg-primary-600) !important;
+  color: white !important;
+  box-shadow: none !important;
+
+  a {
+    color: white !important;
+  }
+}
+
+// OK/Delete button - red (right side)
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary {
+  background-color: #dc2626 !important;
+  border: none !important;
+  color: white !important;
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary:hover,
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary:focus {
+  background-color: #b91c1c !important;
+  border: none !important;
+  color: white !important;
+}
+
+// Additional specificity for danger buttons
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary.ant-btn-dangerous {
+  background-color: #dc2626 !important;
+  border: none !important;
+  color: white !important;
+}
+
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary.ant-btn-dangerous:hover,
+.ant-modal-confirm .ant-modal-confirm-btns .ant-btn-primary.ant-btn-dangerous:focus {
+  background-color: #b91c1c !important;
+  border: none !important;
+  color: white !important;
+}

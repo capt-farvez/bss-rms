@@ -7,6 +7,7 @@ import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { OrderService } from '../../../core/services/order.service';
 import { OrderData } from '../../../shared/models/order.model';
 import { EditOrderComponent } from '../edit-order/edit-order.component';
@@ -14,6 +15,7 @@ import { EditOrderComponent } from '../edit-order/edit-order.component';
 @Component({
   selector: 'app-orders-list',
   standalone: true,
+  providers: [NzModalService],
   imports: [
     CommonModule,
     NzSpinModule,
@@ -30,6 +32,7 @@ import { EditOrderComponent } from '../edit-order/edit-order.component';
 })
 export class OrdersListComponent {
   orderService = inject(OrderService);
+  private modal = inject(NzModalService);
   pageSize = 10;
   pageIndex = 1;
   searchQuery = '';
@@ -103,7 +106,17 @@ export class OrdersListComponent {
   }
 
   deleteOrder(orderData: OrderData) {
-    this.orderService.deleteOrder(orderData.id);
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this order?',
+      nzContent: 'This action cannot be undone.',
+      nzOkText: 'Yes, Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        this.orderService.deleteOrder(orderData.id);
+      }
+    });
   }
 
   editOrder(orderData: OrderData) {

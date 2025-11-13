@@ -32,6 +32,7 @@ export class EmployeesListComponent implements OnInit {
   listOfEmployees = this.employeeService.listOfEmployees;
   imageBaseUrl = inject(API_BASE_URL) + '/images/user/';
   private injector = inject(Injector);
+  private modal = inject(NzModalService);
 
   ngOnInit() {
     this.loadDataFromServer(this.pageIndex, this.pageSize);
@@ -68,10 +69,20 @@ export class EmployeesListComponent implements OnInit {
   }
 
   deleteUser(id: string) {
-    this.employeeService.deleteEmployee(id);
-    if (this.employeeService.listOfEmployees().length <= 1) {
-      this.pageIndex = Math.max(1, this.pageIndex - 1);
-    }
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to delete this employee?',
+      nzContent: 'This action cannot be undone.',
+      nzOkText: 'Yes, Delete',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzCancelText: 'Cancel',
+      nzOnOk: () => {
+        this.employeeService.deleteEmployee(id);
+        if (this.employeeService.listOfEmployees().length <= 1) {
+          this.pageIndex = Math.max(1, this.pageIndex - 1);
+        }
+      }
+    });
   }
 
   getImageUrl(imageUrl: string) {
