@@ -42,7 +42,21 @@ public class TableRepository : ITableRepository
 
     public async Task<(List<Table> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort)
     {
-        IQueryable<Table> query = _context.Tables;
+        // SQL: SELECT t.*, et.*, e.*, u.*, o.*
+        //      FROM [Table] t
+        //      LEFT JOIN [EmployeeTable] et ON t.TableId = et.TableId
+        //      LEFT JOIN [Employee] e ON et.EmployeeId = e.EmployeeId
+        //      LEFT JOIN [User] u ON e.UserId = u.Uid
+        //      LEFT JOIN [Order] o ON t.TableId = o.TableId
+        //      WHERE t.TableNumber LIKE '%@search%'
+        //      ORDER BY t.CreatedAt DESC
+        //      OFFSET @skip ROWS FETCH NEXT @perPage ROWS ONLY
+
+        IQueryable<Table> query = _context.Tables
+            .Include(t => t.EmployeeTables)              // Load assigned employees (junction table)
+                .ThenInclude(et => et.Employee)          // Load employee details for each assignment
+                    .ThenInclude(e => e.User)            // Load user info (name, email) for each employee
+            .Include(t => t.Orders);                     // Load orders to check if table is occupied
 
         if (!string.IsNullOrWhiteSpace(search))
         {

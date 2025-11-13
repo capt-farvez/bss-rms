@@ -23,12 +23,19 @@ public class TableService : ITableService
                 throw new InvalidOperationException($"Table number '{dto.TableNumber}' already exists.");
             }
 
+            // Store just the filename, remove any path prefix
+            var imageName = dto.Image;
+            if (!string.IsNullOrEmpty(imageName))
+            {
+                imageName = imageName.Replace("/images/table/", "").Replace("\\images\\table\\", "");
+            }
+
             var table = new Table
             {
                 TableNumber = dto.TableNumber,
                 NumberOfSeats = dto.NumberOfSeats,
-                Image = dto.Image,
-                ImageBase64 = dto.Base64
+                Image = imageName ?? string.Empty,
+                ImageBase64 = dto.Base64 ?? string.Empty
             };
 
             var createdTable = await _tableRepository.CreateAsync(table);
@@ -155,8 +162,15 @@ public class TableService : ITableService
 
             table.TableNumber = dto.TableNumber;
             table.NumberOfSeats = dto.NumberOfSeats;
-            table.Image = dto.Image;
-            table.ImageBase64 = dto.Base64;
+
+            // Only update image if new one is provided
+            if (!string.IsNullOrEmpty(dto.Image))
+            {
+                // Store just the filename, remove any path prefix
+                var imageName = dto.Image.Replace("/images/table/", "").Replace("\\images\\table\\", "");
+                table.Image = imageName;
+                table.ImageBase64 = dto.Base64 ?? string.Empty;
+            }
 
             var updatedTable = await _tableRepository.UpdateAsync(table);
             return MapToDto(updatedTable);
