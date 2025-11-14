@@ -514,3 +514,34 @@ button.ant-btn-primary,
   border: none !important;
   color: white !important;
 }
+
+// Employee assignment dropdown height increase
+.ant-select-dropdown {
+  max-height: 400px !important;
+  min-height: 200px !important;
+}
+
+.ant-select-dropdown .ant-select-item-option-content {
+  display: flex;
+  align-items: center;
+}
+
+// Target the inner scrollable container
+.cdk-virtual-scroll-viewport {
+  max-height: 400px !important;
+  min-height: 200px !important;
+}
+
+.rc-virtual-list-holder {
+  max-height: 400px !important;
+  min-height: 200px !important;
+}
+
+.rc-virtual-list {
+  max-height: 400px !important;
+  min-height: 200px !important;
+}
+
+.rc-virtual-list-holder-inner {
+  min-height: auto !important;
+}

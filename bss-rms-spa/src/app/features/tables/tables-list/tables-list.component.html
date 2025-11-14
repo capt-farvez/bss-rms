@@ -50,20 +50,25 @@
               </div>
             </td>
             <td nzTooltipTitle="{{ data.tableNumber }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.tableNumber }}</td>
-            <td>{{ data.numberOfSeats }}</td>
-            <td class="truncate">{{ !data.isOccupied ? "Available": "Not Available" }}</td>
+            <td nzTooltipTitle="Total Seats: {{ data.numberOfSeats }}" nzTooltipPlacement="top" nz-tooltip>{{ data.numberOfSeats }}</td>
+            <td nzTooltipTitle="Booking Status: {{ !data.isOccupied ? 'Available' : 'Not Available' }}" nzTooltipPlacement="top" nz-tooltip class="truncate">{{ !data.isOccupied ? "Available": "Not Available" }}</td>
             <td>
               <div class="d-flex gap-1 flex-wrap">
                 @for (employee of data.employees; track employee.employeeId) {
                   <app-avatar-tooltip
-                    [tableName]="String(data.id)"
+                    [tableName]="data.tableNumber"
                     [employeeName]="employee.name"
                     [employeeId]="employee.employeeId"
                     [employeeTableId]="employee.employeeTableId.toString()"
                     [employeeList]="listOfEmployees()">
                   </app-avatar-tooltip>
                 }
-                <div (click)="showAssignModal(String(data.id), data.tableNumber, data.image, data.numberOfSeats)" class="add-employee-to-table-button">
+                <div
+                  (click)="showAssignModal(String(data.id), data.tableNumber, data.image, data.numberOfSeats)"
+                  class="add-employee-to-table-button"
+                  nz-tooltip
+                  nzTooltipTitle="Add Employee to this Table"
+                  nzTooltipPlacement="top">
                   <span style="color:#2e7d32" class="add-employee-to-table-button-icon" nz-icon nzType="plus" nzTheme="outline"></span>
                 </div>
               </div>
