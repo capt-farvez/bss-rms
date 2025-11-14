@@ -38,12 +38,14 @@ builder.Services.AddScoped<ITestTableRepository, TestTableRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<ITableRepository, TableRepository>();
+builder.Services.AddScoped<IEmployeeTableRepository, EmployeeTableRepository>();
 
 // Register Services
 builder.Services.AddScoped<ITestTableService, TestTableService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ITableService, TableService>();
+builder.Services.AddScoped<IEmployeeTableService, EmployeeTableService>();
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
