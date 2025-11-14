@@ -97,7 +97,7 @@ export class FoodsListComponent implements OnInit {
     } else if (data.discountType === 'Percentage') {
       return data.discount + ' %';
     } else {
-      return '৳ ' + data.discount;
+      return  data.discount;
     }
   }
 }

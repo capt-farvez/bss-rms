@@ -49,7 +49,7 @@
             <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.name }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.name }}</td>
             <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.price }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.price }}</td>
             <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discountType }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discountType }}</td>
-            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discount }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discount }}</td>
+            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ getDiscountDisplay(data) }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ getDiscountDisplay(data) }}</td>
             <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discountPrice }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discountPrice }}</td>
             <td>
               <div class="d-flex justify-content-center gap-2">
