@@ -79,12 +79,12 @@ public class EmployeeRepository : IEmployeeRepository
                 "joindate" => sortDirection == "desc"
                     ? query.OrderByDescending(e => e.JoinDate)
                     : query.OrderBy(e => e.JoinDate),
-                _ => query.OrderByDescending(e => e.CreatedAt)
+                _ => query.OrderBy(e => e.CreatedAt)
             };
         }
         else
         {
-            query = query.OrderByDescending(e => e.CreatedAt);
+            query = query.OrderBy(e => e.CreatedAt);
         }
 
         var data = await query

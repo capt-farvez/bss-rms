@@ -76,12 +76,12 @@ public class TableRepository : ITableRepository
                 "-numberofseats" => query.OrderByDescending(t => t.NumberOfSeats),
                 "createdat" => query.OrderBy(t => t.CreatedAt),
                 "-createdat" => query.OrderByDescending(t => t.CreatedAt),
-                _ => query.OrderByDescending(t => t.CreatedAt)
+                _ => query.OrderBy(t => t.CreatedAt)
             };
         }
         else
         {
-            query = query.OrderByDescending(t => t.CreatedAt);
+            query = query.OrderBy(t => t.CreatedAt);
         }
 
         var data = await query

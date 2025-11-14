@@ -115,12 +115,12 @@ public class EmployeeTableRepository : IEmployeeTableRepository
                 "-tablenumber" => query.OrderByDescending(et => et.Table.TableNumber),
                 "createdat" => query.OrderBy(et => et.CreatedAt),
                 "-createdat" => query.OrderByDescending(et => et.CreatedAt),
-                _ => query.OrderByDescending(et => et.CreatedAt)
+                _ => query.OrderBy(et => et.CreatedAt)
             };
         }
         else
         {
-            query = query.OrderByDescending(et => et.CreatedAt);
+            query = query.OrderBy(et => et.CreatedAt);
         }
 
         var data = await query
