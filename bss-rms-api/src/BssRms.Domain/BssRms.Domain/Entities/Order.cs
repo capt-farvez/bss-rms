@@ -7,7 +7,7 @@ public class Order
     public string OrderNumber { get; set; } = string.Empty;
     public DateTime OrderDate { get; set; }
     public decimal Amount { get; set; }
-    public string PhoneNumber { get; set; } = string.Empty;
+    public string? PhoneNumber { get; set; }
     public int Status { get; set; }
     public Guid? OrderedById { get; set; }
     public Guid? OrderTakenById { get; set; }
