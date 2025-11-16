@@ -7,7 +7,7 @@ namespace BssRms.Api.Controllers;
 
 [ApiController]
 [Route("images")]
-[Authorize]
+[AllowAnonymous]
 public class ImagesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
