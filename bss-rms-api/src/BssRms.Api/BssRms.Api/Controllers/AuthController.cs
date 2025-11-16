@@ -8,6 +8,7 @@ namespace BssRms.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
@@ -17,6 +18,7 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    [AllowAnonymous]
     [HttpPost("signUp")]
     public async Task<ActionResult<AuthResponseDto>> SignUp([FromBody] SignUpDto signUpDto)
     {
@@ -33,6 +35,7 @@ public class AuthController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpPost("signIn")]
     public async Task<ActionResult<AuthResponseDto>> SignIn([FromBody] SignInDto signInDto)
     {
@@ -49,6 +52,7 @@ public class AuthController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpPost("refreshToken")]
     public async Task<ActionResult<RefreshTokenResponseDto>> RefreshToken([FromBody] RefreshTokenDto refreshTokenDto)
     {
@@ -122,6 +126,7 @@ public class AuthController : ControllerBase
         }
     }
 
+    [AllowAnonymous]
     [HttpGet("phoneNumberExist/{phoneNumber}")]
     public async Task<ActionResult<bool>> PhoneNumberExists(string phoneNumber)
     {

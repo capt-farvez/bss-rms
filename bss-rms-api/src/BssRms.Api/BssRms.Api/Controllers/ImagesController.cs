@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BssRms.Infrastructure.Data;
@@ -6,6 +7,7 @@ namespace BssRms.Api.Controllers;
 
 [ApiController]
 [Route("images")]
+[Authorize]
 public class ImagesController : ControllerBase
 {
     private readonly ApplicationDbContext _context;

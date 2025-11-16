@@ -1,11 +1,13 @@
 using BssRms.Application.DTOs.Table;
 using BssRms.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BssRms.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class TableController : ControllerBase
 {
     private readonly ITableService _tableService;

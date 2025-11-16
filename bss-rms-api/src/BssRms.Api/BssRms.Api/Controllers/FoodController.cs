@@ -1,11 +1,13 @@
 using BssRms.Application.DTOs.Food;
 using BssRms.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BssRms.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class FoodController : ControllerBase
 {
     private readonly IFoodService _foodService;
