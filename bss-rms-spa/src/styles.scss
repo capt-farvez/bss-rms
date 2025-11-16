@@ -545,3 +545,22 @@ button.ant-btn-primary,
 .rc-virtual-list-holder-inner {
   min-height: auto !important;
 }
+
+// Image preview modal centering
+.ant-image-preview-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ant-image-preview-img-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ant-image-preview-img {
+  max-width: 90vw !important;
+  max-height: 90vh !important;
+  object-fit: contain !important;
+}
