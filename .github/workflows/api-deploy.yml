@@ -65,19 +65,19 @@ jobs:
         name: api-release
         path: ./publish
 
+    - name: Install lftp
+      run: sudo apt-get update && sudo apt-get install -y lftp
+
     - name: FTP Deploy to MonsterASP.net
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: site41329.siteasp.net
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        protocol: ftps
-        port: 21
-        local-dir: ./publish/
-        server-dir: ./wwwroot/
-        dangerous-clean-slate: false
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/appsettings.Development.json
-        log-level: verbose
+      env:
+        FTP_USER: ${{ secrets.FTP_USERNAME }}
+        FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+      run: |
+        lftp -c "
+        set ssl:verify-certificate no;
+        set ftp:ssl-allow yes;
+        set ftp:ssl-force yes;
+        open -u ${FTP_USER},${FTP_PASS} site41329.siteasp.net;
+        mirror -R --delete-first --verbose --exclude .git/ --exclude appsettings.Development.json ./publish/ /wwwroot/;
+        bye
+        "
