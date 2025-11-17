@@ -16,9 +16,6 @@ public class FoodRepository : IFoodRepository
 
     public async Task<Food> CreateAsync(Food food)
     {
-        // SQL: INSERT INTO [Food] (Name, Description, Price, DiscountType, Discount, Image, ImageBase64, CreatedAt, UpdatedAt)
-        //      VALUES (@name, @description, @price, @discountType, @discount, @image, @imageBase64, @createdAt, @updatedAt)
-
         food.CreatedAt = DateTime.UtcNow;
         food.UpdatedAt = DateTime.UtcNow;
 
@@ -30,15 +27,11 @@ public class FoodRepository : IFoodRepository
 
     public async Task<Food?> GetByIdAsync(int id)
     {
-        // SQL: SELECT * FROM [Food] WHERE FoodId = @id
-
         return await _context.Foods.FindAsync(id);
     }
 
     public async Task<List<Food>> GetAllAsync()
     {
-        // SQL: SELECT * FROM [Food] ORDER BY CreatedAt ASC
-
         return await _context.Foods
             .OrderBy(f => f.CreatedAt)
             .ToListAsync();
@@ -46,11 +39,6 @@ public class FoodRepository : IFoodRepository
 
     public async Task<(List<Food> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort)
     {
-        // SQL: SELECT * FROM [Food]
-        //      WHERE Name LIKE '%@search%' OR Description LIKE '%@search%'
-        //      ORDER BY @sort
-        //      OFFSET @skip ROWS FETCH NEXT @perPage ROWS ONLY
-
         IQueryable<Food> query = _context.Foods;
 
         if (!string.IsNullOrWhiteSpace(search))
@@ -90,12 +78,6 @@ public class FoodRepository : IFoodRepository
 
     public async Task<Food> UpdateAsync(Food food)
     {
-        // SQL: UPDATE [Food]
-        //      SET Name = @name, Description = @description, Price = @price,
-        //          DiscountType = @discountType, Discount = @discount,
-        //          Image = @image, ImageBase64 = @imageBase64, UpdatedAt = @updatedAt
-        //      WHERE FoodId = @id
-
         food.UpdatedAt = DateTime.UtcNow;
         _context.Foods.Update(food);
         await _context.SaveChangesAsync();
@@ -105,8 +87,6 @@ public class FoodRepository : IFoodRepository
 
     public async Task<bool> DeleteAsync(int id)
     {
-        // SQL: DELETE FROM [Food] WHERE FoodId = @id
-
         var food = await _context.Foods.FindAsync(id);
         if (food == null)
             return false;

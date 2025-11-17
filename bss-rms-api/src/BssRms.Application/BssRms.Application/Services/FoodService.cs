@@ -64,10 +64,10 @@ public class FoodService : IFoodService
         try
         {
             var food = await _foodRepository.GetByIdAsync(id);
-            if (food == null)
+            if (food == null){
                 return null;
+            }
 
-            // Calculate discount price based on discount type
             decimal discountPrice = food.Price;
             string discountTypeStr = "None";
 
@@ -284,7 +284,7 @@ public class FoodService : IFoodService
             Price = food.Price,
             DiscountType = food.DiscountType,
             Discount = food.Discount,
-            Image = food.Image,  // Return just the filename
+            Image = food.Image,
             CreatedAt = food.CreatedAt,
             UpdatedAt = food.UpdatedAt
         };

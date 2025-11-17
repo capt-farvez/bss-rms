@@ -129,9 +129,6 @@ public class OrderRepository : IOrderRepository
 
     public async Task<bool> DeleteAsync(int id)
     {
-        // SQL: DELETE FROM [OrderItem] WHERE OrderId = @id
-        //      DELETE FROM [Order] WHERE OrderId = @id
-
         var order = await _context.Orders
             .Include(o => o.OrderItems)
             .FirstOrDefaultAsync(o => o.OrderId == id);

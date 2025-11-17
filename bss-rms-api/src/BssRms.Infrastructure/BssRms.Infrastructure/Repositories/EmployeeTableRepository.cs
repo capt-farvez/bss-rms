@@ -27,12 +27,6 @@ public class EmployeeTableRepository : IEmployeeTableRepository
 
     public async Task<List<EmployeeTable>> CreateRangeAsync(List<EmployeeTable> employeeTables)
     {
-        // SQL: INSERT INTO [EmployeeTable] (EmployeeId, TableId, CreatedAt, UpdatedAt)
-        //      VALUES
-        //          (@employeeId1, @tableId1, GETUTCDATE(), GETUTCDATE()),
-        //          (@employeeId2, @tableId2, GETUTCDATE(), GETUTCDATE()),
-        //          ...
-
         var now = DateTime.UtcNow;
         foreach (var et in employeeTables)
         {
@@ -48,13 +42,6 @@ public class EmployeeTableRepository : IEmployeeTableRepository
 
     public async Task<EmployeeTable?> GetByIdAsync(int id)
     {
-        // SQL: SELECT et.*, e.*, u.*, t.*
-        //      FROM [EmployeeTable] et
-        //      INNER JOIN [Employee] e ON et.EmployeeId = e.EmployeeId
-        //      INNER JOIN [User] u ON e.UserId = u.Uid
-        //      INNER JOIN [Table] t ON et.TableId = t.TableId
-        //      WHERE et.EmployeeTableId = @id
-
         return await _context.EmployeeTables
             .Include(et => et.Employee)
                 .ThenInclude(e => e.User)
@@ -133,10 +120,6 @@ public class EmployeeTableRepository : IEmployeeTableRepository
 
     public async Task<EmployeeTable> UpdateAsync(EmployeeTable employeeTable)
     {
-        // SQL: UPDATE [EmployeeTable]
-        //      SET EmployeeId = @employeeId, TableId = @tableId, UpdatedAt = GETUTCDATE()
-        //      WHERE EmployeeTableId = @id
-
         employeeTable.UpdatedAt = DateTime.UtcNow;
 
         _context.EmployeeTables.Update(employeeTable);
@@ -147,9 +130,6 @@ public class EmployeeTableRepository : IEmployeeTableRepository
 
     public async Task<bool> DeleteAsync(int id)
     {
-        // SQL: DELETE FROM [EmployeeTable]
-        //      WHERE EmployeeTableId = @id
-
         var employeeTable = await _context.EmployeeTables.FindAsync(id);
         if (employeeTable == null)
         {
@@ -164,22 +144,12 @@ public class EmployeeTableRepository : IEmployeeTableRepository
 
     public async Task<bool> ExistsAsync(Guid employeeId, int tableId)
     {
-        // SQL: SELECT CASE WHEN EXISTS (
-        //          SELECT 1 FROM [EmployeeTable]
-        //          WHERE EmployeeId = @employeeId AND TableId = @tableId
-        //      ) THEN 1 ELSE 0 END
-
         return await _context.EmployeeTables
             .AnyAsync(et => et.EmployeeId == employeeId && et.TableId == tableId);
     }
 
     public async Task<bool> ExistsAsync(Guid employeeId, int tableId, int excludeId)
     {
-        // SQL: SELECT CASE WHEN EXISTS (
-        //          SELECT 1 FROM [EmployeeTable]
-        //          WHERE EmployeeId = @employeeId AND TableId = @tableId AND EmployeeTableId != @excludeId
-        //      ) THEN 1 ELSE 0 END
-
         return await _context.EmployeeTables
             .AnyAsync(et => et.EmployeeId == employeeId && et.TableId == tableId && et.EmployeeTableId != excludeId);
     }

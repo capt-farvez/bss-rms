@@ -53,10 +53,10 @@ public class TableRepository : ITableRepository
         //      OFFSET @skip ROWS FETCH NEXT @perPage ROWS ONLY
 
         IQueryable<Table> query = _context.Tables
-            .Include(t => t.EmployeeTables)              // Load assigned employees (junction table)
-                .ThenInclude(et => et.Employee)          // Load employee details for each assignment
-                    .ThenInclude(e => e.User)            // Load user info (name, email) for each employee
-            .Include(t => t.Orders);                     // Load orders to check if table is occupied
+            .Include(t => t.EmployeeTables)
+                .ThenInclude(et => et.Employee)
+                    .ThenInclude(e => e.User)
+            .Include(t => t.Orders);
 
         if (!string.IsNullOrWhiteSpace(search))
         {
