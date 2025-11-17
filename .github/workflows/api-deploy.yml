@@ -71,10 +71,13 @@ jobs:
         server: site41329.siteasp.net
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftps
+        port: 21
         local-dir: ./publish/
-        server-dir: /wwwroot/
+        server-dir: ./wwwroot/
         dangerous-clean-slate: false
         exclude: |
           **/.git*
           **/.git*/**
           **/appsettings.Development.json
+        log-level: verbose
