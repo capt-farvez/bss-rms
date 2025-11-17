@@ -65,8 +65,28 @@ jobs:
         name: api-release
         path: ./publish
 
+    - name: Create app_offline.htm
+      run: echo '<html><body><h1>Application is being updated. Please wait...</h1></body></html>' > ./publish/app_offline.htm
+
     - name: Install lftp
       run: sudo apt-get update && sudo apt-get install -y lftp
+
+    - name: Upload app_offline.htm to stop the application
+      env:
+        FTP_USER: ${{ secrets.FTP_USERNAME }}
+        FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+      run: |
+        lftp -c "
+        set ssl:verify-certificate no;
+        set ftp:ssl-allow yes;
+        set ftp:ssl-force yes;
+        open -u ${FTP_USER},${FTP_PASS} site41329.siteasp.net;
+        put -O /wwwroot/ ./publish/app_offline.htm;
+        bye
+        "
+
+    - name: Wait for application to stop
+      run: sleep 10
 
     - name: FTP Deploy to MonsterASP.net
       env:
@@ -81,6 +101,20 @@ jobs:
         set net:max-retries 3;
         set net:timeout 30;
         open -u ${FTP_USER},${FTP_PASS} site41329.siteasp.net;
-        mirror -R --only-newer --verbose --ignore-time --parallel=2 --exclude .git/ --exclude appsettings.Development.json ./publish/ /wwwroot/;
+        mirror -R --only-newer --verbose --ignore-time --parallel=2 --exclude .git/ --exclude appsettings.Development.json --exclude app_offline.htm ./publish/ /wwwroot/;
+        bye
+        "
+
+    - name: Remove app_offline.htm to restart the application
+      env:
+        FTP_USER: ${{ secrets.FTP_USERNAME }}
+        FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+      run: |
+        lftp -c "
+        set ssl:verify-certificate no;
+        set ftp:ssl-allow yes;
+        set ftp:ssl-force yes;
+        open -u ${FTP_USER},${FTP_PASS} site41329.siteasp.net;
+        rm /wwwroot/app_offline.htm;
         bye
         "
