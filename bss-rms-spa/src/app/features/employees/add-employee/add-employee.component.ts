@@ -73,11 +73,37 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
 
   handleOk(): void {
     if (this.employeeService.isEditMode()) {
-      // In edit mode, only update the designation
+      // In edit mode, validate and send all fields including image
       const selectedEmployee = this.employeeService.selectedEmployee();
-      if (selectedEmployee) {
-        this.employeeService.updateEmployee(selectedEmployee.id, this.validateForm.controls.designation.value);
+      if (this.validateForm.status === "INVALID") {
+        for (const i in this.validateForm.controls) {
+          this.validateForm.controls[i as keyof typeof this.validateForm.controls].markAsDirty();
+          this.validateForm.controls[i as keyof typeof this.validateForm.controls].updateValueAndValidity();
+        }
+        this.validateForm.controls.firstName.markAsDirty();
+      }
+      if (selectedEmployee && this.validateForm.status === "VALID") {
+        this.employeeService.isSendingRequest.set(true);
+        let UPDATE_VALUES: CreateEmployee = {
+          "designation": this.validateForm.controls.designation.value,
+          "joinDate": this.validateForm.controls.doj.value,
+          "email": this.validateForm.controls.email.value,
+          "phoneNumber": this.validateForm.controls.phoneNumber.value,
+          "firstName": this.validateForm.controls.firstName.value,
+          "middleName": this.validateForm.controls.middleName.value,
+          "lastName": this.validateForm.controls.lastName.value,
+          "fatherName": this.validateForm.controls.fatherName.value,
+          "motherName": this.validateForm.controls.motherName.value,
+          "spouseName": this.validateForm.controls.spouseName.value,
+          "dob": this.validateForm.controls.dob.value,
+          "nid": this.validateForm.controls.nidCardNumber.value,
+          "genderId": this.validateForm.controls.gender.value === "Male" ? 1 : this.validateForm.controls.gender.value === "Female" ? 2 : 3,
+          "image": this.image,
+          "base64": this.imageB64,
+        }
+        this.employeeService.updateEmployee(selectedEmployee.id, UPDATE_VALUES);
         setTimeout(() => {
+          this.employeeService.isSendingRequest.set(false);
           this.handleCancel();
         }, 1000);
       }
@@ -165,17 +191,33 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
           firstName: selectedEmployee.user.firstName,
           middleName: selectedEmployee.user.middleName || '',
           lastName: selectedEmployee.user.lastName,
+          spouseName: selectedEmployee.user.spouseName || '',
+          fatherName: selectedEmployee.user.fatherName || '',
+          motherName: selectedEmployee.user.motherName || '',
+          designation: selectedEmployee.designation,
           email: selectedEmployee.user.email,
           phoneNumber: selectedEmployee.user.phoneNumber,
-          designation: selectedEmployee.designation,
-          // Populate other fields as needed based on the employee data structure
+          nidCardNumber: selectedEmployee.user.nid || '',
+          dob: selectedEmployee.user.dob || '',
+          doj: selectedEmployee.joinDate || '',
+          gender: selectedEmployee.user.genderId === 1 ? 'Male' : selectedEmployee.user.genderId === 2 ? 'Female' : 'Other'
         });
 
-        // Disable all fields except designation in edit mode
+        // Set image if exists
+        if (selectedEmployee.user.image) {
+          this.image = selectedEmployee.user.image;
+          this.previewImage = `${this.baseUrl}/images/user/${selectedEmployee.user.image}`;
+          this.fileList = [{
+            uid: '-1',
+            name: selectedEmployee.user.image,
+            status: 'done',
+            url: `${this.baseUrl}/images/user/${selectedEmployee.user.image}`
+          }];
+        }
+
+        // Enable all fields in edit mode (removed the disable logic)
         Object.keys(this.validateForm.controls).forEach(key => {
-          if (key !== 'designation') {
-            this.validateForm.get(key)?.disable();
-          }
+          this.validateForm.get(key)?.enable();
         });
       } else {
         // Enable all fields in add mode
@@ -230,6 +272,14 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     if (!control.value) {
       return of(null);
     }
+
+    // In edit mode, skip validation if phone number hasn't changed
+    const selectedEmployee = this.employeeService.selectedEmployee();
+    const isEditMode = this.employeeService.isEditMode();
+    if (isEditMode && selectedEmployee && selectedEmployee.user.phoneNumber === control.value) {
+      return of(null);
+    }
+
     return this.httpClient.get<boolean>(`${this.baseUrl}/api/Auth/phoneNumberExist/${control.value}`)
       .pipe(
         map(isTaken => (isTaken ? { phoneNumberTaken: true } : null)),

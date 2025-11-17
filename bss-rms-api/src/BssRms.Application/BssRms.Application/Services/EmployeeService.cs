@@ -120,11 +120,66 @@ public class EmployeeService : IEmployeeService
             if (employee == null)
                 throw new KeyNotFoundException($"Employee with ID {id} not found");
 
+            // Update Employee fields
             if (!string.IsNullOrWhiteSpace(dto.Designation))
                 employee.Designation = dto.Designation;
 
             if (dto.JoinDate.HasValue)
                 employee.JoinDate = dto.JoinDate.Value;
+
+            // Update User fields
+            var user = employee.User;
+            if (user != null)
+            {
+                if (!string.IsNullOrWhiteSpace(dto.Email))
+                    user.Email = dto.Email;
+
+                if (!string.IsNullOrWhiteSpace(dto.PhoneNumber))
+                    user.PhoneNumber = dto.PhoneNumber;
+
+                if (!string.IsNullOrWhiteSpace(dto.FirstName))
+                    user.FirstName = dto.FirstName;
+
+                if (!string.IsNullOrWhiteSpace(dto.MiddleName))
+                    user.MiddleName = dto.MiddleName;
+
+                if (!string.IsNullOrWhiteSpace(dto.LastName))
+                    user.LastName = dto.LastName;
+
+                if (!string.IsNullOrWhiteSpace(dto.FatherName))
+                    user.FatherName = dto.FatherName;
+
+                if (!string.IsNullOrWhiteSpace(dto.MotherName))
+                    user.MotherName = dto.MotherName;
+
+                if (!string.IsNullOrWhiteSpace(dto.SpouseName))
+                    user.SpouseName = dto.SpouseName;
+
+                if (dto.Dob.HasValue)
+                    user.Dob = dto.Dob.Value;
+
+                if (!string.IsNullOrWhiteSpace(dto.Nid))
+                    user.Nid = dto.Nid;
+
+                if (dto.GenderId.HasValue)
+                    user.GenderId = dto.GenderId.Value;
+
+                // Update image if provided
+                if (!string.IsNullOrWhiteSpace(dto.Image) || !string.IsNullOrWhiteSpace(dto.Base64))
+                {
+                    // Store just the filename, remove any path prefix
+                    var imageName = dto.Image;
+                    if (!string.IsNullOrEmpty(imageName))
+                    {
+                        imageName = imageName.Replace("/images/user/", "").Replace("\\images\\user\\", "");
+                    }
+
+                    user.Image = imageName ?? string.Empty;
+                    user.ImageBase64 = dto.Base64 ?? string.Empty;
+                }
+
+                await _userRepository.UpdateAsync(user);
+            }
 
             var updatedEmployee = await _employeeRepository.UpdateAsync(employee);
             var result = await _employeeRepository.GetByIdAsync(updatedEmployee.EmployeeId);
@@ -191,7 +246,14 @@ public class EmployeeService : IEmployeeService
                 FullName = fullName,
                 PhoneNumber = user?.PhoneNumber ?? string.Empty,
                 FirstName = user?.FirstName ?? string.Empty,
+                MiddleName = user?.MiddleName,
                 LastName = user?.LastName ?? string.Empty,
+                FatherName = user?.FatherName,
+                MotherName = user?.MotherName,
+                SpouseName = user?.SpouseName,
+                Dob = user?.Dob,
+                Nid = user?.Nid,
+                GenderId = user?.GenderId ?? 0,
                 Image = user?.Image
             }
         };

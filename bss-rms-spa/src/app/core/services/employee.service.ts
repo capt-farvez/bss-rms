@@ -144,9 +144,7 @@ export class EmployeeService {
       });
   }
 
-  updateEmployee(id: string, designation: string) {
-    const updateData = { designation };
-
+  updateEmployee(id: string, updateData: CreateEmployee) {
     this.httpClient.put(`${this.baseUrl}/api/Employee/update/${id}`, updateData, { observe: 'events' })
       .pipe()
       .subscribe({
