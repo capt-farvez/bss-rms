@@ -77,7 +77,10 @@ jobs:
         set ssl:verify-certificate no;
         set ftp:ssl-allow yes;
         set ftp:ssl-force yes;
+        set ftp:passive-mode on;
+        set net:max-retries 3;
+        set net:timeout 30;
         open -u ${FTP_USER},${FTP_PASS} site41329.siteasp.net;
-        mirror -R --delete-first --verbose --exclude .git/ --exclude appsettings.Development.json ./publish/ /wwwroot/;
+        mirror -R --only-newer --verbose --ignore-time --parallel=2 --exclude .git/ --exclude appsettings.Development.json ./publish/ /wwwroot/;
         bye
         "
