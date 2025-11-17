@@ -128,6 +128,16 @@ public class OrderService : IOrderService
             order.Amount = dto.Amount;
             order.PhoneNumber = dto.PhoneNumber;
 
+            // Update order items - clear existing items and add new ones
+            order.OrderItems.Clear();
+            order.OrderItems = dto.Items.Select(item => new OrderItem
+            {
+                FoodId = item.FoodId,
+                Quantity = item.Quantity,
+                UnitPrice = item.UnitPrice,
+                TotalPrice = item.TotalPrice
+            }).ToList();
+
             var updatedOrder = await _orderRepository.UpdateAsync(order);
 
             // Reload with all relationships

@@ -81,7 +81,7 @@
                   </div>
                   <div class="d-flex justify-content-between p-2 ps-3 pe-3">
                     <div class="d-flex flex-column">
-                      <div class="text-md text-slate-800 text-opacity-70">Total Quantity: <span class="font-bold text-md md:text-lg">{{orderData.orderItems.length}}</span></div>
+                      <div class="text-md text-slate-800 text-opacity-70">Total Quantity: <span class="font-bold text-md md:text-lg">{{getTotalQuantity(orderData)}}</span></div>
                       <div class="text-md md:text-xl text-slate-800 text-opacity-70">Total Amount (৳): <span class="font-bold text-md md:text-xl underline decoration-sky-500/30">{{orderData.amount}}৳</span></div>
                     </div>
                     <div class="d-flex flex-column align-items-end">

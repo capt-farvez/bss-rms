@@ -20,6 +20,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { TableService } from '../../../core/services/table.service';
 import { CreateTable, UpdateTable } from '../../../core/models/table.interface';
 import { Table } from '../../../core/models/table.interface';
+import { API_BASE_URL } from '../../../app.config';
 
 @Component({
   selector: 'app-add-table',
@@ -48,6 +49,7 @@ import { Table } from '../../../core/models/table.interface';
 export class AddTableComponent {
   tableService = inject(TableService);
   responsive = inject(BreakpointObserver);
+  private baseUrl = inject(API_BASE_URL);
   modalWidth = "50vw";
   discType = signal("");
 
@@ -123,7 +125,18 @@ export class AddTableComponent {
           tableName: table.tableNumber,
           numberofseats: table.numberOfSeats.toString()
         });
-        // Don't load existing image, let user upload new one if needed
+
+        // Set image if exists
+        if (table.image) {
+          this.image = table.image;
+          this.previewImage = `${this.baseUrl}/images/table/${table.image}`;
+          this.fileList = [{
+            uid: '-1',
+            name: table.image,
+            status: 'done',
+            url: `${this.baseUrl}/images/table/${table.image}`
+          }];
+        }
       }
     });
   }

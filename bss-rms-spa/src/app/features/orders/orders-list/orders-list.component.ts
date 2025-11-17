@@ -135,5 +135,9 @@ export class OrdersListComponent {
     this.pageSize = size;
     this.ngOnInit();
   }
+
+  getTotalQuantity(orderData: OrderData): number {
+    return orderData.orderItems.reduce((total, item) => total + item.quantity, 0);
+  }
 }
 

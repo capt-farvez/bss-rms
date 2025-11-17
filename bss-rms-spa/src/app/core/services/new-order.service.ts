@@ -47,7 +47,7 @@ export class NewOrderService {
           case HttpEventType.Response:
             if (data.status === 200) {
               this.listOfFood.set(data.body!.data);
-              this.totalFood.set(data.body!.totalRecords);
+              this.totalFood.set(data.body!.total || data.body!.totalRecords || 0);
               this.isSendingRequest.set(false);
             }
             break;
@@ -80,7 +80,7 @@ export class NewOrderService {
           case HttpEventType.Response:
             if (data.status === 200) {
               this.listOfTable.set(data.body!.data);
-              this.totalTable.set(data.body!.totalRecords);
+              this.totalTable.set(data.body!.total || data.body!.totalRecords || 0);
             }
             break;
           case HttpEventType.Sent:
