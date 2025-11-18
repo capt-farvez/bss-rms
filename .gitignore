@@ -279,3 +279,9 @@ Desktop.ini
 
 # Recycle Bin
 $RECYCLE.BIN/
+
+# MonsterASP.NET publish settings
+*.publishSettings
+
+# Releases configuration files
+*.config
