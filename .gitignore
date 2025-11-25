@@ -282,6 +282,7 @@ $RECYCLE.BIN/
 
 # MonsterASP.NET publish settings
 *.publishSettings
+monsterasp/
 
 # Releases configuration files
 *.config

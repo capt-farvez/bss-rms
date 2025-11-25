@@ -1,0 +1,42 @@
+name: SPA Deploy - Build and Deploy Angular App
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'bss-rms-spa/**'
+      - '.github/workflows/spa-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: './bss-rms-spa/package-lock.json'
+
+    - name: Install dependencies
+      working-directory: ./bss-rms-spa
+      run: npm ci
+
+    - name: Build Angular app
+      working-directory: ./bss-rms-spa
+      run: npm run build
+
+    - name: Deploy to MonsterASP via WebDeploy
+      working-directory: ./bss-rms-spa
+      run: |
+        & "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" `
+          -verb:sync `
+          -source:contentPath="${{ github.workspace }}\bss-rms-spa\dist\bss-rms-spa\browser" `
+          -dest:contentPath="site44503",computerName="https://site44503.siteasp.net:8172/msdeploy.axd",userName="site44503",password="${{ secrets.SPA_WEBDEPLOY_PASSWORD }}",authType="Basic" `
+          -enableRule:DoNotDeleteRule `
+          -allowUntrusted
+      shell: pwsh
