@@ -34,4 +34,4 @@ jobs:
       working-directory: ./bss-rms-spa
       shell: cmd
       run: |
-        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync -source:contentPath="${{ github.workspace }}\bss-rms-spa\dist\bss-rms-spa\browser" -dest:contentPath="site44503",computerName="https://site44503.siteasp.net:8172/msdeploy.axd",userName="site44503",password="${{ secrets.SPA_WEBDEPLOY_PASSWORD }}",authType="Basic" -enableRule:DoNotDeleteRule -allowUntrusted
+        "C:\Program Files\IIS\Microsoft Web Deploy V3\msdeploy.exe" -verb:sync -source:contentPath="${{ github.workspace }}\bss-rms-spa\dist\bss-rms-spa\browser" -dest:contentPath="site44503",computerName="https://site44503.siteasp.net:8172/msdeploy.axd",userName="$site44503",password="${{ secrets.SPA_WEBDEPLOY_PASSWORD }}",authType="Basic" -enableRule:DoNotDeleteRule -allowUntrusted
