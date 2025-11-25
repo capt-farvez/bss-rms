@@ -2,12 +2,12 @@ name: API CI - Build and Test
 
 on:
   push:
-    branches: [ development ]
+    branches: [ Main, development ]
     paths:
       - 'bss-rms-api/**'
       - '.github/workflows/api-ci.yml'
   pull_request:
-    branches: [ development, main ]
+    branches: [ Main, development ]
     paths:
       - 'bss-rms-api/**'
   workflow_dispatch:
