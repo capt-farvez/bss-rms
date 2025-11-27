@@ -10,7 +10,7 @@ Restaurant Management System for Bangladesh Software Solution (BSS), built with 
 - Employee Management
 - Food Management
 - Order Processing
-- Table Reservation System
+- Table Management
 
 ## Technologies Used
 Frontend:
@@ -28,3 +28,26 @@ Database:
 
 ## Setup Instructions
 Instructions to set up the project locally can be found in the respective `README.md` files in the `bss-rms-api` and `bss-rms-spa` directories.
+
+## UI Screenshots
+### Login Page
+![Login Page](./UI/login_page.png)
+
+### Employee Management
+![Employee Management](./UI/employee_management_dashboard.png)
+![Add Employee](./UI/employee_management_add_new_employee.png)
+
+### Food Management
+![Food Management](./UI/food_management_dashboard.png)
+
+### Table Management
+![Table Management](./UI/table_management_dashboard.png)
+
+### New Order Management
+![New Order Management](./UI/new_order_management_dashboard.png)
+![New Order Management - Add New Order](./UI/new_order_management_cart.png)
+
+### Order Management
+![Order Management](./UI/order_management_dashboard.png)
+![Update Order](./UI/order_management_edit_order.png)
+![Change Order Status](./UI/order_management_change_order_status.png)
