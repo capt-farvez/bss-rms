@@ -31,23 +31,21 @@ Instructions to set up the project locally can be found in the respective `READM
 
 ## UI Screenshots
 ### Login Page
-![Login Page](./UI/login_page.png)
+![Login Page](./docs/assets/ui_screenshots/login_page.png)
 
 ### Employee Management
-![Employee Management](./UI/employee_management_dashboard.png)
-![Add Employee](./UI/employee_management_add_new_employee.png)
-
+![Employee Management](./docs/assets/ui_screenshots/employee_management_dashboard.png)
+![Add Employee](./docs/assets/ui_screenshots/employee_management_add_new_employee.png)
 ### Food Management
-![Food Management](./UI/food_management_dashboard.png)
+![Food Management](./docs/assets/ui_screenshots/food_management_dashboard.png)
 
 ### Table Management
-![Table Management](./UI/table_management_dashboard.png)
+![Table Management](./docs/assets/ui_screenshots/table_management_dashboard.png)
 
 ### New Order Management
-![New Order Management](./UI/new_order_management_dashboard.png)
-![New Order Management - Add New Order](./UI/new_order_management_cart.png)
-
+![New Order Management](./docs/assets/ui_screenshots/new_order_management_dashboard.png)
+![New Order Management - Add New Order](./docs/assets/ui_screenshots/new_order_management_cart.png)
 ### Order Management
-![Order Management](./UI/order_management_dashboard.png)
-![Update Order](./UI/order_management_edit_order.png)
-![Change Order Status](./UI/order_management_change_order_status.png)
+![Order Management](./docs/assets/ui_screenshots/order_management_dashboard.png)
+![Update Order](./docs/assets/ui_screenshots/order_management_edit_order.png)
+![Change Order Status](./docs/assets/ui_screenshots/order_management_change_order_status.png)
