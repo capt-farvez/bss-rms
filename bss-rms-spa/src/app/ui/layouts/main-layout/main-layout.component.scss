@@ -73,11 +73,14 @@
 
   .ant-layout {
     background: #f0f2f5;
+    overflow: hidden;
   }
 
   nz-content {
-    margin: 16px;
+    margin: 0;
     background: transparent;
+    overflow-y: auto;
+    flex: 1;
   }
 
   nz-footer {
@@ -289,10 +292,14 @@
 
 @media screen and (max-width: 768px) {
   ::ng-deep {
+    nz-content {
+      padding-bottom: 80px;
+    }
+
     nz-footer {
       height: 80px;
       padding: 0 !important;
-      
+
       .ant-layout-footer {
         height: 80px;
         padding: 0 !important;
