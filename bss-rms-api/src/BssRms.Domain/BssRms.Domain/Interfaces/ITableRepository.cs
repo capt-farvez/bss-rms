@@ -11,4 +11,6 @@ public interface ITableRepository
     Task<Table> UpdateAsync(Table table);
     Task<bool> DeleteAsync(int id);
     Task<bool> ExistsByTableNumberAsync(string tableNumber, int? excludeId = null);
+    Task<int> GetTotalCountAsync();
+    Task<int> GetOccupiedCountAsync();
 }

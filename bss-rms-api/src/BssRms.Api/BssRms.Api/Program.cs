@@ -50,6 +50,7 @@ builder.Services.AddScoped<ITableService, TableService>();
 builder.Services.AddScoped<IEmployeeTableService, EmployeeTableService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

@@ -125,4 +125,16 @@ public class TableRepository : ITableRepository
 
         return await query.AnyAsync();
     }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _context.Tables.CountAsync();
+    }
+
+    public async Task<int> GetOccupiedCountAsync()
+    {
+        // Match existing logic from TableService: Status 1 (Confirmed) or 2 (Preparing)
+        return await _context.Tables
+            .CountAsync(t => t.Orders.Any(o => o.Status == 1 || o.Status == 2));
+    }
 }

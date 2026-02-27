@@ -113,4 +113,9 @@ public class FoodRepository : IFoodRepository
 
         return await query.AnyAsync();
     }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _context.Foods.CountAsync();
+    }
 }

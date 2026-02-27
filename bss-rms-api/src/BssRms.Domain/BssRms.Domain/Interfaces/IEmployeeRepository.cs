@@ -12,4 +12,5 @@ public interface IEmployeeRepository
     Task<bool> DeleteAsync(Guid id);
     Task<bool> ExistsAsync(Guid id);
     Task<List<Employee>> GetNonAssignedEmployeesAsync(int tableId);
+    Task<int> GetTotalCountAsync();
 }

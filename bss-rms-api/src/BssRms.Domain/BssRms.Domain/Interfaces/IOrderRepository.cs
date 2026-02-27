@@ -11,4 +11,10 @@ public interface IOrderRepository
     Task<Order> UpdateAsync(Order order);
     Task<bool> DeleteAsync(int id);
     Task<bool> ExistsAsync(int id);
+    Task<int> GetTotalCountAsync();
+    Task<decimal> GetTotalRevenueAsync();
+    Task<List<Order>> GetRecentOrdersAsync(int count);
+    Task<List<(int FoodId, string FoodName, decimal FoodPrice, string FoodImage, int TotalQuantity, decimal TotalRevenue)>> GetTopSellingFoodsAsync(int count);
+    Task<int> GetTodaysOrderCountAsync();
+    Task<decimal> GetTodaysRevenueAsync();
 }

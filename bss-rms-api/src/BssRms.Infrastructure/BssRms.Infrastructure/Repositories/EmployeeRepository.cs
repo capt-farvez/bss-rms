@@ -140,4 +140,9 @@ public class EmployeeRepository : IEmployeeRepository
                 .Contains(e.EmployeeId))
             .ToListAsync();
     }
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _context.Employees.CountAsync();
+    }
 }
