@@ -57,20 +57,8 @@ public class OrderRepository : IOrderRepository
             .ToListAsync();
     }
 
-    public async Task<(List<Order> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort)
+    public async Task<(List<Order> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort, int? status)
     {
-        // SQL: SELECT * FROM [Order] o
-        //      LEFT JOIN [Table] t ON o.TableId = t.TableId
-        //      LEFT JOIN [Employee] eo ON o.OrderedById = eo.EmployeeId
-        //      LEFT JOIN [User] ueo ON eo.UserId = ueo.Uid
-        //      LEFT JOIN [Employee] et ON o.OrderTakenById = et.EmployeeId
-        //      LEFT JOIN [User] uet ON et.UserId = uet.Uid
-        //      LEFT JOIN [OrderItem] oi ON o.OrderId = oi.OrderId
-        //      LEFT JOIN [Food] f ON oi.FoodId = f.FoodId
-        //      WHERE o.OrderNumber LIKE '%@search%' OR t.TableNumber LIKE '%@search%'
-        //      ORDER BY @sort
-        //      OFFSET @skip ROWS FETCH NEXT @perPage ROWS ONLY
-
         IQueryable<Order> query = _context.Orders
             .Include(o => o.Table)
             .Include(o => o.OrderedBy)
@@ -79,6 +67,11 @@ public class OrderRepository : IOrderRepository
                 .ThenInclude(e => e.User)
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Food);
+
+        if (status.HasValue)
+        {
+            query = query.Where(o => o.Status == status.Value);
+        }
 
         if (!string.IsNullOrWhiteSpace(search))
         {
@@ -102,6 +95,8 @@ public class OrderRepository : IOrderRepository
                 "-orderdate" => query.OrderByDescending(o => o.OrderDate),
                 "createdat" => query.OrderBy(o => o.CreatedAt),
                 "-createdat" => query.OrderByDescending(o => o.CreatedAt),
+                "status" => query.OrderBy(o => o.Status),
+                "-status" => query.OrderByDescending(o => o.Status),
                 _ => query.OrderBy(o => o.CreatedAt)
             };
         }

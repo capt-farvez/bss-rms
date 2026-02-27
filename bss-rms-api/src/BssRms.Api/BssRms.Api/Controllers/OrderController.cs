@@ -63,16 +63,22 @@ public class OrderController : ControllerBase
         }
     }
 
+    /// <param name="Page">Page number (default: 1)</param>
+    /// <param name="Per_Page">Items per page (default: 10)</param>
+    /// <param name="Search">Search by order number, table number, or phone number</param>
+    /// <param name="Sort">Sort field: ordernumber, amount, orderdate, createdat, status (prefix with - for descending, e.g. -status)</param>
+    /// <param name="Status">Filter by order status: 0 = Pending, 1 = Confirmed, 2 = Preparing, 3 = PreparedToServe, 4 = Served, 5 = Paid</param>
     [HttpGet("datatable")]
     public async Task<IActionResult> GetDatatable(
         [FromQuery] int Page = 1,
         [FromQuery] int Per_Page = 10,
         [FromQuery] string? Search = null,
-        [FromQuery] string? Sort = null)
+        [FromQuery] string? Sort = null,
+        [FromQuery] int? Status = null)
     {
         try
         {
-            var result = await _orderService.GetDatatableAsync(Page, Per_Page, Search, Sort);
+            var result = await _orderService.GetDatatableAsync(Page, Per_Page, Search, Sort, Status);
             return Ok(result);
         }
         catch (Exception ex)

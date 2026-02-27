@@ -90,11 +90,11 @@ public class OrderService : IOrderService
         }
     }
 
-    public async Task<OrderDatatableDto> GetDatatableAsync(int page, int perPage, string? search, string? sort)
+    public async Task<OrderDatatableDto> GetDatatableAsync(int page, int perPage, string? search, string? sort, int? status)
     {
         try
         {
-            var (data, totalRecords) = await _orderRepository.GetDatatableAsync(page, perPage, search, sort);
+            var (data, totalRecords) = await _orderRepository.GetDatatableAsync(page, perPage, search, sort, status);
             var lastPage = (int)Math.Ceiling((double)totalRecords / perPage);
 
             var orderDtos = data.Select(MapToDatatableItemDto).ToList();
