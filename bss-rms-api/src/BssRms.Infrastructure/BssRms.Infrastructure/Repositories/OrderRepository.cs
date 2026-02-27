@@ -42,9 +42,9 @@ public class OrderRepository : IOrderRepository
         return await _context.Orders
             .Include(o => o.Table)
             .Include(o => o.OrderedBy)
-                .ThenInclude(e => e.User)
+                .ThenInclude(e => e!.User)
             .Include(o => o.OrderTakenBy)
-                .ThenInclude(e => e.User)
+                .ThenInclude(e => e!.User)
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Food)
             .FirstOrDefaultAsync(o => o.OrderId == id);
@@ -62,9 +62,9 @@ public class OrderRepository : IOrderRepository
         IQueryable<Order> query = _context.Orders
             .Include(o => o.Table)
             .Include(o => o.OrderedBy)
-                .ThenInclude(e => e.User)
+                .ThenInclude(e => e!.User)
             .Include(o => o.OrderTakenBy)
-                .ThenInclude(e => e.User)
+                .ThenInclude(e => e!.User)
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Food);
 
@@ -78,7 +78,7 @@ public class OrderRepository : IOrderRepository
             query = query.Where(o =>
                 o.OrderNumber.Contains(search) ||
                 o.Table.TableNumber.Contains(search) ||
-                o.PhoneNumber.Contains(search));
+                (o.PhoneNumber != null && o.PhoneNumber.Contains(search)));
         }
 
         var totalRecords = await query.CountAsync();
