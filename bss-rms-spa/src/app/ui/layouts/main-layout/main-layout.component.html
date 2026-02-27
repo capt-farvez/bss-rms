@@ -43,6 +43,9 @@
           </div>
           <div class="header-title ps-3 pe-2 ps-md-0 truncate">
             @switch (currentComponent()){
+              @case ('Dashboard'){
+                <p>Dashboard</p>
+              }
               @case ('Employees'){
                 <p>Employee Management</p>
               }
@@ -80,7 +83,7 @@
     <nz-content>
       <router-outlet></router-outlet>
     </nz-content>
-  <nz-footer class="sticky-bottom d-block d-md-none p-0 m-0 z-0">
+  <nz-footer class="fixed-bottom d-block d-md-none p-0 m-0" style="z-index: 100">
     <div class="d-flex align-items-center justify-content-center mobile-menu">
       <ul class="d-flex justify-content-center mobile-menu-items w-100 gap-2" nz-menu nzTheme="dark" nzMode="horizontal">
         @for (menuItem of sideBarItems; track  menuItem){

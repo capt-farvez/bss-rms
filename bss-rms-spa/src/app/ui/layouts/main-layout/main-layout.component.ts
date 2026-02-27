@@ -44,6 +44,10 @@ export class MainLayoutComponent implements OnInit {
 
   sideBarItems = [
     {
+      ItemName: 'Dashboard',
+      IconName: 'dashboard',
+    },
+    {
       ItemName: 'Employees',
       IconName: 'idcard',
     },
@@ -74,6 +78,9 @@ export class MainLayoutComponent implements OnInit {
       console.log('Activated Child Route:', childRoute.snapshot.routeConfig?.path);
       if (childRoute.snapshot.routeConfig?.path) {
         switch (childRoute.snapshot.routeConfig?.path){
+          case 'home':
+            this.currentComponent.set('Dashboard');
+            break;
           case 'employees':
             this.currentComponent.set('Employees');
             break;
@@ -93,8 +100,8 @@ export class MainLayoutComponent implements OnInit {
       }
     }
     else{
-      this.currentComponent.set('Employees');
-      this.router.navigate(['dashboard/employees']);
+      this.currentComponent.set('Dashboard');
+      this.router.navigate(['dashboard/home']);
     }
 
     // Fetch user profile if authenticated
@@ -119,6 +126,9 @@ export class MainLayoutComponent implements OnInit {
   setComponent(menuItemName: string) {
     this.currentComponent.set(menuItemName);
     switch (this.currentComponent()){
+      case 'Dashboard':
+        this.router.navigate(['dashboard/home']);
+        break;
       case 'Employees':
         this.router.navigate(['dashboard/employees']);
         break;

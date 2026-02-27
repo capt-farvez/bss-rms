@@ -54,6 +54,12 @@ import {
   LogoutOutline,
   EyeOutline,
   EyeInvisibleOutline,
+  DashboardOutline,
+  DollarOutline,
+  CoffeeOutline,
+  CalendarOutline,
+  CheckCircleOutline,
+  InboxOutline,
 } from '@ant-design/icons-angular/icons';
 
 import { routes } from './app.routes';
@@ -93,6 +99,12 @@ const icons: IconDefinition[] = [
   LogoutOutline,
   EyeOutline,
   EyeInvisibleOutline,
+  DashboardOutline,
+  DollarOutline,
+  CoffeeOutline,
+  CalendarOutline,
+  CheckCircleOutline,
+  InboxOutline,
 ];
 
 export const appConfig: ApplicationConfig = {
