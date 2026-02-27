@@ -23,12 +23,16 @@ export class OrderService {
   selectedOrder = signal<OrderData | null>(null);
   showEditModal = signal(false);
 
-  getOrders(sortBy: string = '', page: number = 1, per_page: number = 10, search: string = '') {
+  getOrders(sortBy: string = '', page: number = 1, per_page: number = 10, search: string = '', status?: number) {
     let params = new HttpParams()
       .append('Sort', sortBy)
       .append('Page', page)
       .append('Per_Page', per_page)
       .append('Search', search);
+
+    if (status !== undefined && status !== null) {
+      params = params.append('Status', status);
+    }
 
     this.http.get<ResponseOrderList>(`${this.baseUrl}/api/Order/datatable`, { 
       observe: 'events', 

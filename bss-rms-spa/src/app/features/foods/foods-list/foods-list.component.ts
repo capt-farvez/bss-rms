@@ -48,7 +48,7 @@ export class FoodsListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadDataFromServer(this.pageIndex, this.pageSize);
+    // Initial load is handled by nz-table's (nzQueryParams) event
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {

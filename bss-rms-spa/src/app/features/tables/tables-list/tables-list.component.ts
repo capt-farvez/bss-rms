@@ -55,7 +55,7 @@ export class TablesListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadDataFromServer(this.pageIndex, this.pageSize);
+    // Initial load is handled by nz-table's (nzQueryParams) event
 
     this.responsive.observe([Breakpoints.Large, Breakpoints.XLarge])
       .subscribe(result => {

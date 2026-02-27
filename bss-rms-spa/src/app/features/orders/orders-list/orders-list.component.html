@@ -146,4 +146,6 @@
   </div>
 </div>
 
-<app-edit-order></app-edit-order>
+@if (orderService.showEditModal()) {
+  <app-edit-order></app-edit-order>
+}

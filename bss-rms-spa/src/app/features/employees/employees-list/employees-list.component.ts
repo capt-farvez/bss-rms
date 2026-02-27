@@ -35,7 +35,7 @@ export class EmployeesListComponent implements OnInit {
   private modal = inject(NzModalService);
 
   ngOnInit() {
-    this.loadDataFromServer(this.pageIndex, this.pageSize);
+    // Initial load is handled by nz-table's (nzQueryParams) event
   }
 
   pageSize = 10;
