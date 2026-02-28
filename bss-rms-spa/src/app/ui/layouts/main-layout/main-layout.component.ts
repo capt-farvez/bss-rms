@@ -63,6 +63,14 @@ export class MainLayoutComponent implements OnInit {
       ItemName: 'Orders',
       IconName: 'ordered-list',
     },
+    {
+      ItemName: 'Expenses',
+      IconName: 'dollar',
+    },
+    {
+      ItemName: 'Report & Analytics',
+      IconName: 'area-chart',
+    },
   ];
 
   currentComponent = signal('');
@@ -88,6 +96,12 @@ export class MainLayoutComponent implements OnInit {
             break;
           case 'orders':
             this.currentComponent.set('Orders');
+            break;
+          case 'expenses':
+            this.currentComponent.set('Expenses');
+            break;
+          case 'reports':
+            this.currentComponent.set('Report & Analytics');
             break;
         }
       }
@@ -133,6 +147,12 @@ export class MainLayoutComponent implements OnInit {
         break;
       case 'Orders':
         this.router.navigate(['dashboard/orders']);
+        break;
+      case 'Expenses':
+        this.router.navigate(['dashboard/expenses']);
+        break;
+      case 'Report & Analytics':
+        this.router.navigate(['dashboard/reports']);
         break;
     }
   }

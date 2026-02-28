@@ -41,6 +41,7 @@ builder.Services.AddScoped<ITableRepository, TableRepository>();
 builder.Services.AddScoped<IEmployeeTableRepository, EmployeeTableRepository>();
 builder.Services.AddScoped<IFoodRepository, FoodRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
 // Register Services
 builder.Services.AddScoped<ITestTableService, TestTableService>();
@@ -50,6 +51,11 @@ builder.Services.AddScoped<ITableService, TableService>();
 builder.Services.AddScoped<IEmployeeTableService, EmployeeTableService>();
 builder.Services.AddScoped<IFoodService, FoodService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+<<<<<<< Updated upstream
+=======
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+>>>>>>> Stashed changes
 
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");

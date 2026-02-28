@@ -1,0 +1,98 @@
+.form-wrapper {
+  padding: 10px 0;
+}
+
+// Reserve space for error messages to prevent layout shift and apply consistent styling
+::ng-deep {
+  .ant-form-item-explain,
+  .ant-form-item-extra {
+    min-height: 22px;
+    transition: all 0.3s ease;
+  }
+
+  .ant-form-item-explain-error {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .ant-form-item {
+    margin-bottom: 0;
+  }
+
+  .ant-form-item-label > label {
+    font-weight: 500;
+    color: #333;
+  }
+
+  // Input field styling with green border on hover and border radius
+  .ant-input,
+  .ant-picker,
+  .ant-select-selector,
+  .ant-input-number {
+    border-radius: 8px !important;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border-color: #66bb6a !important;
+    }
+
+    &:focus {
+      border-color: #66bb6a !important;
+      box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.2) !important;
+    }
+  }
+
+  // Ensure select dropdown also has green border on hover
+  .ant-select:hover .ant-select-selector {
+    border-color: #66bb6a !important;
+  }
+
+  // When select is focused
+  .ant-select-focused .ant-select-selector {
+    border-color: #66bb6a !important;
+    box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.2) !important;
+  }
+
+  // Date picker specific styling
+  .ant-picker:hover,
+  .ant-picker-focused {
+    border-color: #66bb6a !important;
+  }
+
+  .ant-picker-focused {
+    box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.2) !important;
+  }
+
+  // Input number styling
+  .ant-input-number:hover,
+  .ant-input-number-focused {
+    border-color: #66bb6a !important;
+  }
+
+  .ant-input-number-focused {
+    box-shadow: 0 0 0 2px rgba(102, 187, 106, 0.2) !important;
+  }
+}
+
+:host ::ng-deep {
+  .ant-modal-footer {
+    border-top: 1px solid #f0f0f0;
+    padding: 16px 24px;
+    text-align: center;
+
+    .ant-btn-primary {
+      background-color: var(--bg-primary-600) !important;
+      border-color: var(--bg-primary-600) !important;
+
+      &:hover {
+        background-color: var(--bg-primary-700) !important;
+        border-color: var(--bg-primary-700) !important;
+      }
+
+      &:active, &:focus {
+        background-color: var(--bg-primary-800) !important;
+        border-color: var(--bg-primary-800) !important;
+      }
+    }
+  }
+}

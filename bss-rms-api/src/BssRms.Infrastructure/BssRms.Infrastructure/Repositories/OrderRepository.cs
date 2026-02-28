@@ -1,4 +1,5 @@
 using BssRms.Domain.Entities;
+using BssRms.Domain.Enums;
 using BssRms.Domain.Interfaces;
 using BssRms.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -147,4 +148,84 @@ public class OrderRepository : IOrderRepository
     {
         return await _context.Orders.AnyAsync(o => o.OrderId == id);
     }
+<<<<<<< Updated upstream
+=======
+
+    public async Task<int> GetTotalCountAsync()
+    {
+        return await _context.Orders.CountAsync();
+    }
+
+    public async Task<decimal> GetTotalRevenueAsync()
+    {
+        return await _context.Orders.SumAsync(o => o.Amount);
+    }
+
+    public async Task<List<Order>> GetRecentOrdersAsync(int count)
+    {
+        return await _context.Orders
+            .Include(o => o.Table)
+            .OrderByDescending(o => o.OrderDate)
+            .Take(count)
+            .ToListAsync();
+    }
+
+    public async Task<List<(int FoodId, string FoodName, decimal FoodPrice, string FoodImage, int TotalQuantity, decimal TotalRevenue)>> GetTopSellingFoodsAsync(int count)
+    {
+        return await _context.Set<OrderItem>()
+            .Include(oi => oi.Food)
+            .GroupBy(oi => new { oi.FoodId, oi.Food.Name, oi.Food.Price, oi.Food.Image })
+            .Select(g => new
+            {
+                g.Key.FoodId,
+                g.Key.Name,
+                g.Key.Price,
+                g.Key.Image,
+                TotalQuantity = g.Sum(oi => oi.Quantity),
+                TotalRevenue = g.Sum(oi => oi.TotalPrice)
+            })
+            .OrderByDescending(x => x.TotalQuantity)
+            .Take(count)
+            .Select(x => ValueTuple.Create(x.FoodId, x.Name, x.Price, x.Image, x.TotalQuantity, x.TotalRevenue))
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTodaysOrderCountAsync()
+    {
+        var today = DateTime.UtcNow.Date;
+        return await _context.Orders.CountAsync(o => o.OrderDate.Date == today);
+    }
+
+    public async Task<decimal> GetTodaysRevenueAsync()
+    {
+        var today = DateTime.UtcNow.Date;
+        return await _context.Orders
+            .Where(o => o.OrderDate.Date == today)
+            .SumAsync(o => o.Amount);
+    }
+
+    public async Task<int> GetPaidOrderCountAsync(DateTime? from, DateTime? to)
+    {
+        var query = _context.Orders.Where(o => o.Status == (int)OrderStatus.Paid);
+
+        if (from.HasValue)
+            query = query.Where(o => o.OrderDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(o => o.OrderDate < to.Value);
+
+        return await query.CountAsync();
+    }
+
+    public async Task<decimal> GetPaidOrderAmountAsync(DateTime? from, DateTime? to)
+    {
+        var query = _context.Orders.Where(o => o.Status == (int)OrderStatus.Paid);
+
+        if (from.HasValue)
+            query = query.Where(o => o.OrderDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(o => o.OrderDate < to.Value);
+
+        return await query.Select(o => (decimal?)o.Amount).SumAsync() ?? 0m;
+    }
+>>>>>>> Stashed changes
 }
