@@ -1,4 +1,5 @@
 using BssRms.Domain.Entities;
+using BssRms.Domain.Enums;
 using BssRms.Domain.Interfaces;
 using BssRms.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -191,5 +192,29 @@ public class OrderRepository : IOrderRepository
         return await _context.Orders
             .Where(o => o.OrderDate.Date == today)
             .SumAsync(o => o.Amount);
+    }
+
+    public async Task<int> GetPaidOrderCountAsync(DateTime? from, DateTime? to)
+    {
+        var query = _context.Orders.Where(o => o.Status == (int)OrderStatus.Paid);
+
+        if (from.HasValue)
+            query = query.Where(o => o.OrderDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(o => o.OrderDate < to.Value);
+
+        return await query.CountAsync();
+    }
+
+    public async Task<decimal> GetPaidOrderAmountAsync(DateTime? from, DateTime? to)
+    {
+        var query = _context.Orders.Where(o => o.Status == (int)OrderStatus.Paid);
+
+        if (from.HasValue)
+            query = query.Where(o => o.OrderDate >= from.Value);
+        if (to.HasValue)
+            query = query.Where(o => o.OrderDate < to.Value);
+
+        return await query.Select(o => (decimal?)o.Amount).SumAsync() ?? 0m;
     }
 }

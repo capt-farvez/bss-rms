@@ -4,5 +4,5 @@ namespace BssRms.Application.Interfaces;
 
 public interface IDashboardService
 {
-    Task<DashboardStatsDto> GetStatsAsync();
+    Task<DashboardStatsDto> GetStatsAsync(int? month = null, int? year = null);
 }

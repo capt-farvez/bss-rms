@@ -17,4 +17,6 @@ public interface IOrderRepository
     Task<List<(int FoodId, string FoodName, decimal FoodPrice, string FoodImage, int TotalQuantity, decimal TotalRevenue)>> GetTopSellingFoodsAsync(int count);
     Task<int> GetTodaysOrderCountAsync();
     Task<decimal> GetTodaysRevenueAsync();
+    Task<int> GetPaidOrderCountAsync(DateTime? from, DateTime? to);
+    Task<decimal> GetPaidOrderAmountAsync(DateTime? from, DateTime? to);
 }

@@ -20,11 +20,11 @@ public class DashboardController : ControllerBase
     /// Get dashboard statistics including totals, recent orders, and top-selling foods.
     /// </summary>
     [HttpGet("stats")]
-    public async Task<IActionResult> GetStats()
+    public async Task<IActionResult> GetStats([FromQuery] int? Month, [FromQuery] int? Year)
     {
         try
         {
-            var result = await _dashboardService.GetStatsAsync();
+            var result = await _dashboardService.GetStatsAsync(Month, Year);
             return Ok(result);
         }
         catch (Exception ex)

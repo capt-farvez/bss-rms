@@ -60,6 +60,11 @@ import {
   CalendarOutline,
   CheckCircleOutline,
   InboxOutline,
+  AreaChartOutline,
+  BarChartOutline,
+  FundOutline,
+  FallOutline,
+  RiseOutline,
 } from '@ant-design/icons-angular/icons';
 
 import { routes } from './app.routes';
@@ -105,6 +110,11 @@ const icons: IconDefinition[] = [
   CalendarOutline,
   CheckCircleOutline,
   InboxOutline,
+  AreaChartOutline,
+  BarChartOutline,
+  FundOutline,
+  FallOutline,
+  RiseOutline,
 ];
 
 export const appConfig: ApplicationConfig = {

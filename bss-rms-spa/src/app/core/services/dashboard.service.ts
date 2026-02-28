@@ -1,7 +1,26 @@
 import { Injectable, signal, inject } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpParams } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { API_BASE_URL } from '../../app.config';
+
+export interface SalesRevenueStats {
+  todaysSales: number;
+  monthlySales: number;
+  yearlySales: number;
+  totalSales: number;
+  todaysSalesAmount: number;
+  monthlySalesAmount: number;
+  yearlySalesAmount: number;
+  totalSalesAmount: number;
+  todaysExpenses: number;
+  monthlyExpenses: number;
+  yearlyExpenses: number;
+  totalExpenses: number;
+  todaysRevenue: number;
+  monthlyRevenue: number;
+  yearlyRevenue: number;
+  totalRevenue: number;
+}
 
 export interface DashboardStats {
   totalOrders: number;
@@ -12,6 +31,7 @@ export interface DashboardStats {
   todaysRevenue: number;
   totalTables: number;
   occupiedTables: number;
+  salesRevenue: SalesRevenueStats;
   recentOrders: RecentOrder[];
   topSellingFoods: TopSellingFood[];
 }
@@ -45,8 +65,13 @@ export class DashboardService {
   dashboardStats = signal<DashboardStats | null>(null);
   isSendingRequest = signal(false);
 
-  getStats() {
+  getStats(month?: number, year?: number) {
+    let params = new HttpParams();
+    if (month) params = params.append('Month', month.toString());
+    if (year) params = params.append('Year', year.toString());
+
     this.http.get<DashboardStats>(`${this.baseUrl}/api/Dashboard/stats`, {
+      params,
       observe: 'events'
     }).subscribe({
       next: (data) => {

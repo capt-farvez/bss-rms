@@ -24,17 +24,6 @@
         </div>
         <div class="col-6 col-xl-3">
           <div class="stat-card today-card">
-            <div class="stat-icon" style="background: #fff3e0;">
-              <span nz-icon nzType="dollar" nzTheme="outline" style="color: #ff9800;"></span>
-            </div>
-            <div class="stat-info">
-              <p class="stat-label">Today's Sales</p>
-              <p class="stat-value">৳{{ stats.todaysRevenue | number:'1.0-0' }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-xl-3">
-          <div class="stat-card today-card">
             <div class="stat-icon" style="background: #e8eaf6;">
               <span nz-icon nzType="check-circle" nzTheme="outline" style="color: #5c6bc0;"></span>
             </div>
@@ -55,51 +44,14 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- All-time Stat Cards -->
-      <div class="row g-3 mb-4">
         <div class="col-6 col-xl-3">
-          <div class="stat-card">
-            <div class="stat-icon" style="background: #e8f5e9;">
-              <span nz-icon nzType="shopping-cart" nzTheme="outline" style="color: #66bb6a;"></span>
-            </div>
-            <div class="stat-info">
-              <p class="stat-label">Total Orders</p>
-              <p class="stat-value">{{ stats.totalOrders }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-xl-3">
-          <div class="stat-card">
-            <div class="stat-icon" style="background: #fff3e0;">
-              <span nz-icon nzType="dollar" nzTheme="outline" style="color: #ff9800;"></span>
-            </div>
-            <div class="stat-info">
-              <p class="stat-label">Total Sales</p>
-              <p class="stat-value">৳{{ stats.totalRevenue | number:'1.0-0' }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-xl-3">
-          <div class="stat-card">
+          <div class="stat-card today-card">
             <div class="stat-icon" style="background: #e3f2fd;">
               <span nz-icon nzType="team" nzTheme="outline" style="color: #2196f3;"></span>
             </div>
             <div class="stat-info">
               <p class="stat-label">Total Employees</p>
               <p class="stat-value">{{ stats.totalEmployees }}</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-6 col-xl-3">
-          <div class="stat-card">
-            <div class="stat-icon" style="background: #fce4ec;">
-              <span nz-icon nzType="coffee" nzTheme="outline" style="color: #e91e63;"></span>
-            </div>
-            <div class="stat-info">
-              <p class="stat-label">Total Foods</p>
-              <p class="stat-value">{{ stats.totalFoods }}</p>
             </div>
           </div>
         </div>
