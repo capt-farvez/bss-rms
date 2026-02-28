@@ -54,8 +54,6 @@ import {
   LogoutOutline,
   EyeOutline,
   EyeInvisibleOutline,
-<<<<<<< Updated upstream
-=======
   DashboardOutline,
   DollarOutline,
   CoffeeOutline,
@@ -67,7 +65,6 @@ import {
   FundOutline,
   FallOutline,
   RiseOutline,
->>>>>>> Stashed changes
 } from '@ant-design/icons-angular/icons';
 
 import { routes } from './app.routes';
@@ -107,8 +104,6 @@ const icons: IconDefinition[] = [
   LogoutOutline,
   EyeOutline,
   EyeInvisibleOutline,
-<<<<<<< Updated upstream
-=======
   DashboardOutline,
   DollarOutline,
   CoffeeOutline,
@@ -120,7 +115,6 @@ const icons: IconDefinition[] = [
   FundOutline,
   FallOutline,
   RiseOutline,
->>>>>>> Stashed changes
 ];
 
 export const appConfig: ApplicationConfig = {

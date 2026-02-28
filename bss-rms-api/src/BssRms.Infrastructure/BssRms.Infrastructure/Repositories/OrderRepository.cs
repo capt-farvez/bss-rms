@@ -148,8 +148,6 @@ public class OrderRepository : IOrderRepository
     {
         return await _context.Orders.AnyAsync(o => o.OrderId == id);
     }
-<<<<<<< Updated upstream
-=======
 
     public async Task<int> GetTotalCountAsync()
     {
@@ -227,5 +225,4 @@ public class OrderRepository : IOrderRepository
 
         return await query.Select(o => (decimal?)o.Amount).SumAsync() ?? 0m;
     }
->>>>>>> Stashed changes
 }
