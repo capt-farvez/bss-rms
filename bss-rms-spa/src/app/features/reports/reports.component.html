@@ -171,14 +171,15 @@
                 [xAxis]="true"
                 [yAxis]="true"
                 [legend]="true"
-                [legendPosition]="legendPosition"
-                [showXAxisLabel]="false"
+                [legendPosition]="barLegendPosition"
+                [showXAxisLabel]="true"
+                [xAxisLabel]="' '"
                 [showYAxisLabel]="true"
                 [yAxisLabel]="'Amount (৳)'"
                 [scheme]="barColorScheme"
                 [roundDomains]="true"
                 [barPadding]="8"
-                [groupPadding]="16">
+                [groupPadding]="24">
               </ngx-charts-bar-vertical-2d>
             </div>
           </div>
@@ -199,7 +200,7 @@
       </div>
 
       <!-- Overall Report Section -->
-      <div class="report-section mb-3">
+      <div class="report-section mb-3 mt-3">
         <h3 class="section-title">Overall Report</h3>
         <div class="row g-3">
           <div class="col-6 col-xl-4">

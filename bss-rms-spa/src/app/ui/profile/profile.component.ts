@@ -26,8 +26,8 @@ export class ProfileComponent {
 
   constructor() {
     // Debug: Log current user profile data
-    console.log('Current User Profile:', this.authService.currentUserProfile());
-    console.log('Current User (full):', this.authService.getCurrentUser());
+    // console.log('Current User Profile:', this.authService.currentUserProfile());
+    // console.log('Current User (full):', this.authService.getCurrentUser());
   }
 
   handleOk() {

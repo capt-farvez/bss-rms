@@ -110,9 +110,16 @@
   border: 1px solid #f0f0f0;
   border-radius: 12px;
   padding: 16px;
-  height: 380px;
+  height: 440px;
   display: flex;
   flex-direction: column;
+}
+
+// Ensure ngx-charts fills available space
+ngx-charts-bar-vertical-2d,
+ngx-charts-pie-chart {
+  flex: 1;
+  min-height: 0;
 }
 
 .chart-title {
@@ -126,7 +133,7 @@
 @media screen and (min-width: 768px) {
   .chart-wrapper {
     padding: 20px;
-    height: 420px;
+    height: 480px;
   }
 
   .chart-title {

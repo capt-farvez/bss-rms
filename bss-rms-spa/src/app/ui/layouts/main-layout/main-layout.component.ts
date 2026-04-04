@@ -83,7 +83,7 @@ export class MainLayoutComponent implements OnInit {
   ngOnInit() {
     let childRoute = this.activatedRoute.firstChild;
     if (childRoute) {
-      console.log('Activated Child Route:', childRoute.snapshot.routeConfig?.path);
+      // console.log('Activated Child Route:', childRoute.snapshot.routeConfig?.path);
       if (childRoute.snapshot.routeConfig?.path) {
         switch (childRoute.snapshot.routeConfig?.path){
           case 'home':

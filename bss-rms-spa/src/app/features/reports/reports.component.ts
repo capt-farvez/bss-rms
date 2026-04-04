@@ -26,6 +26,7 @@ export class ReportsComponent implements OnInit {
   protected dashboardService = inject(DashboardService);
 
   legendPosition = LegendPosition.Below;
+  barLegendPosition = LegendPosition.Right;
   barColorScheme: Color = { name: 'bar', selectable: true, group: ScaleType.Ordinal, domain: ['#66bb6a', '#e91e63', '#26a69a'] };
   pieColorScheme: Color = { name: 'pie', selectable: true, group: ScaleType.Ordinal, domain: ['#66bb6a', '#e91e63'] };
 
