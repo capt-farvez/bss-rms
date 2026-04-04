@@ -2,6 +2,7 @@ using BssRms.Application.DTOs.Employee;
 using BssRms.Application.Interfaces;
 using BssRms.Domain.Entities;
 using BssRms.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BssRms.Application.Services;
 
@@ -94,12 +95,91 @@ public class EmployeeService : IEmployeeService
     {
         try
         {
-            var (data, totalRecords) = await _employeeRepository.GetDatatableAsync(page, perPage, search, sort);
+            var query = _employeeRepository.QueryEmployees();
+
+            // Apply search filter
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(e =>
+                    e.User.FirstName.Contains(search) ||
+                    e.User.LastName.Contains(search) ||
+                    e.User.Email.Contains(search) ||
+                    e.User.PhoneNumber.Contains(search) ||
+                    e.Designation.Contains(search));
+            }
+
+            // Get count before pagination
+            var totalRecords = await query.CountAsync();
             var lastPage = (int)Math.Ceiling((double)totalRecords / perPage);
+
+            // Apply sorting
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                var sortParts = sort.Split(' ');
+                var sortField = sortParts[0];
+                var sortDirection = sortParts.Length > 1 ? sortParts[1].ToLower() : "asc";
+
+                query = sortField.ToLower() switch
+                {
+                    "firstname" => sortDirection == "desc"
+                        ? query.OrderByDescending(e => e.User.FirstName)
+                        : query.OrderBy(e => e.User.FirstName),
+                    "lastname" => sortDirection == "desc"
+                        ? query.OrderByDescending(e => e.User.LastName)
+                        : query.OrderBy(e => e.User.LastName),
+                    "email" => sortDirection == "desc"
+                        ? query.OrderByDescending(e => e.User.Email)
+                        : query.OrderBy(e => e.User.Email),
+                    "designation" => sortDirection == "desc"
+                        ? query.OrderByDescending(e => e.Designation)
+                        : query.OrderBy(e => e.Designation),
+                    "joindate" => sortDirection == "desc"
+                        ? query.OrderByDescending(e => e.JoinDate)
+                        : query.OrderBy(e => e.JoinDate),
+                    _ => query.OrderBy(e => e.CreatedAt)
+                };
+            }
+            else
+            {
+                query = query.OrderBy(e => e.CreatedAt);
+            }
+
+            // Paginate and project directly into DTOs — single SQL query
+            var employeeDtos = await query
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
+                .Select(e => new EmployeeDto
+                {
+                    Id = e.EmployeeId,
+                    Designation = e.Designation,
+                    JoinDate = e.JoinDate,
+                    AmountSold = e.AmountSold,
+                    User = new UserInfoDto
+                    {
+                        Id = e.User != null ? e.User.Uid : Guid.Empty,
+                        UserName = e.User != null ? e.User.UserName : null,
+                        Email = e.User != null ? e.User.Email : "",
+                        FullName = e.User != null
+                            ? (e.User.FirstName ?? "") + " " + (e.User.LastName ?? "")
+                            : "",
+                        PhoneNumber = e.User != null ? e.User.PhoneNumber : "",
+                        FirstName = e.User != null ? e.User.FirstName ?? "" : "",
+                        MiddleName = e.User != null ? e.User.MiddleName : null,
+                        LastName = e.User != null ? e.User.LastName ?? "" : "",
+                        FatherName = e.User != null ? e.User.FatherName : null,
+                        MotherName = e.User != null ? e.User.MotherName : null,
+                        SpouseName = e.User != null ? e.User.SpouseName : null,
+                        Dob = e.User != null ? e.User.Dob : null,
+                        Nid = e.User != null ? e.User.Nid : null,
+                        GenderId = e.User != null ? e.User.GenderId : 0,
+                        Image = e.User != null ? e.User.Image : null
+                    }
+                })
+                .ToListAsync();
 
             return new EmployeeDatatableDto
             {
-                Data = data.Select(MapToDto).ToList(),
+                Data = employeeDtos,
                 CurrentPage = page,
                 PerPage = perPage,
                 Total = totalRecords,

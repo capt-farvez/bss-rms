@@ -8,6 +8,7 @@ public interface IEmployeeRepository
     Task<Employee?> GetByIdAsync(Guid id);
     Task<List<Employee>> GetAllAsync();
     Task<(List<Employee> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort);
+    IQueryable<Employee> QueryEmployees();
     Task<Employee> UpdateAsync(Employee employee);
     Task<bool> DeleteAsync(Guid id);
     Task<bool> ExistsAsync(Guid id);

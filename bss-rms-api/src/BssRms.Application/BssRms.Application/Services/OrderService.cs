@@ -4,6 +4,7 @@ using BssRms.Application.Interfaces;
 using BssRms.Domain.Entities;
 using BssRms.Domain.Enums;
 using BssRms.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BssRms.Application.Services;
 
@@ -94,10 +95,139 @@ public class OrderService : IOrderService
     {
         try
         {
-            var (data, totalRecords) = await _orderRepository.GetDatatableAsync(page, perPage, search, sort, status);
+            var query = _orderRepository.QueryOrders();
+
+            // Apply filters
+            if (status.HasValue)
+                query = query.Where(o => o.Status == status.Value);
+
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(o =>
+                    o.OrderNumber.Contains(search) ||
+                    o.Table.TableNumber.Contains(search) ||
+                    (o.PhoneNumber != null && o.PhoneNumber.Contains(search)));
+
+            // Get count before pagination (lightweight, no joins)
+            var totalRecords = await query.CountAsync();
             var lastPage = (int)Math.Ceiling((double)totalRecords / perPage);
 
-            var orderDtos = data.Select(MapToDatatableItemDto).ToList();
+            // Apply sorting
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                query = sort.ToLower() switch
+                {
+                    "ordernumber" => query.OrderBy(o => o.OrderNumber),
+                    "-ordernumber" => query.OrderByDescending(o => o.OrderNumber),
+                    "amount" => query.OrderBy(o => o.Amount),
+                    "-amount" => query.OrderByDescending(o => o.Amount),
+                    "orderdate" => query.OrderBy(o => o.OrderDate),
+                    "-orderdate" => query.OrderByDescending(o => o.OrderDate),
+                    "createdat" => query.OrderBy(o => o.CreatedAt),
+                    "-createdat" => query.OrderByDescending(o => o.CreatedAt),
+                    "status" => query.OrderBy(o => o.Status),
+                    "-status" => query.OrderByDescending(o => o.Status),
+                    _ => query.OrderBy(o => o.CreatedAt)
+                };
+            }
+            else
+            {
+                query = query.OrderBy(o => o.CreatedAt);
+            }
+
+            // Paginate and project directly into DTOs — single SQL query
+            var orderDtos = await query
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
+                .Select(o => new OrderDatatableItemDto
+                {
+                    Id = o.OrderId.ToString(),
+                    OrderNumber = o.OrderNumber,
+                    Amount = o.Amount,
+                    OrderStatus = o.Status == (int)OrderStatus.Pending ? "Pending"
+                        : o.Status == (int)OrderStatus.Confirmed ? "Confirmed"
+                        : o.Status == (int)OrderStatus.Preparing ? "Preparing"
+                        : o.Status == (int)OrderStatus.PreparedToServe ? "PreparedToServe"
+                        : o.Status == (int)OrderStatus.Served ? "Served"
+                        : o.Status == (int)OrderStatus.Paid ? "Paid"
+                        : "Pending",
+                    OrderTime = o.OrderDate,
+                    Table = new OrderTableInfoDto
+                    {
+                        TableId = o.Table.TableId,
+                        TableNumber = o.Table.TableNumber
+                    },
+                    OrderedBy = o.OrderedBy != null && o.OrderedBy.User != null
+                        ? new OrderUserInfoDto
+                        {
+                            Id = o.OrderedBy.User.Uid,
+                            UserName = o.OrderedBy.User.UserName,
+                            Email = o.OrderedBy.User.Email,
+                            FullName = (o.OrderedBy.User.FirstName ?? "") + " " + (o.OrderedBy.User.LastName ?? ""),
+                            PhoneNumber = o.OrderedBy.User.PhoneNumber,
+                            FirstName = o.OrderedBy.User.FirstName ?? "Employee",
+                            LastName = o.OrderedBy.User.LastName,
+                            Image = o.OrderedBy.User.Image
+                        }
+                        : new OrderUserInfoDto
+                        {
+                            Id = Guid.Empty,
+                            UserName = null,
+                            Email = null,
+                            FullName = "Unknown",
+                            PhoneNumber = null,
+                            FirstName = "Unknown",
+                            LastName = null,
+                            Image = null
+                        },
+                    OrderTakenBy = o.OrderTakenBy != null && o.OrderTakenBy.User != null
+                        ? new OrderUserInfoDto
+                        {
+                            Id = o.OrderTakenBy.User.Uid,
+                            UserName = o.OrderTakenBy.User.UserName,
+                            Email = o.OrderTakenBy.User.Email,
+                            FullName = (o.OrderTakenBy.User.FirstName ?? "") + " " + (o.OrderTakenBy.User.LastName ?? ""),
+                            PhoneNumber = o.OrderTakenBy.User.PhoneNumber,
+                            FirstName = o.OrderTakenBy.User.FirstName ?? "Employee",
+                            LastName = o.OrderTakenBy.User.LastName,
+                            Image = o.OrderTakenBy.User.Image
+                        }
+                        : new OrderUserInfoDto
+                        {
+                            Id = Guid.Empty,
+                            UserName = null,
+                            Email = null,
+                            FullName = "Unknown",
+                            PhoneNumber = null,
+                            FirstName = "Unknown",
+                            LastName = null,
+                            Image = null
+                        },
+                    OrderItems = o.OrderItems.Select(oi => new OrderItemDetailDto
+                    {
+                        Id = oi.OrderItemId.ToString(),
+                        Quantity = oi.Quantity,
+                        UnitPrice = oi.UnitPrice,
+                        TotalPrice = oi.TotalPrice,
+                        Food = new FoodDatatableItemDto
+                        {
+                            Id = oi.Food.FoodId,
+                            Name = oi.Food.Name,
+                            Description = oi.Food.Description,
+                            Price = oi.Food.Price,
+                            DiscountType = oi.Food.DiscountType == 1 ? "Percentage"
+                                : oi.Food.DiscountType == 2 ? "Flat"
+                                : "None",
+                            Discount = oi.Food.Discount,
+                            DiscountPrice = oi.Food.DiscountType == 1
+                                ? oi.Food.Price - (oi.Food.Price * oi.Food.Discount / 100)
+                                : oi.Food.DiscountType == 2
+                                    ? oi.Food.Price - oi.Food.Discount
+                                    : oi.Food.Price,
+                            Image = oi.Food.Image
+                        }
+                    }).ToList()
+                })
+                .ToListAsync();
 
             return new OrderDatatableDto
             {

@@ -32,6 +32,7 @@ public class OrderRepository : IOrderRepository
     {
 
         return await _context.Orders
+            .AsNoTracking()
             .AsSplitQuery()
             .Include(o => o.Table)
             .Include(o => o.OrderedBy)
@@ -46,14 +47,20 @@ public class OrderRepository : IOrderRepository
     public async Task<List<Order>> GetAllAsync()
     {
         return await _context.Orders
+            .AsNoTracking()
             .OrderBy(o => o.CreatedAt)
             .ToListAsync();
+    }
+
+    public IQueryable<Order> QueryOrders()
+    {
+        return _context.Orders.AsNoTracking().AsQueryable();
     }
 
     public async Task<(List<Order> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort, int? status)
     {
         // Base query without Includes — used for counting
-        IQueryable<Order> baseQuery = _context.Orders.AsQueryable();
+        IQueryable<Order> baseQuery = _context.Orders.AsNoTracking().AsQueryable();
 
         if (status.HasValue)
         {
@@ -154,6 +161,7 @@ public class OrderRepository : IOrderRepository
     public async Task<List<Order>> GetRecentOrdersAsync(int count)
     {
         return await _context.Orders
+            .AsNoTracking()
             .Include(o => o.Table)
             .OrderByDescending(o => o.OrderDate)
             .Take(count)

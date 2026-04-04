@@ -2,6 +2,7 @@ using BssRms.Application.DTOs.Table;
 using BssRms.Application.Interfaces;
 using BssRms.Domain.Entities;
 using BssRms.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BssRms.Application.Services;
 
@@ -103,32 +104,56 @@ public class TableService : ITableService
     {
         try
         {
-            var (data, totalRecords) = await _tableRepository.GetDatatableAsync(page, perPage, search, sort);
+            var query = _tableRepository.QueryTables();
+
+            // Apply search filter
+            if (!string.IsNullOrWhiteSpace(search))
+                query = query.Where(t => t.TableNumber.Contains(search));
+
+            // Get count before pagination (lightweight, no joins)
+            var totalRecords = await query.CountAsync();
             var lastPage = (int)Math.Ceiling((double)totalRecords / perPage);
 
-            var tableDtos = data.Select(table =>
+            // Apply sorting
+            if (!string.IsNullOrWhiteSpace(sort))
             {
-                var employees = table.EmployeeTables.Select(et => new TableEmployeeDto
+                query = sort.ToLower() switch
                 {
-                    EmployeeTableId = et.EmployeeTableId,
-                    EmployeeId = et.EmployeeId,
-                    Name = et.Employee?.User != null
-                        ? $"{et.Employee.User.FirstName} {et.Employee.User.LastName}".Trim()
-                        : string.Empty
-                }).ToList();
-
-                var isOccupied = table.Orders.Any(o => o.Status == 1 || o.Status == 2);
-
-                return new TableDetailDto
-                {
-                    Id = table.TableId,
-                    TableNumber = table.TableNumber,
-                    NumberOfSeats = table.NumberOfSeats,
-                    IsOccupied = isOccupied,
-                    Image = table.Image,
-                    Employees = employees
+                    "tablenumber" => query.OrderBy(t => t.TableNumber),
+                    "-tablenumber" => query.OrderByDescending(t => t.TableNumber),
+                    "numberofseats" => query.OrderBy(t => t.NumberOfSeats),
+                    "-numberofseats" => query.OrderByDescending(t => t.NumberOfSeats),
+                    "createdat" => query.OrderBy(t => t.CreatedAt),
+                    "-createdat" => query.OrderByDescending(t => t.CreatedAt),
+                    _ => query.OrderBy(t => t.CreatedAt)
                 };
-            }).ToList();
+            }
+            else
+            {
+                query = query.OrderBy(t => t.CreatedAt);
+            }
+
+            // Paginate and project directly into DTOs — single SQL query
+            var tableDtos = await query
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
+                .Select(t => new TableDetailDto
+                {
+                    Id = t.TableId,
+                    TableNumber = t.TableNumber,
+                    NumberOfSeats = t.NumberOfSeats,
+                    IsOccupied = t.Orders.Any(o => o.Status == 1 || o.Status == 2),
+                    Image = t.Image,
+                    Employees = t.EmployeeTables.Select(et => new TableEmployeeDto
+                    {
+                        EmployeeTableId = et.EmployeeTableId,
+                        EmployeeId = et.EmployeeId,
+                        Name = et.Employee != null && et.Employee.User != null
+                            ? (et.Employee.User.FirstName ?? "") + " " + (et.Employee.User.LastName ?? "")
+                            : ""
+                    }).ToList()
+                })
+                .ToListAsync();
 
             return new TableDatatableSimpleDto
             {

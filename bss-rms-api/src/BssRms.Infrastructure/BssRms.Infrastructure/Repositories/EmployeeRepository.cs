@@ -40,6 +40,11 @@ public class EmployeeRepository : IEmployeeRepository
             .ToListAsync();
     }
 
+    public IQueryable<Employee> QueryEmployees()
+    {
+        return _context.Employees.AsNoTracking().AsQueryable();
+    }
+
     public async Task<(List<Employee> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort)
     {
         IQueryable<Employee> query = _context.Employees.Include(e => e.User);

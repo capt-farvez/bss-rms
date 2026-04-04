@@ -66,6 +66,11 @@ public class EmployeeTableRepository : IEmployeeTableRepository
             .ToListAsync();
     }
 
+    public IQueryable<EmployeeTable> QueryEmployeeTables()
+    {
+        return _context.EmployeeTables.AsNoTracking().AsQueryable();
+    }
+
     public async Task<(List<EmployeeTable> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort)
     {
         // SQL: SELECT et.*, e.*, u.*, t.*

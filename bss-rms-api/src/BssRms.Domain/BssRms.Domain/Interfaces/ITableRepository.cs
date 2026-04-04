@@ -8,6 +8,7 @@ public interface ITableRepository
     Task<Table?> GetByIdAsync(int id);
     Task<List<Table>> GetAllAsync();
     Task<(List<Table> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort);
+    IQueryable<Table> QueryTables();
     Task<Table> UpdateAsync(Table table);
     Task<bool> DeleteAsync(int id);
     Task<bool> ExistsByTableNumberAsync(string tableNumber, int? excludeId = null);

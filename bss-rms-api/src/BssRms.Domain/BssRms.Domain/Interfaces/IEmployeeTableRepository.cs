@@ -9,6 +9,7 @@ public interface IEmployeeTableRepository
     Task<EmployeeTable?> GetByIdAsync(int id);
     Task<List<EmployeeTable>> GetAllAsync();
     Task<(List<EmployeeTable> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort);
+    IQueryable<EmployeeTable> QueryEmployeeTables();
     Task<EmployeeTable> UpdateAsync(EmployeeTable employeeTable);
     Task<bool> DeleteAsync(int id);
     Task<bool> ExistsAsync(Guid employeeId, int tableId);

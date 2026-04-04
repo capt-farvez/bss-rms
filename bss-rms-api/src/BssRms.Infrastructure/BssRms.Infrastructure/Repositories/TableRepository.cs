@@ -40,6 +40,11 @@ public class TableRepository : ITableRepository
         return await _context.Tables.ToListAsync();
     }
 
+    public IQueryable<Table> QueryTables()
+    {
+        return _context.Tables.AsNoTracking().AsQueryable();
+    }
+
     public async Task<(List<Table> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort)
     {
         // SQL: SELECT t.*, et.*, e.*, u.*, o.*

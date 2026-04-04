@@ -1,6 +1,7 @@
 using BssRms.Application.DTOs.EmployeeTable;
 using BssRms.Application.Interfaces;
 using BssRms.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BssRms.Application.Services;
 
@@ -150,25 +151,61 @@ public class EmployeeTableService : IEmployeeTableService
     {
         try
         {
-            var (data, totalRecords) = await _employeeTableRepository.GetDatatableAsync(page, perPage, search, sort);
+            var query = _employeeTableRepository.QueryEmployeeTables();
+
+            // Apply search filter
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(et =>
+                    et.Employee.User.FirstName.Contains(search) ||
+                    et.Employee.User.LastName.Contains(search) ||
+                    et.Table.TableNumber.Contains(search));
+            }
+
+            // Get count before pagination
+            var totalRecords = await query.CountAsync();
             var lastPage = (int)Math.Ceiling((double)totalRecords / perPage);
 
-            var employeeTableDtos = data.Select(et => new EmployeeTableDto
+            // Apply sorting
+            if (!string.IsNullOrWhiteSpace(sort))
             {
-                Id = et.EmployeeTableId,
-                Employee = new EmployeeTableEmployeeDto
+                query = sort.ToLower() switch
                 {
-                    EmployeeId = et.EmployeeId,
-                    Name = et.Employee?.User != null
-                        ? $"{et.Employee.User.FirstName} {et.Employee.User.LastName}".Trim()
-                        : string.Empty
-                },
-                Table = new EmployeeTableTableDto
+                    "employeename" => query.OrderBy(et => et.Employee.User.FirstName),
+                    "-employeename" => query.OrderByDescending(et => et.Employee.User.FirstName),
+                    "tablenumber" => query.OrderBy(et => et.Table.TableNumber),
+                    "-tablenumber" => query.OrderByDescending(et => et.Table.TableNumber),
+                    "createdat" => query.OrderBy(et => et.CreatedAt),
+                    "-createdat" => query.OrderByDescending(et => et.CreatedAt),
+                    _ => query.OrderBy(et => et.CreatedAt)
+                };
+            }
+            else
+            {
+                query = query.OrderBy(et => et.CreatedAt);
+            }
+
+            // Paginate and project directly into DTOs — single SQL query
+            var employeeTableDtos = await query
+                .Skip((page - 1) * perPage)
+                .Take(perPage)
+                .Select(et => new EmployeeTableDto
                 {
-                    TableId = et.TableId,
-                    TableNumber = et.Table?.TableNumber ?? string.Empty
-                }
-            }).ToList();
+                    Id = et.EmployeeTableId,
+                    Employee = new EmployeeTableEmployeeDto
+                    {
+                        EmployeeId = et.EmployeeId,
+                        Name = et.Employee != null && et.Employee.User != null
+                            ? (et.Employee.User.FirstName ?? "") + " " + (et.Employee.User.LastName ?? "")
+                            : ""
+                    },
+                    Table = new EmployeeTableTableDto
+                    {
+                        TableId = et.TableId,
+                        TableNumber = et.Table != null ? et.Table.TableNumber : ""
+                    }
+                })
+                .ToListAsync();
 
             return new EmployeeTableDatatableDto
             {
