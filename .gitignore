@@ -286,3 +286,6 @@ monsterasp/
 
 # Releases configuration files
 *.config
+
+# claude files
+.claude
