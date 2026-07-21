@@ -21,6 +21,7 @@ import { TableService } from '../../../core/services/table.service';
 import { CreateTable, UpdateTable } from '../../../core/models/table.interface';
 import { Table } from '../../../core/models/table.interface';
 import { API_BASE_URL } from '../../../app.config';
+import { compressImage } from '../../../shared/utils/image.util';
 
 @Component({
   selector: 'app-add-table',
@@ -216,19 +217,16 @@ export class AddTableComponent {
     return true;
   }
 
-  onChange(event: NzUploadChangeParam) {
-    const reader = new FileReader();
-    if (event.file.originFileObj) {
-      reader.onloadend = () => {
-        this.imageB64 = reader.result as string;
-        this.image = event.file.uid + event.file.name;
-      };
-      reader.readAsDataURL(event.file.originFileObj);
-    }
-
+  async onChange(event: NzUploadChangeParam) {
     if (event.type === 'removed') {
       this.image = "";
       this.imageB64 = "";
+      return;
+    }
+
+    if (event.type === 'start' && event.file.originFileObj) {
+      this.imageB64 = await compressImage(event.file.originFileObj);
+      this.image = event.file.uid + event.file.name;
     }
 
     if (event.type === "error") {

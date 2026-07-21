@@ -27,6 +27,7 @@ import { CreateEmployee } from '../../../core/models/employee.interface';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { API_BASE_URL } from '../../../app.config';
+import { compressImage } from '../../../shared/utils/image.util';
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
   new Promise((resolve, reject) => {
@@ -334,19 +335,16 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  onChange(event: NzUploadChangeParam) {
-    const reader = new FileReader();
-    if (event.file.originFileObj) {
-      reader.onloadend = () => {
-        this.imageB64 = reader.result as string;
-        this.image = event.file.uid + event.file.name;
-      }
-      reader.readAsDataURL(event.file.originFileObj);
-    }
-
-    if (event.type !== 'removed') {
+  async onChange(event: NzUploadChangeParam) {
+    if (event.type === 'removed') {
       this.image = "";
       this.imageB64 = "";
+      return;
+    }
+
+    if (event.type === 'start' && event.file.originFileObj) {
+      this.imageB64 = await compressImage(event.file.originFileObj);
+      this.image = event.file.uid + event.file.name;
     }
 
     if (event.type === "error") {

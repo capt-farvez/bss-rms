@@ -20,6 +20,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { FoodService } from '../../../core/services/food.service';
 import { CreateFood, UpdateFood } from '../../../core/models/food.interface';
 import { API_BASE_URL } from '../../../app.config';
+import { compressImage } from '../../../shared/utils/image.util';
 
 @Component({
   selector: 'app-add-food',
@@ -133,12 +134,35 @@ export class AddFoodComponent implements OnInit, OnDestroy {
   //FORM SECTION
   fb = inject(NonNullableFormBuilder);
   private destroy$ = new Subject<void>();
+
+  // Discount must fit the selected type — percentages 0-100, flat amounts 0-price —
+  // otherwise the computed discounted price goes negative.
+  discountRangeValidator = (control: AbstractControl): Observable<ValidationErrors | null> => {
+    return new Observable((observer: Observer<ValidationErrors | null>) => {
+      setTimeout(() => {
+        const amount = Number(control.value);
+        const type = this.validateForm.controls.discountType.value;
+        const price = Number(this.validateForm.controls.price.value) || 0;
+        if (isNaN(amount) || amount < 0) {
+          observer.next({error: true, negativeDiscount: true});
+        } else if (type === 'Percentage' && amount > 100) {
+          observer.next({error: true, discountTooLarge: true});
+        } else if (type === 'Flat' && amount > price) {
+          observer.next({error: true, discountTooLarge: true});
+        } else {
+          observer.next(null);
+        }
+        observer.complete();
+      }, 500);
+    });
+  };
+
   validateForm = this.fb.group({
     foodName: this.fb.control('', [Validators.required], [this.nameValidator]),
     description: this.fb.control('', [Validators.required], [this.fakeVal]),
-    price: this.fb.control('', [Validators.required], [this.isNumberValidator]),
+    price: this.fb.control('', [Validators.required, Validators.min(0)], [this.isNumberValidator]),
     discountType: this.fb.control({value: 'None', disabled: false}, [Validators.nullValidator]),
-    discountAmount: this.fb.control({value: '0', disabled: true}, [Validators.nullValidator], [this.isNumberValidator]),
+    discountAmount: this.fb.control({value: '0', disabled: true}, [Validators.nullValidator], [this.isNumberValidator, this.discountRangeValidator]),
     discountedPrice: this.fb.control({value: '0', disabled: true}, [Validators.nullValidator], [this.isNumberValidator]),
   });
 
@@ -146,12 +170,12 @@ export class AddFoodComponent implements OnInit, OnDestroy {
     if (this.validateForm.controls.discountType.value === 'Flat' && this.validateForm.controls.discountAmount.valid) {
       let p = Number(this.validateForm.controls.price.value) || 0;
       let o = Number(this.validateForm.controls.discountAmount.value) || 0;
-      this.validateForm.controls.discountedPrice.setValue(String(p - o));
+      this.validateForm.controls.discountedPrice.setValue(String(Math.round(Math.max(0, p - o) * 100) / 100));
     }
     if (this.validateForm.controls.discountType.value === 'Percentage' && this.validateForm.controls.discountAmount.valid) {
       let p = Number(this.validateForm.controls.price.value) || 0;
       let o = Number(this.validateForm.controls.discountAmount.value) || 0;
-      this.validateForm.controls.discountedPrice.setValue(String(p - (o/100)*p));
+      this.validateForm.controls.discountedPrice.setValue(String(Math.round(Math.max(0, p - (o/100)*p) * 100) / 100));
     }
   }
 
@@ -160,6 +184,8 @@ export class AddFoodComponent implements OnInit, OnDestroy {
       (value: any) => {
         if (value === "VALID") {
           this.recalculateDiscountedPrice();
+          // A flat discount's allowed range depends on the price
+          this.validateForm.controls.discountAmount.updateValueAndValidity();
         }
     })
 
@@ -186,6 +212,7 @@ export class AddFoodComponent implements OnInit, OnDestroy {
           }
           this.validateForm.controls.discountAmount.enable();
           this.validateForm.controls.discountedPrice.enable();
+          this.validateForm.controls.discountAmount.updateValueAndValidity();
         }
       }
     )
@@ -275,19 +302,16 @@ export class AddFoodComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  onChange(event: NzUploadChangeParam) {
-    const reader = new FileReader();
-    if (event.file.originFileObj) {
-      reader.onloadend = () => {
-        this.imageB64 = reader.result as string;
-        this.image = event.file.uid + event.file.name;
-      }
-      reader.readAsDataURL(event.file.originFileObj);
-    }
-
-    if (event.type !== 'removed') {
+  async onChange(event: NzUploadChangeParam) {
+    if (event.type === 'removed') {
       this.image = "";
       this.imageB64 = "";
+      return;
+    }
+
+    if (event.type === 'start' && event.file.originFileObj) {
+      this.imageB64 = await compressImage(event.file.originFileObj);
+      this.image = event.file.uid + event.file.name;
     }
 
     if (event.type === "error") {

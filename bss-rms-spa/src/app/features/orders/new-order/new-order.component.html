@@ -87,8 +87,8 @@
                           @if (food.discountType === 'None') {
                             <div class="text-2xl">Price - {{food.price}}৳</div>
                           } @else {
-                            <div class="text-xl line-through text-rose-800">Price - {{food.price}}৳</div>
                             <div class="text-2xl text-green-800">Price - {{food.discountPrice}}৳!</div>
+                            <div class="text-xl line-through text-rose-800">{{food.price}}৳</div>
                           }
                         </div>
                         <div>
@@ -183,8 +183,8 @@
                           <div class="text-lg"><span class="d-none d-sm-inline">Price -</span> {{food.price}}৳</div>
                         } @else {
                           <div>
-                            <div class="text-md line-through text-rose-800"><span class="d-none d-sm-inline">Price -</span> {{food.price}}৳</div>
                             <div class="text-lg text-green-800"><span class="d-none d-sm-inline">Price -</span> {{food.discountPrice}}৳!</div>
+                            <div class="text-md line-through text-rose-800">{{food.price}}৳</div>
                           </div>
                         }
                       </div>

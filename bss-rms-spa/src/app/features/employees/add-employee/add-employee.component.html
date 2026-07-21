@@ -62,7 +62,8 @@
                 [nzShowButton]="fileList.length < 1"
                 [nzPreview]="handlePreview"
                 [nzBeforeUpload]="beforeUpload"
-                [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp'"
+                [nzFileType]="'image/png,image/jpeg,image/gif,image/bmp,image/webp'"
+                nzAccept="image/png,image/jpeg,image/gif,image/bmp,image/webp"
                 (nzChange)="onChange($event)"
 
               >
