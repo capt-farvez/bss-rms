@@ -44,6 +44,24 @@ public class OrderRepository : IOrderRepository
             .FirstOrDefaultAsync(o => o.OrderId == id);
     }
 
+    // Lean loads for write paths: no Includes, so the large ImageBase64 columns
+    // on Table/User/Food are never transferred from the database.
+    public async Task<Order?> GetByIdLeanAsync(int id)
+    {
+        return await _context.Orders
+            .AsNoTracking()
+            .FirstOrDefaultAsync(o => o.OrderId == id);
+    }
+
+    // Tracked, so mutations to the OrderItems collection are diffed by EF on save
+    // (removed rows deleted, new rows inserted). Still avoids image-bearing Includes.
+    public async Task<Order?> GetByIdWithItemsAsync(int id)
+    {
+        return await _context.Orders
+            .Include(o => o.OrderItems)
+            .FirstOrDefaultAsync(o => o.OrderId == id);
+    }
+
     public async Task<List<Order>> GetAllAsync()
     {
         return await _context.Orders

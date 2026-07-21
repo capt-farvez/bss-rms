@@ -6,6 +6,8 @@ public interface IOrderRepository
 {
     Task<Order> CreateAsync(Order order);
     Task<Order?> GetByIdAsync(int id);
+    Task<Order?> GetByIdLeanAsync(int id);
+    Task<Order?> GetByIdWithItemsAsync(int id);
     Task<List<Order>> GetAllAsync();
     Task<(List<Order> Data, int TotalRecords)> GetDatatableAsync(int page, int perPage, string? search, string? sort, int? status);
     IQueryable<Order> QueryOrders();

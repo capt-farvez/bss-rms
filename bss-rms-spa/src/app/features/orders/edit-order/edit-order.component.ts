@@ -167,7 +167,7 @@ export class EditOrderComponent {
 
   calculateTotalAmount() {
     const total = this.editItems().reduce((sum, item) => sum + item.totalPrice, 0);
-    this.totalAmount.set(total);
+    this.totalAmount.set(Math.round(total * 100) / 100);
   }
 
   getFoodImage(image: string): string {

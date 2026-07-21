@@ -5,6 +5,7 @@ using BssRms.Domain.Entities;
 using BssRms.Domain.Enums;
 using BssRms.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace BssRms.Application.Services;
 
@@ -23,14 +24,12 @@ public class OrderService : IOrderService
     {
         try
         {
-            // Find the employees assigned to this table
-            var employeeTableAssignments = await _employeeTableRepository.GetAllAsync();
-            var tableEmployees = employeeTableAssignments
+            // If multiple employees are assigned, use the latest assignment, otherwise null
+            var employeeId = await _employeeTableRepository.QueryEmployeeTables()
                 .Where(et => et.TableId == dto.TableId)
-                .ToList();
-
-            // If multiple employees are assigned, use the first one, otherwise null
-            var employeeId = tableEmployees.FirstOrDefault()?.EmployeeId;
+                .OrderByDescending(et => et.EmployeeTableId)
+                .Select(et => (Guid?)et.EmployeeId)
+                .FirstOrDefaultAsync();
 
             var order = new Order
             {
@@ -51,9 +50,7 @@ public class OrderService : IOrderService
 
             var createdOrder = await _orderRepository.CreateAsync(order);
 
-            // Reload with all relationships
-            var orderWithRelations = await _orderRepository.GetByIdAsync(createdOrder.OrderId);
-            return MapToDatatableItemDto(orderWithRelations!);
+            return (await GetDatatableItemAsync(createdOrder.OrderId))!;
         }
         catch (Exception ex)
         {
@@ -65,8 +62,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var order = await _orderRepository.GetByIdAsync(id);
-            return order == null ? null : MapToDatatableItemDto(order);
+            return await GetDatatableItemAsync(id);
         }
         catch (Exception ex)
         {
@@ -138,95 +134,7 @@ public class OrderService : IOrderService
             var orderDtos = await query
                 .Skip((page - 1) * perPage)
                 .Take(perPage)
-                .Select(o => new OrderDatatableItemDto
-                {
-                    Id = o.OrderId.ToString(),
-                    OrderNumber = o.OrderNumber,
-                    Amount = o.Amount,
-                    OrderStatus = o.Status == (int)OrderStatus.Pending ? "Pending"
-                        : o.Status == (int)OrderStatus.Confirmed ? "Confirmed"
-                        : o.Status == (int)OrderStatus.Preparing ? "Preparing"
-                        : o.Status == (int)OrderStatus.PreparedToServe ? "PreparedToServe"
-                        : o.Status == (int)OrderStatus.Served ? "Served"
-                        : o.Status == (int)OrderStatus.Paid ? "Paid"
-                        : "Pending",
-                    OrderTime = o.OrderDate,
-                    Table = new OrderTableInfoDto
-                    {
-                        TableId = o.Table.TableId,
-                        TableNumber = o.Table.TableNumber
-                    },
-                    OrderedBy = o.OrderedBy != null && o.OrderedBy.User != null
-                        ? new OrderUserInfoDto
-                        {
-                            Id = o.OrderedBy.User.Uid,
-                            UserName = o.OrderedBy.User.UserName,
-                            Email = o.OrderedBy.User.Email,
-                            FullName = (o.OrderedBy.User.FirstName ?? "") + " " + (o.OrderedBy.User.LastName ?? ""),
-                            PhoneNumber = o.OrderedBy.User.PhoneNumber,
-                            FirstName = o.OrderedBy.User.FirstName ?? "Employee",
-                            LastName = o.OrderedBy.User.LastName,
-                            Image = o.OrderedBy.User.Image
-                        }
-                        : new OrderUserInfoDto
-                        {
-                            Id = Guid.Empty,
-                            UserName = null,
-                            Email = null,
-                            FullName = "Unknown",
-                            PhoneNumber = null,
-                            FirstName = "Unknown",
-                            LastName = null,
-                            Image = null
-                        },
-                    OrderTakenBy = o.OrderTakenBy != null && o.OrderTakenBy.User != null
-                        ? new OrderUserInfoDto
-                        {
-                            Id = o.OrderTakenBy.User.Uid,
-                            UserName = o.OrderTakenBy.User.UserName,
-                            Email = o.OrderTakenBy.User.Email,
-                            FullName = (o.OrderTakenBy.User.FirstName ?? "") + " " + (o.OrderTakenBy.User.LastName ?? ""),
-                            PhoneNumber = o.OrderTakenBy.User.PhoneNumber,
-                            FirstName = o.OrderTakenBy.User.FirstName ?? "Employee",
-                            LastName = o.OrderTakenBy.User.LastName,
-                            Image = o.OrderTakenBy.User.Image
-                        }
-                        : new OrderUserInfoDto
-                        {
-                            Id = Guid.Empty,
-                            UserName = null,
-                            Email = null,
-                            FullName = "Unknown",
-                            PhoneNumber = null,
-                            FirstName = "Unknown",
-                            LastName = null,
-                            Image = null
-                        },
-                    OrderItems = o.OrderItems.Select(oi => new OrderItemDetailDto
-                    {
-                        Id = oi.OrderItemId.ToString(),
-                        Quantity = oi.Quantity,
-                        UnitPrice = oi.UnitPrice,
-                        TotalPrice = oi.TotalPrice,
-                        Food = new FoodDatatableItemDto
-                        {
-                            Id = oi.Food.FoodId,
-                            Name = oi.Food.Name,
-                            Description = oi.Food.Description,
-                            Price = oi.Food.Price,
-                            DiscountType = oi.Food.DiscountType == 1 ? "Percentage"
-                                : oi.Food.DiscountType == 2 ? "Flat"
-                                : "None",
-                            Discount = oi.Food.Discount,
-                            DiscountPrice = oi.Food.DiscountType == 1
-                                ? oi.Food.Price - (oi.Food.Price * oi.Food.Discount / 100)
-                                : oi.Food.DiscountType == 2
-                                    ? oi.Food.Price - oi.Food.Discount
-                                    : oi.Food.Price,
-                            Image = oi.Food.Image
-                        }
-                    }).ToList()
-                })
+                .Select(DatatableItemProjection)
                 .ToListAsync();
 
             return new OrderDatatableDto
@@ -248,7 +156,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var order = await _orderRepository.GetByIdAsync(id);
+            var order = await _orderRepository.GetByIdWithItemsAsync(id);
             if (order == null)
             {
                 throw new KeyNotFoundException($"Order with ID {id} not found.");
@@ -258,21 +166,23 @@ public class OrderService : IOrderService
             order.Amount = dto.Amount;
             order.PhoneNumber = dto.PhoneNumber;
 
-            // Update order items - clear existing items and add new ones
+            // Mutate the tracked collection in place: reassigning it would detach the
+            // old items from change tracking and leave their rows behind in the DB.
             order.OrderItems.Clear();
-            order.OrderItems = dto.Items.Select(item => new OrderItem
+            foreach (var item in dto.Items)
             {
-                FoodId = item.FoodId,
-                Quantity = item.Quantity,
-                UnitPrice = item.UnitPrice,
-                TotalPrice = item.TotalPrice
-            }).ToList();
+                order.OrderItems.Add(new OrderItem
+                {
+                    FoodId = item.FoodId,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice,
+                    TotalPrice = item.TotalPrice
+                });
+            }
 
             var updatedOrder = await _orderRepository.UpdateAsync(order);
 
-            // Reload with all relationships
-            var orderWithRelations = await _orderRepository.GetByIdAsync(updatedOrder.OrderId);
-            return MapToDatatableItemDto(orderWithRelations!);
+            return (await GetDatatableItemAsync(updatedOrder.OrderId))!;
         }
         catch (Exception ex)
         {
@@ -284,7 +194,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            var order = await _orderRepository.GetByIdAsync(id);
+            var order = await _orderRepository.GetByIdLeanAsync(id);
             if (order == null)
             {
                 throw new KeyNotFoundException($"Order with ID {id} not found.");
@@ -305,9 +215,7 @@ public class OrderService : IOrderService
 
             var updatedOrder = await _orderRepository.UpdateAsync(order);
 
-            // Reload with all relationships
-            var orderWithRelations = await _orderRepository.GetByIdAsync(updatedOrder.OrderId);
-            return MapToDatatableItemDto(orderWithRelations!);
+            return (await GetDatatableItemAsync(updatedOrder.OrderId))!;
         }
         catch (Exception ex)
         {
@@ -331,50 +239,40 @@ public class OrderService : IOrderService
         }
     }
 
-    private OrderDatatableItemDto MapToDatatableItemDto(Order order)
+    // Shared SQL projection for order responses. EF translates this to a column-level
+    // SELECT, so the large ImageBase64 payloads on Table/User/Food never leave the
+    // database — only the image filenames do.
+    private static readonly Expression<Func<Order, OrderDatatableItemDto>> DatatableItemProjection = o => new OrderDatatableItemDto
     {
-        // Map order status to string - must match Angular app expectations
-        string orderStatus = order.Status switch
+        Id = o.OrderId.ToString(),
+        OrderNumber = o.OrderNumber,
+        Amount = o.Amount,
+        OrderStatus = o.Status == (int)OrderStatus.Pending ? "Pending"
+            : o.Status == (int)OrderStatus.Confirmed ? "Confirmed"
+            : o.Status == (int)OrderStatus.Preparing ? "Preparing"
+            : o.Status == (int)OrderStatus.PreparedToServe ? "PreparedToServe"
+            : o.Status == (int)OrderStatus.Served ? "Served"
+            : o.Status == (int)OrderStatus.Paid ? "Paid"
+            : "Pending",
+        OrderTime = o.OrderDate,
+        Table = new OrderTableInfoDto
         {
-            (int)OrderStatus.Pending => "Pending",
-            (int)OrderStatus.Confirmed => "Confirmed",
-            (int)OrderStatus.Preparing => "Preparing",
-            (int)OrderStatus.PreparedToServe => "PreparedToServe",
-            (int)OrderStatus.Served => "Served",
-            (int)OrderStatus.Paid => "Paid",
-            _ => "Pending"
-        };
-
-        return new OrderDatatableItemDto
-        {
-            Id = order.OrderId.ToString(),
-            OrderNumber = order.OrderNumber,
-            Amount = order.Amount,
-            OrderStatus = orderStatus,
-            OrderTime = order.OrderDate,
-            Table = new OrderTableInfoDto
+            TableId = o.Table.TableId,
+            TableNumber = o.Table.TableNumber
+        },
+        OrderedBy = o.OrderedBy != null && o.OrderedBy.User != null
+            ? new OrderUserInfoDto
             {
-                TableId = order.Table.TableId,
-                TableNumber = order.Table.TableNumber
-            },
-            OrderedBy = MapEmployeeToUserInfoDto(order.OrderedBy),
-            OrderTakenBy = MapEmployeeToUserInfoDto(order.OrderTakenBy),
-            OrderItems = order.OrderItems.Select(oi => new OrderItemDetailDto
-            {
-                Id = oi.OrderItemId.ToString(),
-                Quantity = oi.Quantity,
-                UnitPrice = oi.UnitPrice,
-                TotalPrice = oi.TotalPrice,
-                Food = MapToFoodDto(oi.Food)
-            }).ToList()
-        };
-    }
-
-    private OrderUserInfoDto MapEmployeeToUserInfoDto(Employee? employee)
-    {
-        if (employee == null || employee.User == null)
-        {
-            return new OrderUserInfoDto
+                Id = o.OrderedBy.User.Uid,
+                UserName = o.OrderedBy.User.UserName,
+                Email = o.OrderedBy.User.Email,
+                FullName = (o.OrderedBy.User.FirstName ?? "") + " " + (o.OrderedBy.User.LastName ?? ""),
+                PhoneNumber = o.OrderedBy.User.PhoneNumber,
+                FirstName = o.OrderedBy.User.FirstName ?? "Employee",
+                LastName = o.OrderedBy.User.LastName,
+                Image = o.OrderedBy.User.Image
+            }
+            : new OrderUserInfoDto
             {
                 Id = Guid.Empty,
                 UserName = null,
@@ -384,60 +282,61 @@ public class OrderService : IOrderService
                 FirstName = "Unknown",
                 LastName = null,
                 Image = null
-            };
-        }
-
-        var user = employee.User;
-        var fullName = $"{user.FirstName} {user.LastName}".Trim();
-        if (string.IsNullOrWhiteSpace(fullName))
+            },
+        OrderTakenBy = o.OrderTakenBy != null && o.OrderTakenBy.User != null
+            ? new OrderUserInfoDto
+            {
+                Id = o.OrderTakenBy.User.Uid,
+                UserName = o.OrderTakenBy.User.UserName,
+                Email = o.OrderTakenBy.User.Email,
+                FullName = (o.OrderTakenBy.User.FirstName ?? "") + " " + (o.OrderTakenBy.User.LastName ?? ""),
+                PhoneNumber = o.OrderTakenBy.User.PhoneNumber,
+                FirstName = o.OrderTakenBy.User.FirstName ?? "Employee",
+                LastName = o.OrderTakenBy.User.LastName,
+                Image = o.OrderTakenBy.User.Image
+            }
+            : new OrderUserInfoDto
+            {
+                Id = Guid.Empty,
+                UserName = null,
+                Email = null,
+                FullName = "Unknown",
+                PhoneNumber = null,
+                FirstName = "Unknown",
+                LastName = null,
+                Image = null
+            },
+        OrderItems = o.OrderItems.Select(oi => new OrderItemDetailDto
         {
-            fullName = user.UserName ?? "Employee";
-        }
+            Id = oi.OrderItemId.ToString(),
+            Quantity = oi.Quantity,
+            UnitPrice = oi.UnitPrice,
+            TotalPrice = oi.TotalPrice,
+            Food = new FoodDatatableItemDto
+            {
+                Id = oi.Food.FoodId,
+                Name = oi.Food.Name,
+                Description = oi.Food.Description,
+                Price = oi.Food.Price,
+                DiscountType = oi.Food.DiscountType == 1 ? "Percentage"
+                    : oi.Food.DiscountType == 2 ? "Flat"
+                    : "None",
+                Discount = oi.Food.Discount,
+                DiscountPrice = oi.Food.DiscountType == 1
+                    ? oi.Food.Price - (oi.Food.Price * oi.Food.Discount / 100)
+                    : oi.Food.DiscountType == 2
+                        ? oi.Food.Price - oi.Food.Discount
+                        : oi.Food.Price,
+                Image = oi.Food.Image
+            }
+        }).ToList()
+    };
 
-        return new OrderUserInfoDto
-        {
-            Id = user.Uid,
-            UserName = user.UserName,
-            Email = user.Email,
-            FullName = fullName,
-            PhoneNumber = user.PhoneNumber,
-            FirstName = user.FirstName ?? "Employee",
-            LastName = user.LastName,
-            Image = user.Image
-        };
-    }
-
-    private FoodDatatableItemDto MapToFoodDto(Food food)
+    private Task<OrderDatatableItemDto?> GetDatatableItemAsync(int orderId)
     {
-        // Calculate discount price based on discount type
-        decimal discountPrice = food.Price;
-        string discountTypeStr = "None";
-
-        switch (food.DiscountType)
-        {
-            case 1: // Percentage
-                discountTypeStr = "Percentage";
-                discountPrice = food.Price - (food.Price * food.Discount / 100);
-                break;
-            case 2: // Flat/Fixed
-                discountTypeStr = "Flat";
-                discountPrice = food.Price - food.Discount;
-                break;
-            default: // None
-                discountTypeStr = "None";
-                break;
-        }
-
-        return new FoodDatatableItemDto
-        {
-            Id = food.FoodId,
-            Name = food.Name,
-            Description = food.Description,
-            Price = food.Price,
-            DiscountType = discountTypeStr,
-            Discount = food.Discount,
-            DiscountPrice = discountPrice,
-            Image = food.Image
-        };
+        return _orderRepository.QueryOrders()
+            .Where(o => o.OrderId == orderId)
+            .Select(DatatableItemProjection)
+            .FirstOrDefaultAsync();
     }
 }
