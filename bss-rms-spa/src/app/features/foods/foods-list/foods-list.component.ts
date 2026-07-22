@@ -41,7 +41,8 @@ export class FoodsListComponent implements OnInit {
     // Setup refresh trigger effect
     effect(() => {
       if (this.foodService.triggerRefresh()) {
-        this.ngOnInit();
+        // ngOnInit is a no-op here (loading is nzQueryParams-driven) — refetch explicitly
+        this.loadDataFromServer(this.pageIndex, this.pageSize);
         this.foodService.triggerRefresh.set(false);
       }
     }, { allowSignalWrites: true });
