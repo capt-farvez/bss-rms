@@ -70,7 +70,8 @@ export class EmployeeService {
         next: (data) => {
           switch (data.type) {
             case HttpEventType.Response:
-              if ((data.status) === 204) {
+              // API delete endpoints return 200 with a body, not 204
+              if (data.status >= 200 && data.status < 300) {
                 this.isSendingRequest.set(false);
                 this.messageService.success('Employee Deleted Successfully');
               }

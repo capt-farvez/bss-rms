@@ -45,7 +45,8 @@ export class EmployeesListComponent implements OnInit {
   constructor() {
     effect(() => {
       if (this.employeeService.triggerRefresh()) {
-        this.ngOnInit();
+        // ngOnInit is a no-op here (loading is nzQueryParams-driven) — refetch explicitly
+        this.loadDataFromServer(this.pageIndex, this.pageSize);
         this.employeeService.triggerRefresh.set(false);
       }
     }, { allowSignalWrites: true });

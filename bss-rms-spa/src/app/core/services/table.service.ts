@@ -138,7 +138,8 @@ export class TableService {
         next: (data) => {
           switch (data.type) {
             case HttpEventType.Response:
-              if ((data.status) === 204) {
+              // API delete endpoints return 200 with a body, not 204
+              if (data.status >= 200 && data.status < 300) {
                 this.messageService.success('Table Removed Successfully!');
                 this.isSendingRequest.set(false);
               }
@@ -249,7 +250,8 @@ export class TableService {
         next: (data) => {
           switch (data.type) {
             case HttpEventType.Response:
-              if ((data.status) === 204) {
+              // API delete endpoints return 200 with a body, not 204
+              if (data.status >= 200 && data.status < 300) {
                 this.messageService.success('Employee Removed Successfully!');
                 this.isSendingRequest.set(false);
               }

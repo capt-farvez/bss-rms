@@ -45,7 +45,9 @@ export class TablesListComponent implements OnInit {
     this.tableService.isSendingRequest.set(true);
     effect(() => {
       if (this.tableService.triggerRefresh()) {
-        this.ngOnInit();
+        // ngOnInit only wires the breakpoint observer — refetch explicitly instead
+        // (calling it here also stacked a new breakpoint subscription per refresh)
+        this.loadDataFromServer(this.pageIndex, this.pageSize);
         this.tableService.triggerRefresh.set(false);
       }
       if (!this.tableService.isLoadingTables() && !this.tableService.isLoadingEmployees()) {
