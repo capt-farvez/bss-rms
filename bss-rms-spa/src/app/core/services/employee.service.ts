@@ -100,6 +100,7 @@ export class EmployeeService {
             case HttpEventType.Response:
               if ((data.status) === 200) {
                 this.isSendingRequest.set(false);
+                this.showAddModal.set(false);
                 this.triggerRefresh.set(true);
                 this.messageService.success('Employee Added Successfully');
               }
@@ -154,6 +155,7 @@ export class EmployeeService {
             case HttpEventType.Response:
               if ((data.status) === 200) {
                 this.isSendingRequest.set(false);
+                this.showAddModal.set(false);
                 this.triggerRefresh.set(true);
                 this.messageService.success('Employee Updated Successfully');
                 this.selectedEmployee.set(null);

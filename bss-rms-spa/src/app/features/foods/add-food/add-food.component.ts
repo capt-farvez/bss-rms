@@ -56,6 +56,18 @@ export class AddFoodComponent implements OnInit, OnDestroy {
         this.populateForm(selectedFood);
       }
     }, { allowSignalWrites: true });
+
+    // Clear local form state whenever the modal closes — the service closes it
+    // on confirmed success, handleCancel closes it on user cancel. On API error
+    // the modal stays open with the user's input intact.
+    effect(() => {
+      if (!this.backendService.showAddModal()) {
+        this.fileList = [];
+        this.image = '';
+        this.imageB64 = '';
+        this.validateForm.reset();
+      }
+    });
   }
 
   populateForm(food: any) {
@@ -105,18 +117,10 @@ export class AddFoodComponent implements OnInit, OnDestroy {
         const foodId = this.backendService.selectedFood()?.id;
         if (foodId) {
           this.backendService.updateFood(foodId, foodData as UpdateFood);
-          setTimeout(() => {
-            this.handleCancel();
-          }, 1000);
         }
       } else {
         // Create new food
         this.backendService.addNewFood(foodData as CreateFood);
-        setTimeout(() => {
-          this.backendService.triggerRefresh.set(false);
-          this.handleCancel();
-          this.backendService.triggerRefresh.set(true);
-        }, 1000);
       }
     }
   }

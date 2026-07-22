@@ -17,7 +17,6 @@ export class NewOrderService {
 
   // Signals for state management
   isSendingRequest = signal(false);
-  triggerRefresh = signal(false);
   listOfFood = signal<FoodItem[]>([]);
   totalFood = signal(0);
   totalTable = signal(0);

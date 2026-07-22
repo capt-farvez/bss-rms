@@ -59,6 +59,10 @@ export class AssignEmployeeToTableComponent {
       value => {
         if (value) {
           this.tableService.loadListOfAvailableEmployees(this.tableService.assignTableId());
+        } else {
+          // Modal closed (service closes it on success) — clear local selections
+          this.inputValue = "";
+          this.listOfSelectedEmployees = [];
         }
       }
     );
@@ -103,11 +107,6 @@ export class AssignEmployeeToTableComponent {
   handleOk() {
     if (this.listOfSelectedEmployees.length > 0) {
       this.tableService.assignEmployeeToTable(this.listOfSelectedEmployees, this.tableService.assignTableId());
-      setTimeout(() => {
-        this.tableService.triggerRefresh.set(false);
-        this.handleCancel();
-        this.tableService.triggerRefresh.set(true);
-      }, 1000);
     }
   }
 

@@ -103,10 +103,6 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
           "base64": this.imageB64,
         }
         this.employeeService.updateEmployee(selectedEmployee.id, UPDATE_VALUES);
-        setTimeout(() => {
-          this.employeeService.isSendingRequest.set(false);
-          this.handleCancel();
-        }, 1000);
       }
     } else {
       // In add mode, validate all fields
@@ -137,11 +133,6 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
           "base64": this.imageB64,
         }
         this.employeeService.addNewEmployee(POST_VALUES);
-        setTimeout(() => {
-          this.employeeService.isSendingRequest.set(false);
-          this.handleCancel();
-          this.employeeService.triggerRefresh.set(true);
-        }, 1000);
       }
     }
   }
@@ -181,6 +172,18 @@ export class AddEmployeeComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
+    // Clear local form state whenever the modal closes — the service closes it
+    // on confirmed success, handleCancel closes it on user cancel. On API error
+    // the modal stays open with the user's input intact.
+    effect(() => {
+      if (!this.employeeService.showAddModal()) {
+        this.fileList = [];
+        this.image = '';
+        this.imageB64 = '';
+        this.validateForm.reset();
+      }
+    });
+
     // Effect to populate form when editing
     effect(() => {
       const selectedEmployee = this.employeeService.selectedEmployee();

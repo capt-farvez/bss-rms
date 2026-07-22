@@ -88,12 +88,6 @@ export class AddTableComponent {
 
         this.tableService.addNewTable(POST_VALUES);
       }
-
-      setTimeout(() => {
-        this.tableService.triggerRefresh.set(false);
-        this.handleCancel();
-        this.tableService.triggerRefresh.set(true);
-      }, 1000);
     }
   }
 
@@ -117,6 +111,18 @@ export class AddTableComponent {
   });
 
   constructor() {
+    // Clear local form state whenever the modal closes — the service closes it
+    // on confirmed success, handleCancel closes it on user cancel. On API error
+    // the modal stays open with the user's input intact.
+    effect(() => {
+      if (!this.tableService.showAddModal()) {
+        this.fileList = [];
+        this.image = '';
+        this.imageB64 = '';
+        this.validateForm.reset();
+      }
+    });
+
     // Watch for edit mode changes using toObservable
     toObservable(this.tableService.selectedTable, {
       injector: this.injector

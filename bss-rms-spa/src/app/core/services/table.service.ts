@@ -169,6 +169,7 @@ export class TableService {
               if ((data.status) === 200) {
                 this.messageService.success('Table Added Successfully!');
                 this.isSendingRequest.set(false);
+                this.showAddModal.set(false);
                 this.triggerRefresh.set(true);
               }
               break;
@@ -197,6 +198,7 @@ export class TableService {
               if ((data.status) === 200) {
                 this.messageService.success('Table Updated Successfully!');
                 this.isSendingRequest.set(false);
+                this.showAddModal.set(false);
                 this.triggerRefresh.set(true);
                 this.selectedTable.set(null);
                 this.isEditMode.set(false);
@@ -309,6 +311,7 @@ export class TableService {
               if ((data.status) === 200) {
                 this.messageService.success('Employees Assigned Successfully!');
                 this.isSendingRequest.set(false);
+                this.showAssignModal.set(false);
                 this.triggerRefresh.set(true);
               }
               break;

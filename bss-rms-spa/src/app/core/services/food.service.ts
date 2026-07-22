@@ -70,10 +70,7 @@ export class FoodService {
             if (data.status == 200) {
               this.message.create('success', 'Food Item Added Successfully!');
               this.showAddModal.set(false);
-              // Delay refresh by 1 second like demo app
-              setTimeout(() => {
-                this.triggerRefresh.set(true);
-              }, 1000);
+              this.triggerRefresh.set(true);
             }
             this.isSendingRequest.set(false);
             break;
@@ -148,6 +145,7 @@ export class FoodService {
             if (data.status === 200) {
               this.message.create('success', 'Food Item Updated Successfully!');
               this.isSendingRequest.set(false);
+              this.showAddModal.set(false);
               this.triggerRefresh.set(true);
               this.selectedFood.set(null);
               this.isEditMode.set(false);
